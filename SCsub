@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+
+import os
+import steamworks_builders
+
+Import("env")
+
+module_path = Dir(".").srcnode().abspath
+
+env_steamworks = env.Clone()
+
+module_obj = []
+
+sources = [
+    Glob("*.cpp"),
+]
+
+env_steamworks.Prepend(CPPPATH=[module_path + "/thirdparty/steamworks/public"])
+
+print(module_path)
+
+# Dirtying up the global scope is my passion
+env.Prepend(CPPPATH=[module_path + "/thirdparty/steamworks/public"])
+
+lib_path = module_path + "/thirdparty/steamworks/redistributable_bin/"
+lib = ""
+
+if env["platform"] == "linuxbsd":
+    lib_path += "linux64"
+    lib = "steam_api"
+
+steam_api_json_path = "thirdparty/steamworks/public/steam/steam_api.json"
+env_steamworks.Depends("steamworks_enums.gen.h", steam_api_json_path)
+env.CommandNoCache(
+    "steamworks_enums.gen.h",
+    steam_api_json_path,
+    env.Run(
+        steamworks_builders.generate_enums,
+        "Generating enabled modules header.",
+        # NOTE: No need to run in subprocess since this is still executed serially.
+        subprocess=False,
+    ),
+)
+
+if ARGUMENTS.get("steamworks_shared", "no") == "yes":
+    # Shared lib compilation
+    env_steamworks.Append(CCFLAGS=["-fPIC"])
+    env_steamworks["LIBS"] = [lib]
+    shared_lib = env_steamworks.SharedLibrary(target="#bin/steamworks", source=sources)
+    shared_lib_shim = shared_lib[0].name.rsplit(".", 1)[0]
+    env_steamworks.Prepend(LIBPATH=[lib_path])
+    env.Append(LIBPATH=["#bin"])
+    env.Append(LIBS=["libsteamworks-linuxbsd-editor-dev-x86_64"])
+else:
+    env.Prepend(LIBPATH=[lib_path])
+    env.Append(LIBS=[lib])
+    env_steamworks.add_source_files(module_obj, sources)
+    env.modules_sources += module_obj
