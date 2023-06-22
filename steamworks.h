@@ -54,7 +54,7 @@ public:
 	static String get_last_error() { return last_error; };
 	static Steamworks *get_singleton() { return singleton; }
 
-	bool init(int p_app_id);
+	bool init(int p_app_id, bool p_run_callbacks_automatically = true);
 	bool is_valid() const { return initialized; };
 
 	void run_callbacks();

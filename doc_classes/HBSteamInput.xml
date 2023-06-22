@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBSteamInput" inherits="Node" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+		Class to interact with Steam Input.
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="init">
+			<return type="void" />
+			<param index="0" name="call_run_frame_automatically" type="bool" default="true" />
+			<description>
+				Initializes Steam Input, if [param call_run_frame_automatically] is [code]true[/code] then you don't have to call [method run_frame] manually.
+			</description>
+		</method>
+		<method name="run_frame">
+			<return type="void" />
+			<description>
+				Runs Steam input frame.
+			</description>
+		</method>
+	</methods>
+</class>

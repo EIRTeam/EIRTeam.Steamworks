@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Steamworks" inherits="Node" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+		Base singleton to interact with the Steamworks API.
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_input" qualifiers="const">
+			<return type="HBSteamInput" />
+			<description>
+				Returns the Steam Input interface.
+			</description>
+		</method>
+		<method name="init">
+			<return type="bool" />
+			<param index="0" name="app_id" type="int" />
+			<param index="1" name="run_callbacks_automatically" type="bool" default="true" />
+			<description>
+				Initializes Steamworks with the given App ID.
+				Initializes Steam Input, if [param run_callbacks_automatically] is [code]true[/code] then you don't have to call [method run_callbacks] manually.
+
+				Returns [code]True if initialization was successful.[/code]
+			</description>
+		</method>
+		<method name="is_valid" qualifiers="const">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if Steamworks was initialized properly.
+			</description>
+		</method>
+		<method name="run_callbacks">
+			<return type="void" />
+			<description>
+				Dispatches callbacks and call results to all of the connected signals.
+			</description>
+		</method>
+	</methods>
+</class>

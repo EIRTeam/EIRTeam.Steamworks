@@ -45,7 +45,8 @@ void HBSteamInput::_on_joy_connection_changed(int p_device, bool p_connected) {
 }
 
 void HBSteamInput::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("init"), &HBSteamInput::init);
+	ClassDB::bind_method(D_METHOD("init", "call_run_frame_automatically"), &HBSteamInput::init, DEFVAL(true));
+	ClassDB::bind_method(D_METHOD("run_frame"), &HBSteamInput::run_frame);
 }
 
 void HBSteamInput::init_interface() {
@@ -87,7 +88,7 @@ void HBSteamInput::run_frame() {
 	SteamAPI_ISteamInput_RunFrame(steam_input, true);
 }
 
-void HBSteamInput::init() {
+void HBSteamInput::init(bool p_call_run_frame_automatically) {
 	SW_ERR_FAIL_COND_MSG(!SteamAPI_ISteamInput_Init(steam_input, true), "Steam Input: Init returned false");
 	run_frame();
 	TypedArray<int> connected_joypads = Input::get_singleton()->get_connected_joypads();

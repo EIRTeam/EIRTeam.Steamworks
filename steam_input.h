@@ -60,7 +60,7 @@ public:
 	ESteamInputType get_input_type_for_handle(const InputHandle_t &p_input_handle) const;
 	InputHandle_t get_joy_steam_input_handle(int p_device) const;
 	void run_frame();
-	void init();
+	void init(bool p_call_run_frame_automatically = true);
 };
 
 #endif // STEAM_INPUT_H

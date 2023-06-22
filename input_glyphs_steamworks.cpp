@@ -54,103 +54,51 @@ ESteamInputType __input_type_lut[] = {
 
 static_assert(std::size(__input_type_lut) == HBInputType::INPUT_TYPE_MAX);
 
+EInputActionOrigin __origin_to_teamworks_xbox_origin_lut[]{
+	k_EInputActionOrigin_XBoxOne_A,
+	k_EInputActionOrigin_XBoxOne_B,
+	k_EInputActionOrigin_XBoxOne_X,
+	k_EInputActionOrigin_XBoxOne_Y,
+	k_EInputActionOrigin_XBoxOne_View,
+	k_EInputActionOrigin_XBoxOne_Menu,
+	k_EInputActionOrigin_XBoxOne_LeftBumper,
+	k_EInputActionOrigin_XBoxOne_RightBumper,
+	k_EInputActionOrigin_XBoxOne_LeftTrigger_Pull,
+	k_EInputActionOrigin_XBoxOne_LeftTrigger_Click,
+	k_EInputActionOrigin_XBoxOne_RightTrigger_Pull,
+	k_EInputActionOrigin_XBoxOne_RightTrigger_Click,
+	k_EInputActionOrigin_XBoxOne_LeftStick_Move,
+	k_EInputActionOrigin_XBoxOne_LeftStick_Click,
+	k_EInputActionOrigin_XBoxOne_LeftStick_DPadNorth,
+	k_EInputActionOrigin_XBoxOne_LeftStick_DPadSouth,
+	k_EInputActionOrigin_XBoxOne_LeftStick_DPadWest,
+	k_EInputActionOrigin_XBoxOne_LeftStick_DPadEast,
+	k_EInputActionOrigin_XBoxOne_RightStick_Move,
+	k_EInputActionOrigin_XBoxOne_RightStick_Click,
+	k_EInputActionOrigin_XBoxOne_RightStick_DPadNorth,
+	k_EInputActionOrigin_XBoxOne_RightStick_DPadSouth,
+	k_EInputActionOrigin_XBoxOne_RightStick_DPadWest,
+	k_EInputActionOrigin_XBoxOne_RightStick_DPadEast,
+	k_EInputActionOrigin_XBoxOne_DPad_North,
+	k_EInputActionOrigin_XBoxOne_DPad_South,
+	k_EInputActionOrigin_XBoxOne_DPad_West,
+	k_EInputActionOrigin_XBoxOne_DPad_East,
+	k_EInputActionOrigin_XBoxOne_DPad_Move,
+	k_EInputActionOrigin_XBoxOne_Share,
+	k_EInputActionOrigin_XBoxOne_LeftGrip_Upper,
+	k_EInputActionOrigin_XBoxOne_LeftGrip_Lower,
+	k_EInputActionOrigin_XBoxOne_RightGrip_Upper,
+	k_EInputActionOrigin_XBoxOne_RightGrip_Lower,
+	k_EInputActionOrigin_PS5_CenterPad_Click,
+};
+
+static_assert(std::size(__origin_to_teamworks_xbox_origin_lut) == HBInputOrigin::INPUT_ORIGIN_COUNT);
+
 EInputActionOrigin HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(const HBInputOrigin &p_input_origin) {
-	EInputActionOrigin o = EInputActionOrigin::k_EInputActionOrigin_None;
-	switch (p_input_origin) {
-		case HBInputOrigin::INPUT_ORIGIN_INVALID:
-			o = EInputActionOrigin::k_EInputActionOrigin_None;
-		case HBInputOrigin::INPUT_ORIGIN_A:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_A;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_B:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_B;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_X:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_X;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_Y:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_Y;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_LEFTBUMPER:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_LeftBumper;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_RIGHTBUMPER:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_RightBumper;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_MENU:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_Start;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_VIEW:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_Back;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_LEFTTRIGGER_PULL:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_LeftTrigger_Pull;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_LEFTTRIGGER_CLICK:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_LeftTrigger_Click;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_RIGHTTRIGGER_PULL:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_RightTrigger_Pull;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_RIGHTTRIGGER_CLICK:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_RightTrigger_Click;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_LEFTSTICK_MOVE:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_LeftStick_Move;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_LEFTSTICK_CLICK:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_LeftStick_Click;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_LEFTSTICK_DPADNORTH:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_LeftStick_DPadNorth;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_LEFTSTICK_DPADSOUTH:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_LeftStick_DPadSouth;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_LEFTSTICK_DPADWEST:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_LeftStick_DPadWest;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_LEFTSTICK_DPADEAST:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_LeftStick_DPadEast;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_RIGHTSTICK_MOVE:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_RightStick_Move;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_RIGHTSTICK_CLICK:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_RightStick_Click;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_RIGHTSTICK_DPADNORTH:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_RightStick_DPadNorth;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_RIGHTSTICK_DPADSOUTH:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_RightStick_DPadSouth;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_RIGHTSTICK_DPADWEST:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_RightStick_DPadWest;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_RIGHTSTICK_DPADEAST:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_RightStick_DPadEast;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_DPAD_NORTH:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_DPad_North;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_DPAD_SOUTH:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_DPad_South;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_DPAD_WEST:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_DPad_West;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_DPAD_EAST:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_DPad_East;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_DPAD_MOVE:
-			o = EInputActionOrigin::k_EInputActionOrigin_XBox360_DPad_Move;
-			break;
-		case HBInputOrigin::INPUT_ORIGIN_COUNT:
-			o = EInputActionOrigin::k_EInputActionOrigin_None;
-			break;
+	if (p_input_origin == HBInputOrigin::INPUT_ORIGIN_INVALID) {
+		return EInputActionOrigin::k_EInputActionOrigin_None;
 	}
-	return o;
+	return __origin_to_teamworks_xbox_origin_lut[p_input_origin];
 }
 
 ESteamInputType HBSteamworksInputGlyphsSource::input_type_to_steamworks_input_type(const HBInputType &p_input_type) {

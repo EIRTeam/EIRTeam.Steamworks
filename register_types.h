@@ -28,12 +28,12 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef REGISTER_TYPES_H
-#define REGISTER_TYPES_H
+#ifndef STEAMWORKS_REGISTER_TYPES_H
+#define STEAMWORKS_REGISTER_TYPES_H
 
 #include "modules/register_module_types.h"
 
 void initialize_steamworks_module(ModuleInitializationLevel p_level);
 void uninitialize_steamworks_module(ModuleInitializationLevel p_level);
 
-#endif // REGISTER_TYPES_H
+#endif // STEAMWORKS_REGISTER_TYPES_H

@@ -46,16 +46,17 @@ extern "C" void __cdecl SteamAPIDebugTextHook(int nSeverity, const char *pchDebu
 }
 
 void Steamworks::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("init", "app_id"), &Steamworks::init);
+	ClassDB::bind_method(D_METHOD("init", "app_id", "run_callbacks_automatically"), &Steamworks::init, DEFVAL(true));
 	ClassDB::bind_method(D_METHOD("is_valid"), &Steamworks::is_valid);
 
+	ClassDB::bind_method(D_METHOD("run_callbacks"), &Steamworks::run_callbacks);
 	ClassDB::bind_method(D_METHOD("get_input"), &Steamworks::get_input);
 }
 
 void Steamworks::_notification(int p_what) {
 }
 
-bool Steamworks::init(int p_app_id) {
+bool Steamworks::init(int p_app_id, bool p_run_callbacks_automatically) {
 	SW_ERR_FAIL_COND_V_MSG(initialized, false, "Steamworks: Calling Steamworks.init but it's already initialized.");
 
 	OS::get_singleton()->set_environment("SteamAppId", Variant(p_app_id));

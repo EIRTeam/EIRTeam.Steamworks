@@ -49,7 +49,6 @@ void uninitialize_steamworks_module(ModuleInitializationLevel p_level) {
 		return;
 	}
 	if (steamworks_singleton != nullptr && !steamworks_singleton->is_valid()) {
-		print_line("RIP SINGLETON");
 		memdelete(steamworks_singleton);
 		steamworks_singleton = nullptr;
 	}
