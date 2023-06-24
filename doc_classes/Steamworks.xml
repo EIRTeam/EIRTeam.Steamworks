@@ -22,7 +22,7 @@
 				Initializes Steamworks with the given App ID.
 				Initializes Steam Input, if [param run_callbacks_automatically] is [code]true[/code] then you don't have to call [method run_callbacks] manually.
 
-				Returns [code]True if initialization was successful.[/code]
+				Returns [code]true[/code] if initialization was successful.
 			</description>
 		</method>
 		<method name="is_valid" qualifiers="const">

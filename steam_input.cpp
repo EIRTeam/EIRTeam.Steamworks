@@ -29,6 +29,7 @@
 /**************************************************************************/
 
 #include "steam_input.h"
+#include "input_glyphs_steamworks.h"
 #include "steamworks.h"
 #include "sw_error_macros.h"
 
@@ -100,4 +101,7 @@ void HBSteamInput::init(bool p_call_run_frame_automatically) {
 		devices.insert(device_id, device_info);
 	}
 	Input::get_singleton()->connect("joy_connection_changed", callable_mp(this, &HBSteamInput::_on_joy_connection_changed));
+#ifdef MODULE_INPUT_GLYPHS_ENABLED
+	HBSteamworksInputGlyphsSource::make_current();
+#endif
 }

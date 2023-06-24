@@ -39,6 +39,8 @@
 
 #ifdef MODULE_INPUT_GLYPHS_ENABLED
 
+#include "modules/input_glyphs/input_glyph_svg_decode.h"
+
 ESteamInputType __input_type_lut[] = {
 	ESteamInputType::k_ESteamInputType_Unknown,
 	ESteamInputType::k_ESteamInputType_SteamController,
@@ -125,20 +127,50 @@ Ref<Texture2D> HBSteamworksInputGlyphsSource::get_input_glyph(const HBInputType 
 	// Convert from xbox 360 reference origin to the destination input type
 	EInputActionOrigin steamworks_origin = origin_to_steamworks_xbox_origin(p_input_origin);
 	ESteamInputType steamworks_input_type = input_type_to_steamworks_input_type(p_input_type);
-	ESteamInputGlyphSize glyph_size = input_glph_size_to_steamworks(p_size);
 
 	EInputActionOrigin translated_origin = input->translate_action_origin(steamworks_input_type, steamworks_origin);
-	String glyph_path = input->get_glyph_png_for_action_origin(translated_origin, glyph_size, p_glyphs_style);
+	String glyph_path = input->get_glyph_svg_for_action_origin(translated_origin, p_glyphs_style);
+
+	Vector2i size = Vector2i(32, 32);
+
+	switch (p_size) {
+		case GLYPH_SIZE_LARGE: {
+			size = Vector2i(256, 256);
+		} break;
+		case GLYPH_SIZE_MEDIUM: {
+			size = Vector2i(128, 128);
+		} break;
+		default:
+		case GLYPH_SIZE_SMALL: {
+			size = Vector2i(32, 32);
+		} break;
+	}
 
 	if (glyph_path.is_empty()) {
-		Ref<PlaceholderTexture2D> placeholder;
-		placeholder.instantiate();
-		placeholder->set_size(Vector2(32, 32));
+		Ref<PlaceholderTexture2D> placeholder = memnew(PlaceholderTexture2D);
+		placeholder->set_size(size);
 		return placeholder;
 	}
 
-	Ref<Image> image = Image::load_from_file(glyph_path);
-	Ref<Texture2D> tex = ImageTexture::create_from_image(image);
+	Error err;
+	Ref<FileAccess> file = FileAccess::open(glyph_path, FileAccess::ModeFlags::READ, &err);
+	if (glyph_path.is_empty() || err != OK) {
+		Ref<PlaceholderTexture2D> placeholder = memnew(PlaceholderTexture2D);
+		placeholder->set_size(size);
+		return placeholder;
+	}
+
+	Ref<Image> out_image;
+	out_image.instantiate();
+	String svg_str = file->get_as_utf8_string();
+	PackedByteArray pba = svg_str.to_utf8_buffer();
+	if (InputGlyphSVGDecode::render_svg(out_image, pba, size) != OK) {
+		Ref<PlaceholderTexture2D> placeholder = memnew(PlaceholderTexture2D);
+		placeholder->set_size(size);
+		return placeholder;
+	}
+
+	Ref<Texture2D> tex = ImageTexture::create_from_image(out_image);
 	tex->set_meta("glyph_path", glyph_path);
 	return tex;
 }
@@ -156,10 +188,21 @@ void HBSteamworksInputGlyphDumpTool::_dump_input_type(InputDumpInfo &p_dump_info
 	HBSteamInput *input = Steamworks::get_singleton()->get_input();
 
 	ESteamInputType steam_input_type = p_source->input_type_to_steamworks_input_type(p_input_type);
-
 	for (int size_i = 0; size_i < HBInputGlyphSize::GLYPH_SIZE_MAX; size_i++) {
 		HBInputGlyphSize size = (HBInputGlyphSize)size_i;
 		for (int theme_i = 0; theme_i < HBInputGlyphStyle::GLYPH_STYLE_THEME_COUNT; theme_i++) {
+			const char *THEME_NAMES[] = {
+				"knockout",
+				"light",
+				"dark"
+			};
+
+			String theme_name = THEME_NAMES[theme_i];
+			String theme_path = p_dump_info.module_path.path_join(theme_name);
+			Ref<DirAccess> dir_fs = DirAccess::create(DirAccess::ACCESS_FILESYSTEM);
+			if (!dir_fs->dir_exists(theme_path)) {
+				dir_fs->make_dir_recursive(theme_path);
+			}
 			int base_style = theme_i;
 			const int ABXY_STYLES[] = {
 				base_style | HBInputGlyphStyle::GLYPH_STYLE_NEUTRAL_COLOR_ABXY,
@@ -177,8 +220,13 @@ void HBSteamworksInputGlyphDumpTool::_dump_input_type(InputDumpInfo &p_dump_info
 
 				Ref<Texture2D> tex = p_source->get_input_glyph(p_input_type, origin, style, size);
 				String svg_path = input->get_glyph_svg_for_action_origin(input_origin, style);
-				p_dump_info.themes[theme_i].file_names.push_back(svg_path.get_file());
-				p_dump_info.themes[theme_i].filename_to_idx_map.insert(svg_path.get_file(), p_dump_info.themes[theme_i].file_names.size() - 1);
+				String new_file_path = theme_name + "/" + svg_path.get_file();
+				if (!svg_path.is_empty()) {
+					new_file_path = theme_name + "/" + svg_path.get_file();
+					dir_fs->copy(svg_path, theme_path.path_join(svg_path.get_file()));
+				}
+				p_dump_info.themes[theme_i].file_names.push_back(new_file_path);
+				p_dump_info.themes[theme_i].filename_to_idx_map.insert(new_file_path, p_dump_info.themes[theme_i].file_names.size() - 1);
 				p_dump_info.themes[theme_i].texture_map_abxy_overrides[i] = p_dump_info.themes[theme_i].file_names.size() - 1;
 			}
 
@@ -192,8 +240,13 @@ void HBSteamworksInputGlyphDumpTool::_dump_input_type(InputDumpInfo &p_dump_info
 
 				Ref<Texture2D> tex = p_source->get_input_glyph(p_input_type, origin, glyph_style, size);
 				String svg_path = input->get_glyph_svg_for_action_origin(input_origin, base_style);
-				p_dump_info.themes[theme_i].file_names.push_back(svg_path.get_file());
-				p_dump_info.themes[theme_i].filename_to_idx_map.insert(svg_path.get_file(), p_dump_info.themes[theme_i].file_names.size() - 1);
+				String new_file_path;
+				if (!svg_path.is_empty()) {
+					new_file_path = theme_name + "/" + svg_path.get_file();
+					dir_fs->copy(svg_path, theme_path.path_join(svg_path.get_file()));
+				}
+				p_dump_info.themes[theme_i].file_names.push_back(new_file_path);
+				p_dump_info.themes[theme_i].filename_to_idx_map.insert(new_file_path, p_dump_info.themes[theme_i].file_names.size() - 1);
 				p_dump_info.themes[theme_i].texture_map[i] = p_dump_info.themes[theme_i].file_names.size() - 1;
 			}
 		}
@@ -208,15 +261,14 @@ void HBSteamworksInputGlyphDumpTool::dump(const String &p_module_dir_path) {
 
 	Ref<HBSteamworksInputGlyphsSource> source = HBSteamworksInputGlyphsSource::_create_current();
 
-	HBSteamInput *input = Steamworks::get_singleton()->get_input();
-
-	InputDumpInfo info[HBInputType::INPUT_TYPE_MAX - 1];
+	InputDumpInfo info[HBInputType::INPUT_TYPE_MAX];
 
 	Dictionary out_dict;
 	Array input_types_out;
 
-	for (int i = 0; i < HBInputType::INPUT_TYPE_MAX - 1; i++) {
-		HBInputType input_type = (HBInputType)(i + 1);
+	for (int i = 0; i < HBInputType::INPUT_TYPE_MAX; i++) {
+		HBInputType input_type = (HBInputType)(i);
+		info[i].module_path = glyphs_path;
 		_dump_input_type(info[i], input_type, source);
 		Dictionary input_type_dict;
 		input_type_dict["input_type"] = input_type;

@@ -378,3 +378,8 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
+
+# Steamworks exceptions
+!thirdparty/steamworks/redistributable_bin/linux64/libsteam_api.so
+!thirdparty/steamworks/redistributable_bin/win64/steam_api64.dll
+!thirdparty/steamworks/redistributable_bin/win64/steam_api64.lib

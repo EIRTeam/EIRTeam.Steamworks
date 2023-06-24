@@ -15,6 +15,8 @@ sources = [
     Glob("*.cpp"),
 ]
 
+# For SVG rendering
+env_steamworks.Prepend(CPPPATH=["#thirdparty/thorvg/inc"])
 env_steamworks.Prepend(CPPPATH=[module_path + "/thirdparty/steamworks/public"])
 
 # Dirtying up the global scope is my passion
@@ -26,19 +28,12 @@ lib = ""
 if env["platform"] == "linuxbsd":
     lib_path += "linux64"
     lib = "steam_api"
-
-steam_api_json_path = "thirdparty/steamworks/public/steam/steam_api.json"
-env_steamworks.Depends("steamworks_enums.gen.h", steam_api_json_path)
-env.CommandNoCache(
-    "steamworks_enums.gen.h",
-    steam_api_json_path,
-    env.Run(
-        steamworks_builders.generate_enums,
-        "Generating enabled modules header.",
-        # NOTE: No need to run in subprocess since this is still executed serially.
-        subprocess=False,
-    ),
-)
+elif env["platform"] == "windows":
+    lib_path += "win64"
+    if env["CC"] == "cl":
+        lib = "steam_api64.lib"
+	else:
+        lib = "steam_api64"
 
 if ARGUMENTS.get("steamworks_shared", "no") == "yes":
     # Shared lib compilation

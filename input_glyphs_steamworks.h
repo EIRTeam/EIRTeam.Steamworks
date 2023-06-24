@@ -67,6 +67,7 @@ public:
 
 class HBSteamworksInputGlyphDumpTool {
 	struct InputDumpInfo {
+		String module_path;
 		struct ThemeInfo {
 			HashMap<String, int> filename_to_idx_map;
 			Vector<String> file_names;
