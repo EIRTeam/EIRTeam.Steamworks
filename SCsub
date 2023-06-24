@@ -32,7 +32,7 @@ elif env["platform"] == "windows":
     lib_path += "win64"
     if env["CC"] == "cl":
         lib = "steam_api64.lib"
-	else:
+    else:
         lib = "steam_api64"
 
 if ARGUMENTS.get("steamworks_shared", "no") == "yes":
