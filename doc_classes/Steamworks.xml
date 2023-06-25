@@ -14,6 +14,12 @@
 				Returns the Steam Input interface.
 			</description>
 		</method>
+		<method name="get_last_error" qualifiers="static">
+			<return type="String" />
+			<description>
+				Returns the last error that ocurred.
+			</description>
+		</method>
 		<method name="init">
 			<return type="bool" />
 			<param index="0" name="app_id" type="int" />
