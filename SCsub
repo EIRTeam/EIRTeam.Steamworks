@@ -4,10 +4,11 @@ import os
 import steamworks_builders
 
 Import("env")
+Import("env_modules")
 
 module_path = Dir(".").srcnode().abspath
 
-env_steamworks = env.Clone()
+env_steamworks = env_modules.Clone()
 
 module_obj = []
 
@@ -18,9 +19,6 @@ sources = [
 # For SVG rendering
 env_steamworks.Prepend(CPPPATH=["#thirdparty/thorvg/inc"])
 env_steamworks.Prepend(CPPPATH=[module_path + "/thirdparty/steamworks/public"])
-
-# Dirtying up the global scope is my passion
-env.Prepend(CPPPATH=[module_path + "/thirdparty/steamworks/public"])
 
 lib_path = module_path + "/thirdparty/steamworks/redistributable_bin/"
 lib = ""

@@ -60,7 +60,7 @@ public:
 		_create_func = _create_current;
 	}
 
-	virtual Ref<Texture2D> get_input_glyph(const HBInputType &p_input_type, const HBInputOrigin &p_input_origin, const int &p_glyphs_style, const HBInputGlyphSize &p_size) override;
+	virtual Ref<Texture2D> get_input_glyph(const HBInputType &p_input_type, const HBInputOrigin &p_input_origin, const BitField<HBInputGlyphStyle> &p_glyphs_style, const HBInputGlyphSize &p_size) override;
 	virtual HBInputType identify_joy(int p_controller_idx) const override;
 	friend class HBSteamworksInputGlyphDumpTool;
 };

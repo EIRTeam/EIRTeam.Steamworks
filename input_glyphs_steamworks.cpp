@@ -122,7 +122,7 @@ ESteamInputGlyphSize input_glph_size_to_steamworks(const HBInputGlyphSize &p_gly
 	return (ESteamInputGlyphSize)p_glyph_size;
 }
 
-Ref<Texture2D> HBSteamworksInputGlyphsSource::get_input_glyph(const HBInputType &p_input_type, const HBInputOrigin &p_input_origin, const int &p_glyphs_style, const HBInputGlyphSize &p_size) {
+Ref<Texture2D> HBSteamworksInputGlyphsSource::get_input_glyph(const HBInputType &p_input_type, const HBInputOrigin &p_input_origin, const BitField<HBInputGlyphStyle> &p_glyphs_style, const HBInputGlyphSize &p_size) {
 	HBSteamInput *input = Steamworks::get_singleton()->get_input();
 	// Convert from xbox 360 reference origin to the destination input type
 	EInputActionOrigin steamworks_origin = origin_to_steamworks_xbox_origin(p_input_origin);
