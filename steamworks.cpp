@@ -51,6 +51,7 @@ void Steamworks::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("run_callbacks"), &Steamworks::run_callbacks);
 	ClassDB::bind_method(D_METHOD("get_input"), &Steamworks::get_input);
+	ClassDB::bind_method(D_METHOD("get_last_error"), &Steamworks::get_last_error);
 }
 
 void Steamworks::_notification(int p_what) {
