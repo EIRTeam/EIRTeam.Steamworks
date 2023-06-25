@@ -56,6 +56,11 @@ void Steamworks::_bind_methods() {
 }
 
 void Steamworks::_notification(int p_what) {
+	switch (p_what) {
+		case NOTIFICATION_INTERNAL_PROCESS: {
+			run_callbacks();
+		} break;
+	}
 }
 
 bool Steamworks::init(int p_app_id, bool p_run_callbacks_automatically) {
@@ -75,8 +80,10 @@ bool Steamworks::init(int p_app_id, bool p_run_callbacks_automatically) {
 	input = memnew(HBSteamInput);
 	input->init_interface();
 
-	SceneTree::get_singleton()->get_root()->call_deferred("add_child", this);
+	SceneTree::get_singleton()->get_root()->call_deferred("add_child", this, true, InternalMode::INTERNAL_MODE_BACK);
 	add_child(input);
+
+	set_process_internal(p_run_callbacks_automatically);
 
 	return true;
 }
