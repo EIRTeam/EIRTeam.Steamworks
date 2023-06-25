@@ -54,7 +54,7 @@ ESteamInputType __input_type_lut[] = {
 	ESteamInputType::k_ESteamInputType_SteamDeckController
 };
 
-static_assert(std::size(__input_type_lut) == HBInputType::INPUT_TYPE_MAX);
+static_assert(std::size(__input_type_lut) == InputType::INPUT_TYPE_MAX);
 
 EInputActionOrigin __origin_to_teamworks_xbox_origin_lut[]{
 	k_EInputActionOrigin_XBoxOne_A,
@@ -94,35 +94,35 @@ EInputActionOrigin __origin_to_teamworks_xbox_origin_lut[]{
 	k_EInputActionOrigin_PS5_CenterPad_Click,
 };
 
-static_assert(std::size(__origin_to_teamworks_xbox_origin_lut) == HBInputOrigin::INPUT_ORIGIN_COUNT);
+static_assert(std::size(__origin_to_teamworks_xbox_origin_lut) == InputOrigin::INPUT_ORIGIN_COUNT);
 
-EInputActionOrigin HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(const HBInputOrigin &p_input_origin) {
-	if (p_input_origin == HBInputOrigin::INPUT_ORIGIN_INVALID) {
+EInputActionOrigin HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(const InputOrigin &p_input_origin) {
+	if (p_input_origin == InputOrigin::INPUT_ORIGIN_INVALID) {
 		return EInputActionOrigin::k_EInputActionOrigin_None;
 	}
 	return __origin_to_teamworks_xbox_origin_lut[p_input_origin];
 }
 
-ESteamInputType HBSteamworksInputGlyphsSource::input_type_to_steamworks_input_type(const HBInputType &p_input_type) {
+ESteamInputType HBSteamworksInputGlyphsSource::input_type_to_steamworks_input_type(const InputType &p_input_type) {
 	// InputType matches ESteamInputType int eh steamworks SDK, so we just do a straight conversion
-	ERR_FAIL_COND_V(p_input_type == HBInputType::INPUT_TYPE_MAX, ESteamInputType::k_ESteamInputType_XBoxOneController);
+	ERR_FAIL_COND_V(p_input_type == InputType::INPUT_TYPE_MAX, ESteamInputType::k_ESteamInputType_XBoxOneController);
 	return __input_type_lut[p_input_type];
 }
 
-HBInputType HBSteamworksInputGlyphsSource::steamworks_input_type_to_input_type(const ESteamInputType &p_steam_input_type) {
-	for (int i = 0; i < HBInputType::INPUT_TYPE_MAX; i++) {
+InputType HBSteamworksInputGlyphsSource::steamworks_input_type_to_input_type(const ESteamInputType &p_steam_input_type) {
+	for (int i = 0; i < InputType::INPUT_TYPE_MAX; i++) {
 		if (__input_type_lut[i] == p_steam_input_type) {
-			return (HBInputType)i;
+			return (InputType)i;
 		}
 	}
-	return HBInputType::UNKNOWN;
+	return InputType::UNKNOWN;
 }
 
-ESteamInputGlyphSize input_glph_size_to_steamworks(const HBInputGlyphSize &p_glyph_size) {
+ESteamInputGlyphSize input_glph_size_to_steamworks(const InputGlyphSize &p_glyph_size) {
 	return (ESteamInputGlyphSize)p_glyph_size;
 }
 
-Ref<Texture2D> HBSteamworksInputGlyphsSource::get_input_glyph(const HBInputType &p_input_type, const HBInputOrigin &p_input_origin, const BitField<HBInputGlyphStyle> &p_glyphs_style, const HBInputGlyphSize &p_size) {
+Ref<Texture2D> HBSteamworksInputGlyphsSource::get_input_glyph(const InputType &p_input_type, const InputOrigin &p_input_origin, const BitField<InputGlyphStyle> &p_glyphs_style, const InputGlyphSize &p_size) {
 	HBSteamInput *input = Steamworks::get_singleton()->get_input();
 	// Convert from xbox 360 reference origin to the destination input type
 	EInputActionOrigin steamworks_origin = origin_to_steamworks_xbox_origin(p_input_origin);
@@ -175,22 +175,22 @@ Ref<Texture2D> HBSteamworksInputGlyphsSource::get_input_glyph(const HBInputType 
 	return tex;
 }
 
-HBInputType HBSteamworksInputGlyphsSource::identify_joy(int p_device) const {
+InputType HBSteamworksInputGlyphsSource::identify_joy(int p_device) const {
 	InputHandle_t input_handle = Steamworks::get_singleton()->get_input()->get_joy_steam_input_handle(p_device);
 	if (input_handle == 0) {
-		return HBInputType::UNKNOWN;
+		return InputType::UNKNOWN;
 	}
 	ESteamInputType steam_input_type = Steamworks::get_singleton()->get_input()->get_input_type_for_handle(input_handle);
 	return steamworks_input_type_to_input_type(steam_input_type);
 }
 
-void HBSteamworksInputGlyphDumpTool::_dump_input_type(InputDumpInfo &p_dump_info, HBInputType p_input_type, Ref<HBSteamworksInputGlyphsSource> p_source) {
+void HBSteamworksInputGlyphDumpTool::_dump_input_type(InputDumpInfo &p_dump_info, InputType p_input_type, Ref<HBSteamworksInputGlyphsSource> p_source) {
 	HBSteamInput *input = Steamworks::get_singleton()->get_input();
 
 	ESteamInputType steam_input_type = p_source->input_type_to_steamworks_input_type(p_input_type);
-	for (int size_i = 0; size_i < HBInputGlyphSize::GLYPH_SIZE_MAX; size_i++) {
-		HBInputGlyphSize size = (HBInputGlyphSize)size_i;
-		for (int theme_i = 0; theme_i < HBInputGlyphStyle::GLYPH_STYLE_THEME_COUNT; theme_i++) {
+	for (int size_i = 0; size_i < InputGlyphSize::GLYPH_SIZE_MAX; size_i++) {
+		InputGlyphSize size = (InputGlyphSize)size_i;
+		for (int theme_i = 0; theme_i < InputGlyphStyle::GLYPH_STYLE_THEME_COUNT; theme_i++) {
 			const char *THEME_NAMES[] = {
 				"knockout",
 				"light",
@@ -205,16 +205,16 @@ void HBSteamworksInputGlyphDumpTool::_dump_input_type(InputDumpInfo &p_dump_info
 			}
 			int base_style = theme_i;
 			const int ABXY_STYLES[] = {
-				base_style | HBInputGlyphStyle::GLYPH_STYLE_NEUTRAL_COLOR_ABXY,
-				base_style | HBInputGlyphStyle::GLYPH_STYLE_SOLID_ABXY,
-				base_style | HBInputGlyphStyle::GLYPH_STYLE_SOLID_ABXY | HBInputGlyphStyle::GLYPH_STYLE_NEUTRAL_COLOR_ABXY,
+				base_style | InputGlyphStyle::GLYPH_STYLE_NEUTRAL_COLOR_ABXY,
+				base_style | InputGlyphStyle::GLYPH_STYLE_SOLID_ABXY,
+				base_style | InputGlyphStyle::GLYPH_STYLE_SOLID_ABXY | InputGlyphStyle::GLYPH_STYLE_NEUTRAL_COLOR_ABXY,
 			};
-			static_assert(std::size(ABXY_STYLES) - 1 < HBInputGlyphStyle::GLYPH_STYLE_THEME_COUNT);
+			static_assert(std::size(ABXY_STYLES) - 1 < InputGlyphStyle::GLYPH_STYLE_THEME_COUNT);
 			// First get the different ABXY variations
 			for (int i = 0; i < 4 * 3; i++) {
 				int style_modifiers = ABXY_STYLES[i / 4];
 				int style = style_modifiers | base_style;
-				HBInputOrigin origin = (HBInputOrigin)(i % 4);
+				InputOrigin origin = (InputOrigin)(i % 4);
 				EInputActionOrigin input_origin = HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(origin);
 				input_origin = input->translate_action_origin(steam_input_type, input_origin);
 
@@ -231,9 +231,9 @@ void HBSteamworksInputGlyphDumpTool::_dump_input_type(InputDumpInfo &p_dump_info
 			}
 
 			// Now do the rest
-			for (int i = 0; i < HBInputOrigin::INPUT_ORIGIN_COUNT; i++) {
-				HBInputOrigin origin = (HBInputOrigin)i;
-				HBInputGlyphStyle glyph_style = (HBInputGlyphStyle)base_style;
+			for (int i = 0; i < InputOrigin::INPUT_ORIGIN_COUNT; i++) {
+				InputOrigin origin = (InputOrigin)i;
+				InputGlyphStyle glyph_style = (InputGlyphStyle)base_style;
 
 				EInputActionOrigin input_origin = HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(origin);
 				input_origin = input->translate_action_origin(steam_input_type, input_origin);
@@ -261,13 +261,13 @@ void HBSteamworksInputGlyphDumpTool::dump(const String &p_module_dir_path) {
 
 	Ref<HBSteamworksInputGlyphsSource> source = HBSteamworksInputGlyphsSource::_create_current();
 
-	InputDumpInfo info[HBInputType::INPUT_TYPE_MAX];
+	InputDumpInfo info[InputType::INPUT_TYPE_MAX];
 
 	Dictionary out_dict;
 	Array input_types_out;
 
-	for (int i = 0; i < HBInputType::INPUT_TYPE_MAX; i++) {
-		HBInputType input_type = (HBInputType)(i);
+	for (int i = 0; i < InputType::INPUT_TYPE_MAX; i++) {
+		InputType input_type = (InputType)(i);
 		info[i].module_path = glyphs_path;
 		_dump_input_type(info[i], input_type, source);
 		Dictionary input_type_dict;
@@ -281,7 +281,7 @@ void HBSteamworksInputGlyphDumpTool::dump(const String &p_module_dir_path) {
 				int str_idx = info[i].themes[j].texture_map_abxy_overrides[k];
 				graphics_abxy.push_back(info[i].themes[j].file_names[str_idx]);
 			}
-			for (int k = 0; k < HBInputOrigin::INPUT_ORIGIN_COUNT; k++) {
+			for (int k = 0; k < InputOrigin::INPUT_ORIGIN_COUNT; k++) {
 				int str_idx = info[i].themes[j].texture_map[k];
 				graphics.push_back(info[i].themes[j].file_names[str_idx]);
 			}
