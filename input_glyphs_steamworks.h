@@ -41,8 +41,8 @@
 
 class HBSteamworksInputGlyphDumpTool;
 
-class HBSteamworksInputGlyphsSource : public HBInputGlyphsSource {
-	GDCLASS(HBSteamworksInputGlyphsSource, HBInputGlyphsSource);
+class HBSteamworksInputGlyphsSource : public InputGlyphsSource {
+	GDCLASS(HBSteamworksInputGlyphsSource, InputGlyphsSource);
 
 protected:
 	static EInputActionOrigin origin_to_steamworks_xbox_origin(const HBInputOrigin &p_input_origin);
@@ -50,7 +50,7 @@ protected:
 
 public:
 	static HBInputType steamworks_input_type_to_input_type(const ESteamInputType &p_steam_input_type);
-	static Ref<HBInputGlyphsSource> _create_current() {
+	static Ref<InputGlyphsSource> _create_current() {
 		Ref<HBSteamworksInputGlyphsSource> ref;
 		ref.instantiate();
 		return ref;
