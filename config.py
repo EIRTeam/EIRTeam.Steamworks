@@ -15,4 +15,10 @@ def get_doc_classes():
     return [
         "Steamworks",
         "HBSteamInput",
+        "HBSteamFriends",
+        "HBSteamFriend",
+        "HBSteamLobby",
+        "HBLobbyListQuery",
+        "HBSteamMatchmaking",
+        "SteamworksConstants",
     ]

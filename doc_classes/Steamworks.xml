@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="Steamworks" inherits="Node" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+<class name="Steamworks" inherits="Object" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
 	<brief_description>
 		Base singleton to interact with the Steamworks API.
 	</brief_description>
@@ -18,6 +18,12 @@
 			<return type="String" />
 			<description>
 				Returns the last error that ocurred.
+			</description>
+		</method>
+		<method name="get_local_user" qualifiers="const">
+			<return type="HBSteamFriend" />
+			<description>
+				Returns the currently logged-in user.
 			</description>
 		</method>
 		<method name="init">

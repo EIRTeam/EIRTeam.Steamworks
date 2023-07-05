@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBSteamFriend" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+		Class representing a user on Steam.
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="avatar" type="Texture2D" setter="" getter="get_avatar">
+			Returns this user's avatar image, this is cached after the first time.
+		</member>
+		<member name="persona_name" type="String" setter="" getter="get_persona_name">
+			Returns the visible name of this user.
+		</member>
+		<member name="steam_id" type="int" setter="" getter="get_steam_id">
+			Returns the Steam ID of this user.
+		</member>
+	</members>
+</class>

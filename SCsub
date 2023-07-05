@@ -33,6 +33,20 @@ elif env["platform"] == "windows":
     else:
         lib = "steam_api64"
 
+steam_api_json_path = "thirdparty/steamworks/public/steam/steam_api.json"
+env_steamworks.Depends("steamworks_constants.gen.h", steam_api_json_path)
+env_steamworks.Depends("steamworks_constants.gen.h", "steamworks_builders.py")
+env.CommandNoCache(
+    "steamworks_constants.gen.h",
+    steam_api_json_path,
+    env.Run(
+        steamworks_builders.generate_constants,
+        "Generating steamworks constants header.",
+        # NOTE: No need to run in subprocess since this is still executed serially.
+        subprocess=False,
+    ),
+)
+
 if ARGUMENTS.get("steamworks_shared", "no") == "yes":
     # Shared lib compilation
     env_steamworks.Append(CCFLAGS=["-fPIC"])
@@ -42,6 +56,7 @@ if ARGUMENTS.get("steamworks_shared", "no") == "yes":
     env_steamworks.Prepend(LIBPATH=[lib_path])
     env.Append(LIBPATH=["#bin"])
     env.Append(LIBS=["libsteamworks-linuxbsd-editor-dev-x86_64"])
+    env.Depends(shared_lib, "steamworks_constants.gen.h")
 else:
     env.Prepend(LIBPATH=[lib_path])
     env.Append(LIBS=[lib])

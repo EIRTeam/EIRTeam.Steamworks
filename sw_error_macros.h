@@ -32,6 +32,7 @@
 #define SW_ERROR_MACROS_H
 
 #include "core/error/error_macros.h"
+#include "steamworks.h"
 
 #define SW_ERR_FAIL_COND_MSG(m_cond, m_msg)                                                                   \
 	if (unlikely(m_cond)) {                                                                                   \

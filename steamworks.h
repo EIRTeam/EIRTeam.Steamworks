@@ -32,24 +32,44 @@
 #define STEAMWORKS_H
 
 #include "scene/main/node.h"
-#include "steam/steam_api_flat.h"
+#include "steam_friends.h"
 #include "steam_input.h"
+#include "steam_matchmaking.h"
+#include "steam_utils.h"
 
-class Steamworks : public Node {
-	GDCLASS(Steamworks, Node);
-	HSteamPipe steam_pipe;
+class ISteamClient;
+class Steamworks : public Object {
+	GDCLASS(Steamworks, Object);
+
+	SWC::HSteamPipe steam_pipe;
 	ISteamClient *steam_client;
 	static Steamworks *singleton;
 	bool initialized = false;
+	bool run_callbacks_automatically = false;
 	int app_id;
 
 	HBSteamInput *input = nullptr;
+	Ref<HBSteamMatchmaking> matchmaking;
+	Ref<HBSteamFriends> friends;
+	Ref<HBSteamUtils> utils;
+	typedef int CallbackType;
+
+	struct SteamworksCallbackInfo {
+		Vector<Callable> callbacks;
+	};
+
+	typedef uint64_t ResultCallbackType;
+
+	HashMap<CallbackType, SteamworksCallbackInfo> callback_infos;
+	HashMap<ResultCallbackType, SteamworksCallbackInfo> call_result_callbacks;
+	void _run_callbacks();
 
 protected:
 	static void _bind_methods();
-	void _notification(int p_what);
 
 public:
+	void add_callback(int p_callback_type, Callable p_callable);
+	void add_call_result_callback(uint64_t p_callback_id, Callable p_callable);
 	static String last_error;
 	static String get_last_error() { return last_error; };
 	static Steamworks *get_singleton() { return singleton; }
@@ -59,7 +79,15 @@ public:
 
 	void run_callbacks();
 
+	bool get_run_callbacks_automatically() const;
+	void set_run_callbacks_automatically(bool p_run_callbacks_automatically);
+
 	HBSteamInput *get_input() const;
+	Ref<HBSteamMatchmaking> get_matchmaking() const;
+	Ref<HBSteamFriends> get_friends() const;
+	Ref<HBSteamUtils> get_utils() const;
+	Ref<HBSteamFriend> get_local_user() const;
+
 	Steamworks();
 	~Steamworks();
 };

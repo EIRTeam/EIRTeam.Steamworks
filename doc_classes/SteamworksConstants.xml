@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="SteamworksConstants" inherits="Object" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<constants>
+		<constant name="RESULT_NONE" value="0" enum="Result">
+		</constant>
+		<constant name="RESULT_OK" value="1" enum="Result">
+		</constant>
+		<constant name="RESULT_FAIL" value="2" enum="Result">
+		</constant>
+		<constant name="RESULT_NO_CONNECTION" value="3" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_PASSWORD" value="5" enum="Result">
+		</constant>
+		<constant name="RESULT_LOGGED_IN_ELSEWHERE" value="6" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_PROTOCOL_VER" value="7" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_PARAM" value="8" enum="Result">
+		</constant>
+		<constant name="RESULT_FILE_NOT_FOUND" value="9" enum="Result">
+		</constant>
+		<constant name="RESULT_BUSY" value="10" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_STATE" value="11" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_NAME" value="12" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_EMAIL" value="13" enum="Result">
+		</constant>
+		<constant name="RESULT_DUPLICATE_NAME" value="14" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCESS_DENIED" value="15" enum="Result">
+		</constant>
+		<constant name="RESULT_TIMEOUT" value="16" enum="Result">
+		</constant>
+		<constant name="RESULT_BANNED" value="17" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_NOT_FOUND" value="18" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_STEAM_ID" value="19" enum="Result">
+		</constant>
+		<constant name="RESULT_SERVICE_UNAVAILABLE" value="20" enum="Result">
+		</constant>
+		<constant name="RESULT_NOT_LOGGED_ON" value="21" enum="Result">
+		</constant>
+		<constant name="RESULT_PENDING" value="22" enum="Result">
+		</constant>
+		<constant name="RESULT_ENCRYPTION_FAILURE" value="23" enum="Result">
+		</constant>
+		<constant name="RESULT_INSUFFICIENT_PRIVILEGE" value="24" enum="Result">
+		</constant>
+		<constant name="RESULT_LIMIT_EXCEEDED" value="25" enum="Result">
+		</constant>
+		<constant name="RESULT_REVOKED" value="26" enum="Result">
+		</constant>
+		<constant name="RESULT_EXPIRED" value="27" enum="Result">
+		</constant>
+		<constant name="RESULT_ALREADY_REDEEMED" value="28" enum="Result">
+		</constant>
+		<constant name="RESULT_DUPLICATE_REQUEST" value="29" enum="Result">
+		</constant>
+		<constant name="RESULT_ALREADY_OWNED" value="30" enum="Result">
+		</constant>
+		<constant name="RESULT_IP_NOT_FOUND" value="31" enum="Result">
+		</constant>
+		<constant name="RESULT_PERSIST_FAILED" value="32" enum="Result">
+		</constant>
+		<constant name="RESULT_LOCKING_FAILED" value="33" enum="Result">
+		</constant>
+		<constant name="RESULT_LOGON_SESSION_REPLACED" value="34" enum="Result">
+		</constant>
+		<constant name="RESULT_CONNECT_FAILED" value="35" enum="Result">
+		</constant>
+		<constant name="RESULT_HANDSHAKE_FAILED" value="36" enum="Result">
+		</constant>
+		<constant name="RESULT_IO_FAILURE" value="37" enum="Result">
+		</constant>
+		<constant name="RESULT_REMOTE_DISCONNECT" value="38" enum="Result">
+		</constant>
+		<constant name="RESULT_SHOPPING_CART_NOT_FOUND" value="39" enum="Result">
+		</constant>
+		<constant name="RESULT_BLOCKED" value="40" enum="Result">
+		</constant>
+		<constant name="RESULT_IGNORED" value="41" enum="Result">
+		</constant>
+		<constant name="RESULT_NO_MATCH" value="42" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_DISABLED" value="43" enum="Result">
+		</constant>
+		<constant name="RESULT_SERVICE_READ_ONLY" value="44" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_NOT_FEATURED" value="45" enum="Result">
+		</constant>
+		<constant name="RESULT_ADMINISTRATOR_OK" value="46" enum="Result">
+		</constant>
+		<constant name="RESULT_CONTENT_VERSION" value="47" enum="Result">
+		</constant>
+		<constant name="RESULT_TRY_ANOTHER_CM" value="48" enum="Result">
+		</constant>
+		<constant name="RESULT_PASSWORD_REQUIRED_TO_KICK_SESSION" value="49" enum="Result">
+		</constant>
+		<constant name="RESULT_ALREADY_LOGGED_IN_ELSEWHERE" value="50" enum="Result">
+		</constant>
+		<constant name="RESULT_SUSPENDED" value="51" enum="Result">
+		</constant>
+		<constant name="RESULT_CANCELLED" value="52" enum="Result">
+		</constant>
+		<constant name="RESULT_DATA_CORRUPTION" value="53" enum="Result">
+		</constant>
+		<constant name="RESULT_DISK_FULL" value="54" enum="Result">
+		</constant>
+		<constant name="RESULT_REMOTE_CALL_FAILED" value="55" enum="Result">
+		</constant>
+		<constant name="RESULT_PASSWORD_UNSET" value="56" enum="Result">
+		</constant>
+		<constant name="RESULT_EXTERNAL_ACCOUNT_UNLINKED" value="57" enum="Result">
+		</constant>
+		<constant name="RESULT_PSN_TICKET_INVALID" value="58" enum="Result">
+		</constant>
+		<constant name="RESULT_EXTERNAL_ACCOUNT_ALREADY_LINKED" value="59" enum="Result">
+		</constant>
+		<constant name="RESULT_REMOTE_FILE_CONFLICT" value="60" enum="Result">
+		</constant>
+		<constant name="RESULT_ILLEGAL_PASSWORD" value="61" enum="Result">
+		</constant>
+		<constant name="RESULT_SAME_AS_PREVIOUS_VALUE" value="62" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_LOGON_DENIED" value="63" enum="Result">
+		</constant>
+		<constant name="RESULT_CANNOT_USE_OLD_PASSWORD" value="64" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_LOGIN_AUTH_CODE" value="65" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_LOGON_DENIED_NO_MAIL" value="66" enum="Result">
+		</constant>
+		<constant name="RESULT_HARDWARE_NOT_CAPABLE_OF_IPT" value="67" enum="Result">
+		</constant>
+		<constant name="RESULT_IPT_INIT_ERROR" value="68" enum="Result">
+		</constant>
+		<constant name="RESULT_PARENTAL_CONTROL_RESTRICTED" value="69" enum="Result">
+		</constant>
+		<constant name="RESULT_FACEBOOK_QUERY_ERROR" value="70" enum="Result">
+		</constant>
+		<constant name="RESULT_EXPIRED_LOGIN_AUTH_CODE" value="71" enum="Result">
+		</constant>
+		<constant name="RESULT_IP_LOGIN_RESTRICTION_FAILED" value="72" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_LOCKED_DOWN" value="73" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_LOGON_DENIED_VERIFIED_EMAIL_REQUIRED" value="74" enum="Result">
+		</constant>
+		<constant name="RESULT_NO_MATCHING_URL" value="75" enum="Result">
+		</constant>
+		<constant name="RESULT_BAD_RESPONSE" value="76" enum="Result">
+		</constant>
+		<constant name="RESULT_REQUIRE_PASSWORD_RE_ENTRY" value="77" enum="Result">
+		</constant>
+		<constant name="RESULT_VALUE_OUT_OF_RANGE" value="78" enum="Result">
+		</constant>
+		<constant name="RESULT_UNEXPECTED_ERROR" value="79" enum="Result">
+		</constant>
+		<constant name="RESULT_DISABLED" value="80" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_CEG_SUBMISSION" value="81" enum="Result">
+		</constant>
+		<constant name="RESULT_RESTRICTED_DEVICE" value="82" enum="Result">
+		</constant>
+		<constant name="RESULT_REGION_LOCKED" value="83" enum="Result">
+		</constant>
+		<constant name="RESULT_RATE_LIMIT_EXCEEDED" value="84" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_LOGIN_DENIED_NEED_TWO_FACTOR" value="85" enum="Result">
+		</constant>
+		<constant name="RESULT_ITEM_DELETED" value="86" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_LOGIN_DENIED_THROTTLE" value="87" enum="Result">
+		</constant>
+		<constant name="RESULT_TWO_FACTOR_CODE_MISMATCH" value="88" enum="Result">
+		</constant>
+		<constant name="RESULT_TWO_FACTOR_ACTIVATION_CODE_MISMATCH" value="89" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_ASSOCIATED_TO_MULTIPLE_PARTNERS" value="90" enum="Result">
+		</constant>
+		<constant name="RESULT_NOT_MODIFIED" value="91" enum="Result">
+		</constant>
+		<constant name="RESULT_NO_MOBILE_DEVICE" value="92" enum="Result">
+		</constant>
+		<constant name="RESULT_TIME_NOT_SYNCED" value="93" enum="Result">
+		</constant>
+		<constant name="RESULT_SMS_CODE_FAILED" value="94" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_LIMIT_EXCEEDED" value="95" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_ACTIVITY_LIMIT_EXCEEDED" value="96" enum="Result">
+		</constant>
+		<constant name="RESULT_PHONE_ACTIVITY_LIMIT_EXCEEDED" value="97" enum="Result">
+		</constant>
+		<constant name="RESULT_REFUND_TO_WALLET" value="98" enum="Result">
+		</constant>
+		<constant name="RESULT_EMAIL_SEND_FAILURE" value="99" enum="Result">
+		</constant>
+		<constant name="RESULT_NOT_SETTLED" value="100" enum="Result">
+		</constant>
+		<constant name="RESULT_NEED_CAPTCHA" value="101" enum="Result">
+		</constant>
+		<constant name="RESULT_GSLT_DENIED" value="102" enum="Result">
+		</constant>
+		<constant name="RESULT_GS_OWNER_DENIED" value="103" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_ITEM_TYPE" value="104" enum="Result">
+		</constant>
+		<constant name="RESULT_IP_BANNED" value="105" enum="Result">
+		</constant>
+		<constant name="RESULT_GSLT_EXPIRED" value="106" enum="Result">
+		</constant>
+		<constant name="RESULT_INSUFFICIENT_FUNDS" value="107" enum="Result">
+		</constant>
+		<constant name="RESULT_TOO_MANY_PENDING" value="108" enum="Result">
+		</constant>
+		<constant name="RESULT_NO_SITE_LICENSES_FOUND" value="109" enum="Result">
+		</constant>
+		<constant name="RESULT_WG_NETWORK_SEND_EXCEEDED" value="110" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_NOT_FRIENDS" value="111" enum="Result">
+		</constant>
+		<constant name="RESULT_LIMITED_USER_ACCOUNT" value="112" enum="Result">
+		</constant>
+		<constant name="RESULT_CANT_REMOVE_ITEM" value="113" enum="Result">
+		</constant>
+		<constant name="RESULT_ACCOUNT_DELETED" value="114" enum="Result">
+		</constant>
+		<constant name="RESULT_EXISTING_USER_CANCELLED_LICENSE" value="115" enum="Result">
+		</constant>
+		<constant name="RESULT_COMMUNITY_COOLDOWN" value="116" enum="Result">
+		</constant>
+		<constant name="RESULT_NO_LAUNCHER_SPECIFIED" value="117" enum="Result">
+		</constant>
+		<constant name="RESULT_MUST_AGREE_TO_SSA" value="118" enum="Result">
+		</constant>
+		<constant name="RESULT_LAUNCHER_MIGRATED" value="119" enum="Result">
+		</constant>
+		<constant name="RESULT_STEAM_REALM_MISMATCH" value="120" enum="Result">
+		</constant>
+		<constant name="RESULT_INVALID_SIGNATURE" value="121" enum="Result">
+		</constant>
+		<constant name="RESULT_PARSE_FAILURE" value="122" enum="Result">
+		</constant>
+		<constant name="RESULT_NO_VERIFIED_PHONE" value="123" enum="Result">
+		</constant>
+		<constant name="RESULT_INSUFFICIENT_BATTERY" value="124" enum="Result">
+		</constant>
+		<constant name="RESULT_CHARGER_REQUIRED" value="125" enum="Result">
+		</constant>
+		<constant name="RESULT_CACHED_CREDENTIAL_INVALID" value="126" enum="Result">
+		</constant>
+		<constant name="RESULT_PHONE_NUMBER_IS_VOIP" value="127" enum="Result">
+		</constant>
+		<constant name="LOBBY_TYPE_PRIVATE" value="0" enum="LobbyType">
+		</constant>
+		<constant name="LOBBY_TYPE_FRIENDS_ONLY" value="1" enum="LobbyType">
+		</constant>
+		<constant name="LOBBY_TYPE_PUBLIC" value="2" enum="LobbyType">
+		</constant>
+		<constant name="LOBBY_TYPE_INVISIBLE" value="3" enum="LobbyType">
+		</constant>
+		<constant name="LOBBY_TYPE_PRIVATE_UNIQUE" value="4" enum="LobbyType">
+		</constant>
+		<constant name="LOBBY_COMPARISON_EQUAL_TO_OR_LESS_THAN" value="-2" enum="LobbyComparison">
+		</constant>
+		<constant name="LOBBY_COMPARISON_LESS_THAN" value="-1" enum="LobbyComparison">
+		</constant>
+		<constant name="LOBBY_COMPARISON_EQUAL" value="0" enum="LobbyComparison">
+		</constant>
+		<constant name="LOBBY_COMPARISON_GREATER_THAN" value="1" enum="LobbyComparison">
+		</constant>
+		<constant name="LOBBY_COMPARISON_EQUAL_TO_OR_GREATER_THAN" value="2" enum="LobbyComparison">
+		</constant>
+		<constant name="LOBBY_COMPARISON_NOT_EQUAL" value="3" enum="LobbyComparison">
+		</constant>
+		<constant name="LOBBY_DISTANCE_FILTER_CLOSE" value="0" enum="LobbyDistanceFilter">
+		</constant>
+		<constant name="LOBBY_DISTANCE_FILTER_DEFAULT" value="1" enum="LobbyDistanceFilter">
+		</constant>
+		<constant name="LOBBY_DISTANCE_FILTER_FAR" value="2" enum="LobbyDistanceFilter">
+		</constant>
+		<constant name="LOBBY_DISTANCE_FILTER_WORLDWIDE" value="3" enum="LobbyDistanceFilter">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_NONE" value="0" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_A" value="1" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_B" value="2" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_X" value="3" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_Y" value="4" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_BUMPER" value="5" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_BUMPER" value="6" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_GRIP" value="7" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_GRIP" value="8" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_START" value="9" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_BACK" value="10" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_PAD_TOUCH" value="11" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_PAD_SWIPE" value="12" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_PAD_CLICK" value="13" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_PAD_D_PAD_NORTH" value="14" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_PAD_D_PAD_SOUTH" value="15" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_PAD_D_PAD_WEST" value="16" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_PAD_D_PAD_EAST" value="17" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_PAD_TOUCH" value="18" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_PAD_SWIPE" value="19" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_PAD_CLICK" value="20" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_PAD_D_PAD_NORTH" value="21" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_PAD_D_PAD_SOUTH" value="22" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_PAD_D_PAD_WEST" value="23" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_PAD_D_PAD_EAST" value="24" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_TRIGGER_PULL" value="25" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_TRIGGER_CLICK" value="26" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_TRIGGER_PULL" value="27" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RIGHT_TRIGGER_CLICK" value="28" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_STICK_MOVE" value="29" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_STICK_CLICK" value="30" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_STICK_D_PAD_NORTH" value="31" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_STICK_D_PAD_SOUTH" value="32" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_STICK_D_PAD_WEST" value="33" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_LEFT_STICK_D_PAD_EAST" value="34" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_GYRO_MOVE" value="35" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_GYRO_PITCH" value="36" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_GYRO_YAW" value="37" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_GYRO_ROLL" value="38" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED0" value="39" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED1" value="40" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED2" value="41" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED3" value="42" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED4" value="43" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED5" value="44" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED6" value="45" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED7" value="46" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED8" value="47" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED9" value="48" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_CONTROLLER_RESERVED10" value="49" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_X" value="50" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_CIRCLE" value="51" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_TRIANGLE" value="52" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_SQUARE" value="53" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_BUMPER" value="54" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_BUMPER" value="55" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_OPTIONS" value="56" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_SHARE" value="57" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_PAD_TOUCH" value="58" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_PAD_SWIPE" value="59" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_PAD_CLICK" value="60" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_PAD_D_PAD_NORTH" value="61" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_PAD_D_PAD_SOUTH" value="62" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_PAD_D_PAD_WEST" value="63" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_PAD_D_PAD_EAST" value="64" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_PAD_TOUCH" value="65" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_PAD_SWIPE" value="66" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_PAD_CLICK" value="67" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_PAD_D_PAD_NORTH" value="68" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_PAD_D_PAD_SOUTH" value="69" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_PAD_D_PAD_WEST" value="70" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_PAD_D_PAD_EAST" value="71" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_CENTER_PAD_TOUCH" value="72" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_CENTER_PAD_SWIPE" value="73" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_CENTER_PAD_CLICK" value="74" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_CENTER_PAD_D_PAD_NORTH" value="75" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_CENTER_PAD_D_PAD_SOUTH" value="76" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_CENTER_PAD_D_PAD_WEST" value="77" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_CENTER_PAD_D_PAD_EAST" value="78" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_TRIGGER_PULL" value="79" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_TRIGGER_CLICK" value="80" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_TRIGGER_PULL" value="81" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_TRIGGER_CLICK" value="82" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_STICK_MOVE" value="83" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_STICK_CLICK" value="84" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_STICK_D_PAD_NORTH" value="85" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_STICK_D_PAD_SOUTH" value="86" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_STICK_D_PAD_WEST" value="87" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_LEFT_STICK_D_PAD_EAST" value="88" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_STICK_MOVE" value="89" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_STICK_CLICK" value="90" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_STICK_D_PAD_NORTH" value="91" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_STICK_D_PAD_SOUTH" value="92" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_STICK_D_PAD_WEST" value="93" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RIGHT_STICK_D_PAD_EAST" value="94" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_D_PAD_NORTH" value="95" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_D_PAD_SOUTH" value="96" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_D_PAD_WEST" value="97" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_D_PAD_EAST" value="98" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_GYRO_MOVE" value="99" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_GYRO_PITCH" value="100" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_GYRO_YAW" value="101" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_GYRO_ROLL" value="102" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_D_PAD_MOVE" value="103" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RESERVED1" value="104" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RESERVED2" value="105" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RESERVED3" value="106" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RESERVED4" value="107" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RESERVED5" value="108" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RESERVED6" value="109" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RESERVED7" value="110" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RESERVED8" value="111" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RESERVED9" value="112" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS4_RESERVED10" value="113" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_A" value="114" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_B" value="115" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_X" value="116" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_Y" value="117" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_BUMPER" value="118" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_BUMPER" value="119" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_MENU" value="120" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_VIEW" value="121" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_TRIGGER_PULL" value="122" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_TRIGGER_CLICK" value="123" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_TRIGGER_PULL" value="124" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_TRIGGER_CLICK" value="125" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_MOVE" value="126" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_CLICK" value="127" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_D_PAD_NORTH" value="128" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_D_PAD_SOUTH" value="129" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_D_PAD_WEST" value="130" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_D_PAD_EAST" value="131" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_MOVE" value="132" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_CLICK" value="133" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_D_PAD_NORTH" value="134" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_D_PAD_SOUTH" value="135" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_D_PAD_WEST" value="136" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_D_PAD_EAST" value="137" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_D_PAD_NORTH" value="138" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_D_PAD_SOUTH" value="139" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_D_PAD_WEST" value="140" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_D_PAD_EAST" value="141" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_D_PAD_MOVE" value="142" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_GRIP_LOWER" value="143" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_GRIP_UPPER" value="144" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_GRIP_LOWER" value="145" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_GRIP_UPPER" value="146" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_SHARE" value="147" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RESERVED6" value="148" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RESERVED7" value="149" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RESERVED8" value="150" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RESERVED9" value="151" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX_ONE_RESERVED10" value="152" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_A" value="153" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_B" value="154" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_X" value="155" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_Y" value="156" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_LEFT_BUMPER" value="157" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RIGHT_BUMPER" value="158" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_START" value="159" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_BACK" value="160" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_LEFT_TRIGGER_PULL" value="161" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_LEFT_TRIGGER_CLICK" value="162" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RIGHT_TRIGGER_PULL" value="163" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RIGHT_TRIGGER_CLICK" value="164" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_LEFT_STICK_MOVE" value="165" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_LEFT_STICK_CLICK" value="166" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_LEFT_STICK_D_PAD_NORTH" value="167" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_LEFT_STICK_D_PAD_SOUTH" value="168" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_LEFT_STICK_D_PAD_WEST" value="169" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_LEFT_STICK_D_PAD_EAST" value="170" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RIGHT_STICK_MOVE" value="171" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RIGHT_STICK_CLICK" value="172" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RIGHT_STICK_D_PAD_NORTH" value="173" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RIGHT_STICK_D_PAD_SOUTH" value="174" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RIGHT_STICK_D_PAD_WEST" value="175" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RIGHT_STICK_D_PAD_EAST" value="176" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_D_PAD_NORTH" value="177" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_D_PAD_SOUTH" value="178" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_D_PAD_WEST" value="179" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_D_PAD_EAST" value="180" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_D_PAD_MOVE" value="181" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RESERVED1" value="182" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RESERVED2" value="183" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RESERVED3" value="184" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RESERVED4" value="185" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RESERVED5" value="186" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RESERVED6" value="187" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RESERVED7" value="188" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RESERVED8" value="189" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RESERVED9" value="190" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_X_BOX360_RESERVED10" value="191" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_A" value="192" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_B" value="193" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_X" value="194" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_Y" value="195" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_BUMPER" value="196" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_BUMPER" value="197" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_PLUS" value="198" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_MINUS" value="199" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_CAPTURE" value="200" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_TRIGGER_PULL" value="201" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_TRIGGER_CLICK" value="202" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_TRIGGER_PULL" value="203" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_TRIGGER_CLICK" value="204" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_STICK_MOVE" value="205" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_STICK_CLICK" value="206" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_STICK_D_PAD_NORTH" value="207" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_STICK_D_PAD_SOUTH" value="208" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_STICK_D_PAD_WEST" value="209" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_STICK_D_PAD_EAST" value="210" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_STICK_MOVE" value="211" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_STICK_CLICK" value="212" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_STICK_D_PAD_NORTH" value="213" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_STICK_D_PAD_SOUTH" value="214" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_STICK_D_PAD_WEST" value="215" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_STICK_D_PAD_EAST" value="216" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_D_PAD_NORTH" value="217" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_D_PAD_SOUTH" value="218" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_D_PAD_WEST" value="219" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_D_PAD_EAST" value="220" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_PRO_GYRO_MOVE" value="221" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_PRO_GYRO_PITCH" value="222" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_PRO_GYRO_YAW" value="223" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_PRO_GYRO_ROLL" value="224" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_D_PAD_MOVE" value="225" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED1" value="226" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED2" value="227" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED3" value="228" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED4" value="229" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED5" value="230" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED6" value="231" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED7" value="232" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED8" value="233" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED9" value="234" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED10" value="235" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_GYRO_MOVE" value="236" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_GYRO_PITCH" value="237" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_GYRO_YAW" value="238" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_GYRO_ROLL" value="239" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_GYRO_MOVE" value="240" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_GYRO_PITCH" value="241" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_GYRO_YAW" value="242" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_GYRO_ROLL" value="243" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_GRIP_LOWER" value="244" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_LEFT_GRIP_UPPER" value="245" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_GRIP_LOWER" value="246" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RIGHT_GRIP_UPPER" value="247" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_JOY_CON_BUTTON_N" value="248" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_JOY_CON_BUTTON_E" value="249" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_JOY_CON_BUTTON_S" value="250" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_JOY_CON_BUTTON_W" value="251" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED15" value="252" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED16" value="253" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED17" value="254" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED18" value="255" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED19" value="256" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_SWITCH_RESERVED20" value="257" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_X" value="258" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_CIRCLE" value="259" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_TRIANGLE" value="260" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_SQUARE" value="261" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_BUMPER" value="262" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_BUMPER" value="263" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_OPTION" value="264" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_CREATE" value="265" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_MUTE" value="266" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_PAD_TOUCH" value="267" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_PAD_SWIPE" value="268" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_PAD_CLICK" value="269" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_PAD_D_PAD_NORTH" value="270" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_PAD_D_PAD_SOUTH" value="271" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_PAD_D_PAD_WEST" value="272" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_PAD_D_PAD_EAST" value="273" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_PAD_TOUCH" value="274" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_PAD_SWIPE" value="275" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_PAD_CLICK" value="276" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_PAD_D_PAD_NORTH" value="277" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_PAD_D_PAD_SOUTH" value="278" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_PAD_D_PAD_WEST" value="279" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_PAD_D_PAD_EAST" value="280" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_CENTER_PAD_TOUCH" value="281" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_CENTER_PAD_SWIPE" value="282" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_CENTER_PAD_CLICK" value="283" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_CENTER_PAD_D_PAD_NORTH" value="284" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_CENTER_PAD_D_PAD_SOUTH" value="285" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_CENTER_PAD_D_PAD_WEST" value="286" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_CENTER_PAD_D_PAD_EAST" value="287" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_TRIGGER_PULL" value="288" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_TRIGGER_CLICK" value="289" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_TRIGGER_PULL" value="290" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_TRIGGER_CLICK" value="291" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_STICK_MOVE" value="292" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_STICK_CLICK" value="293" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_STICK_D_PAD_NORTH" value="294" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_STICK_D_PAD_SOUTH" value="295" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_STICK_D_PAD_WEST" value="296" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_STICK_D_PAD_EAST" value="297" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_STICK_MOVE" value="298" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_STICK_CLICK" value="299" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_STICK_D_PAD_NORTH" value="300" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_STICK_D_PAD_SOUTH" value="301" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_STICK_D_PAD_WEST" value="302" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_STICK_D_PAD_EAST" value="303" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_D_PAD_NORTH" value="304" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_D_PAD_SOUTH" value="305" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_D_PAD_WEST" value="306" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_D_PAD_EAST" value="307" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_GYRO_MOVE" value="308" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_GYRO_PITCH" value="309" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_GYRO_YAW" value="310" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_GYRO_ROLL" value="311" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_D_PAD_MOVE" value="312" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_GRIP" value="313" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_GRIP" value="314" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_LEFT_FN" value="315" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RIGHT_FN" value="316" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED5" value="317" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED6" value="318" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED7" value="319" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED8" value="320" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED9" value="321" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED10" value="322" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED11" value="323" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED12" value="324" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED13" value="325" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED14" value="326" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED15" value="327" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED16" value="328" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED17" value="329" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED18" value="330" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED19" value="331" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_PS5_RESERVED20" value="332" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_A" value="333" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_B" value="334" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_X" value="335" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_Y" value="336" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_L1" value="337" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_R1" value="338" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_MENU" value="339" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_VIEW" value="340" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_PAD_TOUCH" value="341" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_PAD_SWIPE" value="342" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_PAD_CLICK" value="343" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_PAD_D_PAD_NORTH" value="344" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_PAD_D_PAD_SOUTH" value="345" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_PAD_D_PAD_WEST" value="346" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_PAD_D_PAD_EAST" value="347" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_PAD_TOUCH" value="348" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_PAD_SWIPE" value="349" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_PAD_CLICK" value="350" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_PAD_D_PAD_NORTH" value="351" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_PAD_D_PAD_SOUTH" value="352" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_PAD_D_PAD_WEST" value="353" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_PAD_D_PAD_EAST" value="354" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_L2_SOFT_PULL" value="355" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_L2" value="356" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_R2_SOFT_PULL" value="357" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_R2" value="358" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_STICK_MOVE" value="359" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_L3" value="360" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_STICK_D_PAD_NORTH" value="361" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_STICK_D_PAD_SOUTH" value="362" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_STICK_D_PAD_WEST" value="363" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_STICK_D_PAD_EAST" value="364" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_LEFT_STICK_TOUCH" value="365" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_STICK_MOVE" value="366" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_R3" value="367" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_STICK_D_PAD_NORTH" value="368" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_STICK_D_PAD_SOUTH" value="369" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_STICK_D_PAD_WEST" value="370" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_STICK_D_PAD_EAST" value="371" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RIGHT_STICK_TOUCH" value="372" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_L4" value="373" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_R4" value="374" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_L5" value="375" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_R5" value="376" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_D_PAD_MOVE" value="377" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_D_PAD_NORTH" value="378" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_D_PAD_SOUTH" value="379" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_D_PAD_WEST" value="380" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_D_PAD_EAST" value="381" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_GYRO_MOVE" value="382" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_GYRO_PITCH" value="383" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_GYRO_YAW" value="384" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_GYRO_ROLL" value="385" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED1" value="386" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED2" value="387" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED3" value="388" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED4" value="389" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED5" value="390" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED6" value="391" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED7" value="392" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED8" value="393" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED9" value="394" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED10" value="395" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED11" value="396" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED12" value="397" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED13" value="398" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED14" value="399" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED15" value="400" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED16" value="401" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED17" value="402" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED18" value="403" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED19" value="404" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_STEAM_DECK_RESERVED20" value="405" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_COUNT" value="406" enum="InputActionOrigin">
+		</constant>
+		<constant name="INPUT_ACTION_ORIGIN_MAXIMUM_POSSIBLE_VALUE" value="32767" enum="InputActionOrigin">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_UNKNOWN" value="0" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_STEAM_CONTROLLER" value="1" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_X_BOX360_CONTROLLER" value="2" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_X_BOX_ONE_CONTROLLER" value="3" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_GENERIC_GAMEPAD" value="4" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_PS4_CONTROLLER" value="5" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_APPLE_M_FI_CONTROLLER" value="6" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_ANDROID_CONTROLLER" value="7" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_SWITCH_JOY_CON_PAIR" value="8" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_SWITCH_JOY_CON_SINGLE" value="9" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_SWITCH_PRO_CONTROLLER" value="10" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_MOBILE_TOUCH" value="11" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_PS3_CONTROLLER" value="12" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_PS5_CONTROLLER" value="13" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_STEAM_DECK_CONTROLLER" value="14" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_COUNT" value="15" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_TYPE_MAXIMUM_POSSIBLE_VALUE" value="255" enum="SteamInputType">
+		</constant>
+		<constant name="STEAM_INPUT_GLYPH_SIZE_SMALL" value="0" enum="SteamInputGlyphSize">
+		</constant>
+		<constant name="STEAM_INPUT_GLYPH_SIZE_MEDIUM" value="1" enum="SteamInputGlyphSize">
+		</constant>
+		<constant name="STEAM_INPUT_GLYPH_SIZE_LARGE" value="2" enum="SteamInputGlyphSize">
+		</constant>
+		<constant name="STEAM_INPUT_GLYPH_SIZE_COUNT" value="3" enum="SteamInputGlyphSize">
+		</constant>
+	</constants>
+</class>

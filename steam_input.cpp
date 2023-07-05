@@ -30,6 +30,7 @@
 
 #include "steam_input.h"
 #include "input_glyphs_steamworks.h"
+#include "steam/steam_api_flat.h"
 #include "steamworks.h"
 #include "sw_error_macros.h"
 
@@ -53,32 +54,35 @@ void HBSteamInput::_bind_methods() {
 void HBSteamInput::init_interface() {
 	steam_input = SteamAPI_SteamInput();
 	SW_ERR_FAIL_COND_MSG(steam_input == nullptr, "Steamworks: Failed to initialize Steam Input, something catastrophic must have happened");
-	initialized = true;
 }
 
-EInputActionOrigin HBSteamInput::translate_action_origin(const ESteamInputType &p_destination_input_type, const EInputActionOrigin &p_source_origin) const {
-	return SteamAPI_ISteamInput_TranslateActionOrigin(steam_input, p_destination_input_type, p_source_origin);
+bool HBSteamInput::is_valid() const {
+	return steam_input != nullptr;
 }
 
-String HBSteamInput::get_glyph_png_for_action_origin(const EInputActionOrigin &p_origin, const ESteamInputGlyphSize &p_size, const uint32_t &p_flags) const {
-	const char *glyph_path = SteamAPI_ISteamInput_GetGlyphPNGForActionOrigin(steam_input, p_origin, p_size, p_flags);
+SWC::InputActionOrigin HBSteamInput::translate_action_origin(const SWC::SteamInputType &p_destination_input_type, const SWC::InputActionOrigin &p_source_origin) const {
+	return (SWC::InputActionOrigin)SteamAPI_ISteamInput_TranslateActionOrigin(steam_input, (ESteamInputType)p_destination_input_type, (EInputActionOrigin)p_source_origin);
+}
+
+String HBSteamInput::get_glyph_png_for_action_origin(const SWC::InputActionOrigin &p_origin, const SWC::SteamInputGlyphSize &p_size, const uint32_t &p_flags) const {
+	const char *glyph_path = SteamAPI_ISteamInput_GetGlyphPNGForActionOrigin(steam_input, (EInputActionOrigin)p_origin, (ESteamInputGlyphSize)p_size, p_flags);
 	return String(glyph_path);
 }
 
-String HBSteamInput::get_glyph_svg_for_action_origin(const EInputActionOrigin &p_origin, const uint32_t &p_flags) const {
-	const char *glyph_path = SteamAPI_ISteamInput_GetGlyphSVGForActionOrigin(steam_input, p_origin, p_flags);
+String HBSteamInput::get_glyph_svg_for_action_origin(const SWC::InputActionOrigin &p_origin, const uint32_t &p_flags) const {
+	const char *glyph_path = SteamAPI_ISteamInput_GetGlyphSVGForActionOrigin(steam_input, (EInputActionOrigin)p_origin, p_flags);
 	return String(glyph_path);
 }
 
-InputHandle_t HBSteamInput::get_controller_for_gamepad_index(const int &p_gamepad_index) const {
+SWC::InputHandle_t HBSteamInput::get_controller_for_gamepad_index(const int &p_gamepad_index) const {
 	return SteamAPI_ISteamInput_GetControllerForGamepadIndex(steam_input, p_gamepad_index);
 }
 
-ESteamInputType HBSteamInput::get_input_type_for_handle(const InputHandle_t &p_input_handle) const {
-	return SteamAPI_ISteamInput_GetInputTypeForHandle(steam_input, p_input_handle);
+SWC::SteamInputType HBSteamInput::get_input_type_for_handle(const SWC::InputHandle_t &p_input_handle) const {
+	return (SWC::SteamInputType)SteamAPI_ISteamInput_GetInputTypeForHandle(steam_input, p_input_handle);
 }
 
-InputHandle_t HBSteamInput::get_joy_steam_input_handle(int p_device) const {
+SWC::InputHandle_t HBSteamInput::get_joy_steam_input_handle(int p_device) const {
 	if (!devices.has(p_device)) {
 		return 0;
 	}
@@ -91,6 +95,7 @@ void HBSteamInput::run_frame() {
 
 void HBSteamInput::init(bool p_call_run_frame_automatically) {
 	SW_ERR_FAIL_COND_MSG(!SteamAPI_ISteamInput_Init(steam_input, true), "Steam Input: Init returned false");
+	initialized = true;
 	run_frame();
 	TypedArray<int> connected_joypads = Input::get_singleton()->get_connected_joypads();
 	for (int i = 0; i < connected_joypads.size(); i++) {
@@ -104,4 +109,10 @@ void HBSteamInput::init(bool p_call_run_frame_automatically) {
 #ifdef MODULE_INPUT_GLYPHS_ENABLED
 	HBSteamworksInputGlyphsSource::make_current();
 #endif
+}
+
+HBSteamInput::~HBSteamInput() {
+	if (initialized) {
+		SteamAPI_ISteamInput_Shutdown(steam_input);
+	}
 }

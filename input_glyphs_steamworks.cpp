@@ -41,75 +41,75 @@
 
 #include "modules/input_glyphs/input_glyph_svg_decode.h"
 
-ESteamInputType __input_type_lut[] = {
-	ESteamInputType::k_ESteamInputType_Unknown,
-	ESteamInputType::k_ESteamInputType_SteamController,
-	ESteamInputType::k_ESteamInputType_XBox360Controller,
-	ESteamInputType::k_ESteamInputType_XBoxOneController,
-	ESteamInputType::k_ESteamInputType_GenericGamepad,
-	ESteamInputType::k_ESteamInputType_PS3Controller,
-	ESteamInputType::k_ESteamInputType_PS4Controller,
-	ESteamInputType::k_ESteamInputType_PS5Controller,
-	ESteamInputType::k_ESteamInputType_SwitchProController,
-	ESteamInputType::k_ESteamInputType_SteamDeckController
+SWC::SteamInputType __input_type_lut[] = {
+	SWC::SteamInputType::STEAM_INPUT_TYPE_UNKNOWN,
+	SWC::SteamInputType::STEAM_INPUT_TYPE_STEAM_CONTROLLER,
+	SWC::SteamInputType::STEAM_INPUT_TYPE_X_BOX360_CONTROLLER,
+	SWC::SteamInputType::STEAM_INPUT_TYPE_X_BOX_ONE_CONTROLLER,
+	SWC::SteamInputType::STEAM_INPUT_TYPE_GENERIC_GAMEPAD,
+	SWC::SteamInputType::STEAM_INPUT_TYPE_PS3_CONTROLLER,
+	SWC::SteamInputType::STEAM_INPUT_TYPE_PS4_CONTROLLER,
+	SWC::SteamInputType::STEAM_INPUT_TYPE_PS5_CONTROLLER,
+	SWC::SteamInputType::STEAM_INPUT_TYPE_SWITCH_PRO_CONTROLLER,
+	SWC::SteamInputType::STEAM_INPUT_TYPE_STEAM_DECK_CONTROLLER
 };
 
 static_assert(std::size(__input_type_lut) == InputType::INPUT_TYPE_MAX);
 
-EInputActionOrigin __origin_to_teamworks_xbox_origin_lut[]{
-	k_EInputActionOrigin_XBoxOne_A,
-	k_EInputActionOrigin_XBoxOne_B,
-	k_EInputActionOrigin_XBoxOne_X,
-	k_EInputActionOrigin_XBoxOne_Y,
-	k_EInputActionOrigin_XBoxOne_View,
-	k_EInputActionOrigin_XBoxOne_Menu,
-	k_EInputActionOrigin_XBoxOne_LeftBumper,
-	k_EInputActionOrigin_XBoxOne_RightBumper,
-	k_EInputActionOrigin_XBoxOne_LeftTrigger_Pull,
-	k_EInputActionOrigin_XBoxOne_LeftTrigger_Click,
-	k_EInputActionOrigin_XBoxOne_RightTrigger_Pull,
-	k_EInputActionOrigin_XBoxOne_RightTrigger_Click,
-	k_EInputActionOrigin_XBoxOne_LeftStick_Move,
-	k_EInputActionOrigin_XBoxOne_LeftStick_Click,
-	k_EInputActionOrigin_XBoxOne_LeftStick_DPadNorth,
-	k_EInputActionOrigin_XBoxOne_LeftStick_DPadSouth,
-	k_EInputActionOrigin_XBoxOne_LeftStick_DPadWest,
-	k_EInputActionOrigin_XBoxOne_LeftStick_DPadEast,
-	k_EInputActionOrigin_XBoxOne_RightStick_Move,
-	k_EInputActionOrigin_XBoxOne_RightStick_Click,
-	k_EInputActionOrigin_XBoxOne_RightStick_DPadNorth,
-	k_EInputActionOrigin_XBoxOne_RightStick_DPadSouth,
-	k_EInputActionOrigin_XBoxOne_RightStick_DPadWest,
-	k_EInputActionOrigin_XBoxOne_RightStick_DPadEast,
-	k_EInputActionOrigin_XBoxOne_DPad_North,
-	k_EInputActionOrigin_XBoxOne_DPad_South,
-	k_EInputActionOrigin_XBoxOne_DPad_West,
-	k_EInputActionOrigin_XBoxOne_DPad_East,
-	k_EInputActionOrigin_XBoxOne_DPad_Move,
-	k_EInputActionOrigin_XBoxOne_Share,
-	k_EInputActionOrigin_XBoxOne_LeftGrip_Upper,
-	k_EInputActionOrigin_XBoxOne_LeftGrip_Lower,
-	k_EInputActionOrigin_XBoxOne_RightGrip_Upper,
-	k_EInputActionOrigin_XBoxOne_RightGrip_Lower,
-	k_EInputActionOrigin_PS5_CenterPad_Click,
+SWC::InputActionOrigin __origin_to_teamworks_xbox_origin_lut[]{
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_A,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_B,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_X,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_Y,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_VIEW,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_MENU,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_BUMPER,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_BUMPER,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_TRIGGER_PULL,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_TRIGGER_CLICK,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_TRIGGER_PULL,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_TRIGGER_CLICK,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_MOVE,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_CLICK,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_D_PAD_NORTH,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_D_PAD_SOUTH,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_D_PAD_WEST,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_STICK_D_PAD_EAST,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_MOVE,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_CLICK,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_D_PAD_NORTH,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_D_PAD_SOUTH,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_D_PAD_WEST,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_STICK_D_PAD_EAST,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_D_PAD_NORTH,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_D_PAD_SOUTH,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_D_PAD_WEST,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_D_PAD_EAST,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_D_PAD_MOVE,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_SHARE,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_GRIP_UPPER,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_LEFT_GRIP_LOWER,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_GRIP_UPPER,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_X_BOX_ONE_RIGHT_GRIP_LOWER,
+	SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_PS5_CENTER_PAD_CLICK,
 };
 
 static_assert(std::size(__origin_to_teamworks_xbox_origin_lut) == InputOrigin::INPUT_ORIGIN_COUNT);
 
-EInputActionOrigin HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(const InputOrigin &p_input_origin) {
+SWC::InputActionOrigin HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(const InputOrigin &p_input_origin) {
 	if (p_input_origin == InputOrigin::INPUT_ORIGIN_INVALID) {
-		return EInputActionOrigin::k_EInputActionOrigin_None;
+		return SWC::InputActionOrigin::INPUT_ACTION_ORIGIN_NONE;
 	}
 	return __origin_to_teamworks_xbox_origin_lut[p_input_origin];
 }
 
-ESteamInputType HBSteamworksInputGlyphsSource::input_type_to_steamworks_input_type(const InputType &p_input_type) {
+SWC::SteamInputType HBSteamworksInputGlyphsSource::input_type_to_steamworks_input_type(const InputType &p_input_type) {
 	// InputType matches ESteamInputType int eh steamworks SDK, so we just do a straight conversion
-	ERR_FAIL_COND_V(p_input_type == InputType::INPUT_TYPE_MAX, ESteamInputType::k_ESteamInputType_XBoxOneController);
+	ERR_FAIL_COND_V(p_input_type == InputType::INPUT_TYPE_MAX, SWC::SteamInputType::STEAM_INPUT_TYPE_X_BOX_ONE_CONTROLLER);
 	return __input_type_lut[p_input_type];
 }
 
-InputType HBSteamworksInputGlyphsSource::steamworks_input_type_to_input_type(const ESteamInputType &p_steam_input_type) {
+InputType HBSteamworksInputGlyphsSource::steamworks_input_type_to_input_type(const SWC::SteamInputType &p_steam_input_type) {
 	for (int i = 0; i < InputType::INPUT_TYPE_MAX; i++) {
 		if (__input_type_lut[i] == p_steam_input_type) {
 			return (InputType)i;
@@ -125,10 +125,10 @@ ESteamInputGlyphSize input_glph_size_to_steamworks(const InputGlyphSize &p_glyph
 Ref<Texture2D> HBSteamworksInputGlyphsSource::get_input_glyph(const InputType &p_input_type, const InputOrigin &p_input_origin, const BitField<InputGlyphStyle> &p_glyphs_style, const InputGlyphSize &p_size) {
 	HBSteamInput *input = Steamworks::get_singleton()->get_input();
 	// Convert from xbox 360 reference origin to the destination input type
-	EInputActionOrigin steamworks_origin = origin_to_steamworks_xbox_origin(p_input_origin);
-	ESteamInputType steamworks_input_type = input_type_to_steamworks_input_type(p_input_type);
+	SWC::InputActionOrigin steamworks_origin = (SWC::InputActionOrigin)origin_to_steamworks_xbox_origin(p_input_origin);
+	SWC::SteamInputType steamworks_input_type = (SWC::SteamInputType)input_type_to_steamworks_input_type(p_input_type);
 
-	EInputActionOrigin translated_origin = input->translate_action_origin(steamworks_input_type, steamworks_origin);
+	SWC::InputActionOrigin translated_origin = input->translate_action_origin(steamworks_input_type, steamworks_origin);
 	String glyph_path = input->get_glyph_svg_for_action_origin(translated_origin, p_glyphs_style);
 
 	Vector2i size = Vector2i(32, 32);
@@ -180,14 +180,14 @@ InputType HBSteamworksInputGlyphsSource::identify_joy(int p_device) const {
 	if (input_handle == 0) {
 		return InputType::UNKNOWN;
 	}
-	ESteamInputType steam_input_type = Steamworks::get_singleton()->get_input()->get_input_type_for_handle(input_handle);
+	SWC::SteamInputType steam_input_type = Steamworks::get_singleton()->get_input()->get_input_type_for_handle(input_handle);
 	return steamworks_input_type_to_input_type(steam_input_type);
 }
 
 void HBSteamworksInputGlyphDumpTool::_dump_input_type(InputDumpInfo &p_dump_info, InputType p_input_type, Ref<HBSteamworksInputGlyphsSource> p_source) {
 	HBSteamInput *input = Steamworks::get_singleton()->get_input();
 
-	ESteamInputType steam_input_type = p_source->input_type_to_steamworks_input_type(p_input_type);
+	SWC::SteamInputType steam_input_type = p_source->input_type_to_steamworks_input_type(p_input_type);
 	for (int size_i = 0; size_i < InputGlyphSize::GLYPH_SIZE_MAX; size_i++) {
 		InputGlyphSize size = (InputGlyphSize)size_i;
 		for (int theme_i = 0; theme_i < InputGlyphStyle::GLYPH_STYLE_THEME_COUNT; theme_i++) {
@@ -215,7 +215,7 @@ void HBSteamworksInputGlyphDumpTool::_dump_input_type(InputDumpInfo &p_dump_info
 				int style_modifiers = ABXY_STYLES[i / 4];
 				int style = style_modifiers | base_style;
 				InputOrigin origin = (InputOrigin)(i % 4);
-				EInputActionOrigin input_origin = HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(origin);
+				SWC::InputActionOrigin input_origin = HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(origin);
 				input_origin = input->translate_action_origin(steam_input_type, input_origin);
 
 				Ref<Texture2D> tex = p_source->get_input_glyph(p_input_type, origin, style, size);
@@ -235,7 +235,7 @@ void HBSteamworksInputGlyphDumpTool::_dump_input_type(InputDumpInfo &p_dump_info
 				InputOrigin origin = (InputOrigin)i;
 				InputGlyphStyle glyph_style = (InputGlyphStyle)base_style;
 
-				EInputActionOrigin input_origin = HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(origin);
+				SWC::InputActionOrigin input_origin = HBSteamworksInputGlyphsSource::origin_to_steamworks_xbox_origin(origin);
 				input_origin = input->translate_action_origin(steam_input_type, input_origin);
 
 				Ref<Texture2D> tex = p_source->get_input_glyph(p_input_type, origin, glyph_style, size);

@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  register_types.cpp                                                    */
+/*  steam_friends.h                                                       */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,34 +28,39 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "register_types.h"
+#ifndef STEAM_FRIENDS_H
+#define STEAM_FRIENDS_H
 
-#include "steamworks.h"
-#include "steamworks_constants.gen.h"
+#include "core/object/ref_counted.h"
+#include "scene/resources/texture.h"
 
-void initialize_steamworks_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
-	}
-	GDREGISTER_ABSTRACT_CLASS(Steamworks);
-	GDREGISTER_ABSTRACT_CLASS(HBSteamInput);
-	GDREGISTER_ABSTRACT_CLASS(HBSteamFriends);
-	GDREGISTER_ABSTRACT_CLASS(HBSteamFriend);
-	GDREGISTER_ABSTRACT_CLASS(HBSteamLobby);
-	GDREGISTER_ABSTRACT_CLASS(HBSteamMatchmaking);
-	GDREGISTER_ABSTRACT_CLASS(HBLobbyListQuery);
-	GDREGISTER_ABSTRACT_CLASS(SteamworksConstants);
-	Steamworks *steamworks_singleton = memnew(Steamworks);
-	Engine::get_singleton()->add_singleton(Engine::Singleton("Steamworks", steamworks_singleton));
-}
+class ISteamFriends;
 
-void uninitialize_steamworks_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
-		return;
-	}
-	Steamworks *singleton = Steamworks::get_singleton();
+class HBSteamFriend : public RefCounted {
+	GDCLASS(HBSteamFriend, RefCounted);
 
-	if (singleton != nullptr) {
-		memdelete(singleton);
-	}
-}
+private:
+	Ref<Texture2D> avatar;
+	uint64_t steam_id;
+
+protected:
+	static void _bind_methods();
+
+public:
+	String get_persona_name() const;
+	Ref<Texture2D> get_avatar() const;
+	uint64_t get_steam_id() const;
+	static Ref<HBSteamFriend> from_steam_id(uint64_t p_steam_id);
+};
+
+class HBSteamFriends : public RefCounted {
+	GDCLASS(HBSteamFriends, RefCounted);
+	ISteamFriends *steam_friends = nullptr;
+
+public:
+	void init_interface();
+	bool is_valid() const;
+	ISteamFriends *get_interface() const;
+};
+
+#endif // STEAM_FRIENDS_H

@@ -32,7 +32,9 @@
 #define STEAM_INPUT_H
 
 #include "scene/main/node.h"
-#include "steam/steam_api_flat.h"
+#include "steamworks_constants.gen.h"
+
+class ISteamInput;
 
 class HBSteamInput : public Node {
 	GDCLASS(HBSteamInput, Node);
@@ -53,14 +55,16 @@ protected:
 
 public:
 	void init_interface();
-	EInputActionOrigin translate_action_origin(const ESteamInputType &p_destination_input_type, const EInputActionOrigin &p_input_action_origin) const;
-	String get_glyph_png_for_action_origin(const EInputActionOrigin &p_origin, const ESteamInputGlyphSize &p_size, const uint32_t &p_flags) const;
-	String get_glyph_svg_for_action_origin(const EInputActionOrigin &p_origin, const uint32_t &p_flags) const;
-	InputHandle_t get_controller_for_gamepad_index(const int &p_gamepad_index) const;
-	ESteamInputType get_input_type_for_handle(const InputHandle_t &p_input_handle) const;
-	InputHandle_t get_joy_steam_input_handle(int p_device) const;
+	bool is_valid() const;
+	SWC::InputActionOrigin translate_action_origin(const SWC::SteamInputType &p_destination_input_type, const SWC::InputActionOrigin &p_input_action_origin) const;
+	String get_glyph_png_for_action_origin(const SWC::InputActionOrigin &p_origin, const SWC::SteamInputGlyphSize &p_size, const uint32_t &p_flags) const;
+	String get_glyph_svg_for_action_origin(const SWC::InputActionOrigin &p_origin, const uint32_t &p_flags) const;
+	SWC::InputHandle_t get_controller_for_gamepad_index(const int &p_gamepad_index) const;
+	SWC::SteamInputType get_input_type_for_handle(const SWC::InputHandle_t &p_input_handle) const;
+	SWC::InputHandle_t get_joy_steam_input_handle(int p_device) const;
 	void run_frame();
 	void init(bool p_call_run_frame_automatically = true);
+	~HBSteamInput();
 };
 
 #endif // STEAM_INPUT_H

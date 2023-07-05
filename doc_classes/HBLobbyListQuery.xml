@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBLobbyListQuery" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+		A query that returns a list of lobbies.
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="filter_distance_close">
+			<return type="HBLobbyListQuery" />
+			<description>
+				Only lobbies in the same immediate region will be returned.
+			</description>
+		</method>
+		<method name="filter_distance_far">
+			<return type="HBLobbyListQuery" />
+			<description>
+				For games that don't have many latency requirements, will return lobbies about half-way around the globe.
+			</description>
+		</method>
+		<method name="filter_distance_worldwide">
+			<return type="HBLobbyListQuery" />
+			<description>
+				No filtering, will match lobbies as far as India to NY (not recommended, expect multiple seconds of latency between the clients).
+			</description>
+		</method>
+		<method name="order_by_near">
+			<return type="HBLobbyListQuery" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="int" />
+			<description>
+				Sorts the results closest to the specified value.
+
+			Near filters don't actually filter out values, they just influence how the results are sorted. You can specify multiple near filters, with the first near filter influencing the most, and the last near filter influencing the least.
+			</description>
+		</method>
+		<method name="request_lobby_list">
+			<return type="HBLobbyListQuery" />
+			<description>
+				Begins this query.
+			</description>
+		</method>
+		<method name="with_equal">
+			<return type="HBLobbyListQuery" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="int" />
+			<description>
+				The lobbies value must match this this one exactly.
+			</description>
+		</method>
+		<method name="with_higher">
+			<return type="HBLobbyListQuery" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="int" />
+			<description>
+				The lobbies value must be greater than this one.
+			</description>
+		</method>
+		<method name="with_key_value">
+			<return type="HBLobbyListQuery" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="String" />
+			<description>
+				Adds a string comparison filter.
+			</description>
+		</method>
+		<method name="with_lower">
+			<return type="HBLobbyListQuery" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="int" />
+			<description>
+				The lobbies value must be less than this one.
+			</description>
+		</method>
+		<method name="with_max_results">
+			<return type="HBLobbyListQuery" />
+			<param index="0" name="max_results" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="with_not_equal">
+			<return type="HBLobbyListQuery" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="int" />
+			<description>
+				The lobbies value must not match this value.
+			</description>
+		</method>
+		<method name="with_slots_available">
+			<return type="HBLobbyListQuery" />
+			<param index="0" name="min_slots" type="int" />
+			<description>
+				Filters to only return lobbies with the specified number of open slots available.
+			</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="received_lobby_list">
+			<param index="0" name="lobbies" type="HBSteamLobby[]" />
+			<description>
+				Called when a list of lobbies is received.
+			</description>
+		</signal>
+	</signals>
+</class>

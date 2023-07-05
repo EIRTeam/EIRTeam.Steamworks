@@ -37,7 +37,7 @@
 
 #include "modules/input_glyphs/input_glyphs.h"
 #include "modules/input_glyphs/input_glyphs_source.h"
-#include "thirdparty/steamworks/public/steam/isteaminput.h"
+#include "steamworks_constants.gen.h"
 
 class HBSteamworksInputGlyphDumpTool;
 
@@ -45,11 +45,11 @@ class HBSteamworksInputGlyphsSource : public InputGlyphsSource {
 	GDCLASS(HBSteamworksInputGlyphsSource, InputGlyphsSource);
 
 protected:
-	static EInputActionOrigin origin_to_steamworks_xbox_origin(const InputOrigin &p_input_origin);
-	static ESteamInputType input_type_to_steamworks_input_type(const InputType &p_input_type);
+	static SWC::InputActionOrigin origin_to_steamworks_xbox_origin(const InputOrigin &p_input_origin);
+	static SWC::SteamInputType input_type_to_steamworks_input_type(const InputType &p_input_type);
 
 public:
-	static InputType steamworks_input_type_to_input_type(const ESteamInputType &p_steam_input_type);
+	static InputType steamworks_input_type_to_input_type(const SWC::SteamInputType &p_steam_input_type);
 	static Ref<InputGlyphsSource> _create_current() {
 		Ref<HBSteamworksInputGlyphsSource> ref;
 		ref.instantiate();

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBSteamLobby" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+		Class representing a Steam lobby.
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="create_lobby" qualifiers="static">
+			<return type="HBSteamLobby" />
+			<param index="0" name="lobby_type" type="int" enum="SteamworksConstants.LobbyType" />
+			<param index="1" name="max_members" type="int" />
+			<description>
+				Creates a lobby of a given type with a maximum amount of members.
+			</description>
+		</method>
+		<method name="from_id" qualifiers="static">
+			<return type="HBSteamLobby" />
+			<param index="0" name="lobby_id" type="int" />
+			<description>
+				Creates a steam lobby from a given ID.
+			</description>
+		</method>
+		<method name="join_lobby">
+			<return type="void" />
+			<description>
+				Joins this lobby.
+			</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="lobby_created">
+			<param index="0" name="result" type="int" />
+			<description>
+				Called when a lobby is finished creating.
+			</description>
+		</signal>
+		<signal name="lobby_entered">
+			<param index="0" name="success" type="bool" />
+			<description>
+				Called when a lobby is entered.
+			</description>
+		</signal>
+	</signals>
+</class>

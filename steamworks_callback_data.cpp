@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  register_types.cpp                                                    */
+/*  steamworks_callback_data.cpp                                          */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,34 +28,16 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "register_types.h"
+#include "steamworks_callback_data.h"
+#include "steam/steam_api_flat.h"
 
-#include "steamworks.h"
-#include "steamworks_constants.gen.h"
-
-void initialize_steamworks_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
+SteamworksCallbackData::SteamworksCallbackData(CallbackMsg_t callback_msg) {
+	if (callback_msg.m_cubParam > 0) {
+		callback_data = memalloc(callback_msg.m_cubParam);
 	}
-	GDREGISTER_ABSTRACT_CLASS(Steamworks);
-	GDREGISTER_ABSTRACT_CLASS(HBSteamInput);
-	GDREGISTER_ABSTRACT_CLASS(HBSteamFriends);
-	GDREGISTER_ABSTRACT_CLASS(HBSteamFriend);
-	GDREGISTER_ABSTRACT_CLASS(HBSteamLobby);
-	GDREGISTER_ABSTRACT_CLASS(HBSteamMatchmaking);
-	GDREGISTER_ABSTRACT_CLASS(HBLobbyListQuery);
-	GDREGISTER_ABSTRACT_CLASS(SteamworksConstants);
-	Steamworks *steamworks_singleton = memnew(Steamworks);
-	Engine::get_singleton()->add_singleton(Engine::Singleton("Steamworks", steamworks_singleton));
-}
-
-void uninitialize_steamworks_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
-		return;
-	}
-	Steamworks *singleton = Steamworks::get_singleton();
-
-	if (singleton != nullptr) {
-		memdelete(singleton);
+	if (callback_msg.m_iCallback == SteamAPICallCompleted_t::k_iCallback) {
+		callback_type = ((SteamAPICallCompleted_t *)callback_msg.m_pubParam)->m_iCallback;
+	} else {
+		callback_type = callback_msg.m_iCallback;
 	}
 }
