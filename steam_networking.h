@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  steamworks_callback_data.h                                            */
+/*  steam_networking.h                                                    */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,34 +28,45 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef STEAMWORKS_CALLBACK_DATA_H
-#define STEAMWORKS_CALLBACK_DATA_H
+#ifndef STEAM_NETWORKING_H
+#define STEAM_NETWORKING_H
 
 #include "core/object/ref_counted.h"
+#include "steamworks_callback_data.h"
+#include "steamworks_constants.gen.h"
 
-struct CallbackMsg_t;
+class ISteamNetworking;
+class HBSteamFriend;
 
-class SteamworksCallbackData : public RefCounted {
-	void *callback_data = nullptr;
-	int callback_type;
+class SteamP2PPacket : public RefCounted {
+	GDCLASS(SteamP2PPacket, RefCounted);
+	Vector<uint8_t> data;
+	uint64_t sender_steam_id;
 
 public:
-	void *get_ptr() {
-		return callback_data;
-	}
-
-	template <typename T>
-	const T *get_data() const {
-		DEV_ASSERT(T::k_iCallback == callback_type);
-		return (T *)callback_data;
-	};
-
-	SteamworksCallbackData(CallbackMsg_t callback_msg);
-	~SteamworksCallbackData() {
-		if (callback_data) {
-			memfree(callback_data);
-		}
-	}
+	Vector<uint8_t> get_data();
+	Ref<HBSteamFriend> get_sender();
+	SteamP2PPacket(Vector<uint8_t> p_data, uint64_t p_sender_steam_id);
 };
 
-#endif // STEAMWORKS_CALLBACK_DATA_H
+class HBSteamNetworking : public RefCounted {
+	GDCLASS(HBSteamNetworking, RefCounted);
+	ISteamNetworking *steam_networking = nullptr;
+	void _on_p2p_connection_failed(Ref<SteamworksCallbackData> p_callback);
+	void _on_p2p_session_request(Ref<SteamworksCallbackData> p_callback);
+
+protected:
+	static void _bind_methods();
+
+public:
+	bool accept_p2p_session_with_user(Ref<HBSteamFriend> p_user);
+	void allow_p2p_packet_relay(bool p_allow_packet_relay);
+	bool close_p2p_session_with_user(Ref<HBSteamFriend> p_user);
+	bool is_p2p_packet_available(int p_channel = 0);
+	Ref<SteamP2PPacket> read_p2p_packet(int p_channel = 0);
+	bool send_p2p_packet(Ref<HBSteamFriend> p_target_user, Vector<uint8_t> p_data, SWC::P2PSend p_send_type = SWC::P2P_SEND_RELIABLE, int p_channel = 0);
+	void init_interface();
+	bool is_valid() const;
+};
+
+#endif // STEAM_NETWORKING_H

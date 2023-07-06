@@ -20,5 +20,7 @@ def get_doc_classes():
         "HBSteamLobby",
         "HBLobbyListQuery",
         "HBSteamMatchmaking",
+        "HBSteamNetworking",
+        "SteamP2PPacket",
         "SteamworksConstants",
     ]

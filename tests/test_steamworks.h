@@ -74,6 +74,7 @@ TEST_CASE("[Steamworks] Test correct initialization") {
 	CHECK_MESSAGE(singleton->get_matchmaking().is_valid(), "SteamMatchmaking interface should be valid.");
 	CHECK_MESSAGE(singleton->get_friends().is_valid(), "SteamFriends interface should be valid");
 	CHECK_MESSAGE(singleton->get_utils().is_valid(), "SteamUtils interface should be valid");
+	CHECK_MESSAGE(singleton->get_networking().is_valid(), "SteamNetworking interface should be valid");
 }
 TEST_CASE("[Steamworks] Test getting the local user") {
 	reinit_steamworks_if_needed();

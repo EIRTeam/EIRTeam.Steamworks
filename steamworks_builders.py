@@ -12,6 +12,8 @@ whitelisted_enum_names = [
     "EResult",
     "ELobbyDistanceFilter",
     "ELobbyComparison",
+    "EP2PSend",
+    "EP2PSessionError",
 ]
 
 # Needed because godot can't convert unsigned long long
@@ -49,6 +51,9 @@ def process_enum_data(enums_data) -> List[EnumInfo]:
                 value_name = value_name[3:]
             value_name = value_name.replace("_", "")
             value_name = snake_case(value_name)
+            if value_name.startswith("P2_P_"):
+                # Hack to make P2P constants nicer
+                value_name = "P2P_" + value_name[5:]
             enum_info.enum_values.append((value_name, value["value"]))
         enum_infos.append(enum_info)
 

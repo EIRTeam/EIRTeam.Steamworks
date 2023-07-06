@@ -33,7 +33,7 @@
 			<description>
 				Sorts the results closest to the specified value.
 
-			Near filters don't actually filter out values, they just influence how the results are sorted. You can specify multiple near filters, with the first near filter influencing the most, and the last near filter influencing the least.
+				Near filters don't actually filter out values, they just influence how the results are sorted. You can specify multiple near filters, with the first near filter influencing the most, and the last near filter influencing the least.
 			</description>
 		</method>
 		<method name="request_lobby_list">
@@ -78,6 +78,7 @@
 			<return type="HBLobbyListQuery" />
 			<param index="0" name="max_results" type="int" />
 			<description>
+				Sets the maximum amount of results possible.
 			</description>
 		</method>
 		<method name="with_not_equal">

@@ -35,6 +35,7 @@
 #include "steam_friends.h"
 #include "steam_input.h"
 #include "steam_matchmaking.h"
+#include "steam_networking.h"
 #include "steam_utils.h"
 
 class ISteamClient;
@@ -52,6 +53,7 @@ class Steamworks : public Object {
 	Ref<HBSteamMatchmaking> matchmaking;
 	Ref<HBSteamFriends> friends;
 	Ref<HBSteamUtils> utils;
+	Ref<HBSteamNetworking> networking;
 	typedef int CallbackType;
 
 	struct SteamworksCallbackInfo {
@@ -86,6 +88,7 @@ public:
 	Ref<HBSteamMatchmaking> get_matchmaking() const;
 	Ref<HBSteamFriends> get_friends() const;
 	Ref<HBSteamUtils> get_utils() const;
+	Ref<HBSteamNetworking> get_networking() const;
 	Ref<HBSteamFriend> get_local_user() const;
 
 	Steamworks();

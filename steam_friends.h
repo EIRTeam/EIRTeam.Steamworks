@@ -35,6 +35,7 @@
 #include "scene/resources/texture.h"
 
 class ISteamFriends;
+class HBSteamLobby;
 
 class HBSteamFriend : public RefCounted {
 	GDCLASS(HBSteamFriend, RefCounted);
@@ -42,6 +43,7 @@ class HBSteamFriend : public RefCounted {
 private:
 	Ref<Texture2D> avatar;
 	uint64_t steam_id;
+	static HashMap<uint64_t, Ref<WeakRef>> friend_cache;
 
 protected:
 	static void _bind_methods();
@@ -57,9 +59,13 @@ class HBSteamFriends : public RefCounted {
 	GDCLASS(HBSteamFriends, RefCounted);
 	ISteamFriends *steam_friends = nullptr;
 
+protected:
+	static void _bind_methods();
+
 public:
 	void init_interface();
 	bool is_valid() const;
+	void activate_game_overlay_invite_dialog(Ref<HBSteamLobby> p_lobby);
 	ISteamFriends *get_interface() const;
 };
 

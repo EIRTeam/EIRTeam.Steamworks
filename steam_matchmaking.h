@@ -32,6 +32,7 @@
 #define STEAM_MATCHMAKING_H
 
 #include "core/object/ref_counted.h"
+#include "steam_friends.h"
 #include "steamworks_callback_data.h"
 #include "steamworks_constants.gen.h"
 
@@ -46,14 +47,30 @@ private:
 	void _create_lobby(SteamworksConstants::LobbyType p_lobby_type, int p_max_members);
 	void _on_lobby_entered(Ref<SteamworksCallbackData> p_callback_data, bool p_io_failure);
 	void _on_lobby_created(Ref<SteamworksCallbackData> p_callback_data, bool p_io_failure);
+	void _on_lobby_chat_msg(Ref<SteamworksCallbackData> p_callback_data);
+	void _on_lobby_data_updated(Ref<SteamworksCallbackData> p_callback_data);
+	void _on_lobby_chat_updated(Ref<SteamworksCallbackData> p_callback_data);
 
 protected:
 	static void _bind_methods();
 
 public:
 	void join_lobby();
+	Ref<HBSteamFriend> get_owner() const;
+	bool set_lobby_owner(Ref<HBSteamFriend> p_new_owner);
 	static Ref<HBSteamLobby> create_lobby(SteamworksConstants::LobbyType p_lobby_type, int p_max_members);
 	static Ref<HBSteamLobby> from_id(uint64_t lobby_id);
+	bool set_data(const String &p_key, const String &p_value);
+	void set_member_data(const String &p_key, const String &p_value);
+	String get_data(const String &p_key) const;
+	String get_member_data(const Ref<HBSteamFriend> &p_steam_user, const String &p_key) const;
+	int get_max_members() const;
+	void set_max_members(int p_max_members) const;
+	bool send_chat_string(const String &p_chat_string);
+	bool send_chat_binary(const Vector<uint8_t> &p_buffer);
+	bool set_lobby_joinable(bool p_joinable);
+	uint64_t get_lobby_id() const;
+	void leave_lobby();
 	HBSteamLobby();
 };
 

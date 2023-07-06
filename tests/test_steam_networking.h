@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  steamworks_callback_data.h                                            */
+/*  test_steam_networking.h                                               */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,34 +28,37 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef STEAMWORKS_CALLBACK_DATA_H
-#define STEAMWORKS_CALLBACK_DATA_H
+#ifndef TEST_STEAM_NETWORKING_H
+#define TEST_STEAM_NETWORKING_H
 
-#include "core/object/ref_counted.h"
+#include "test_steamworks.h"
+#include "tests/test_macros.h"
 
-struct CallbackMsg_t;
-
-class SteamworksCallbackData : public RefCounted {
-	void *callback_data = nullptr;
-	int callback_type;
-
-public:
-	void *get_ptr() {
-		return callback_data;
-	}
-
-	template <typename T>
-	const T *get_data() const {
-		DEV_ASSERT(T::k_iCallback == callback_type);
-		return (T *)callback_data;
-	};
-
-	SteamworksCallbackData(CallbackMsg_t callback_msg);
-	~SteamworksCallbackData() {
-		if (callback_data) {
-			memfree(callback_data);
+namespace TestSteamNetworking {
+TEST_CASE("[SteamNetworking] Test sending an receiving Steam P2P packets") {
+	TestSteamworks::reinit_steamworks_if_needed();
+	Ref<HBSteamFriend> local_user = Steamworks::get_singleton()->get_local_user();
+	Ref<HBSteamNetworking> networking = Steamworks::get_singleton()->get_networking();
+	Vector<uint8_t> test_data;
+	test_data.push_back(1);
+	test_data.push_back(2);
+	test_data.push_back(3);
+	bool sent = networking->send_p2p_packet(local_user, test_data);
+	CHECK_MESSAGE(sent, "A P2P packet should have been sent.");
+	for (int i = 0; i < 40; i++) {
+		Steamworks::get_singleton()->run_callbacks();
+		if (networking->is_p2p_packet_available()) {
+			break;
 		}
+		OS::get_singleton()->delay_usec(50000);
 	}
-};
+	CHECK_MESSAGE(networking->is_p2p_packet_available(), "A P2P packet should be available.");
+	Ref<SteamP2PPacket> packet = networking->read_p2p_packet();
+	CHECK_MESSAGE(packet.is_valid(), "The received P2P packet should be valid");
+	CHECK_MESSAGE(packet->get_sender() == local_user, "The received P2P packet's sender should be the local user.");
+	CHECK_MESSAGE(packet->get_data().size() == 3, "The received P2P packet should be the same length as the sent one.");
+	CHECK_MESSAGE(packet->get_data()[1] == 2, "The received P2P packet should match the sent data.");
+}
+} //namespace TestSteamNetworking
 
-#endif // STEAMWORKS_CALLBACK_DATA_H
+#endif // TEST_STEAM_NETWORKING_H

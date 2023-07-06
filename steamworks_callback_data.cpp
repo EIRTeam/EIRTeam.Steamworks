@@ -32,12 +32,16 @@
 #include "steam/steam_api_flat.h"
 
 SteamworksCallbackData::SteamworksCallbackData(CallbackMsg_t callback_msg) {
-	if (callback_msg.m_cubParam > 0) {
-		callback_data = memalloc(callback_msg.m_cubParam);
-	}
 	if (callback_msg.m_iCallback == SteamAPICallCompleted_t::k_iCallback) {
 		callback_type = ((SteamAPICallCompleted_t *)callback_msg.m_pubParam)->m_iCallback;
+		SteamAPICallCompleted_t *api_call = (SteamAPICallCompleted_t *)callback_msg.m_pubParam;
+		if (api_call->m_cubParam > 0) {
+			callback_data = memalloc(api_call->m_cubParam);
+		}
 	} else {
+		if (callback_msg.m_cubParam > 0) {
+			callback_data = memalloc(callback_msg.m_cubParam);
+		}
 		callback_type = callback_msg.m_iCallback;
 	}
 }

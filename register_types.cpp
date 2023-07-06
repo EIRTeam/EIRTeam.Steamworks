@@ -45,6 +45,8 @@ void initialize_steamworks_module(ModuleInitializationLevel p_level) {
 	GDREGISTER_ABSTRACT_CLASS(HBSteamMatchmaking);
 	GDREGISTER_ABSTRACT_CLASS(HBLobbyListQuery);
 	GDREGISTER_ABSTRACT_CLASS(SteamworksConstants);
+	GDREGISTER_ABSTRACT_CLASS(HBSteamNetworking);
+	GDREGISTER_ABSTRACT_CLASS(SteamP2PPacket);
 	Steamworks *steamworks_singleton = memnew(Steamworks);
 	Engine::get_singleton()->add_singleton(Engine::Singleton("Steamworks", steamworks_singleton));
 }

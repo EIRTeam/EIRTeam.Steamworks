@@ -6,4 +6,13 @@
 	</description>
 	<tutorials>
 	</tutorials>
+	<methods>
+		<method name="activate_game_overlay_invite_dialog">
+			<return type="void" />
+			<param index="0" name="lobby" type="HBSteamLobby" />
+			<description>
+				Activates the steam overlay that allows the user to invite their friends to the specified lobby.
+			</description>
+		</method>
+	</methods>
 </class>

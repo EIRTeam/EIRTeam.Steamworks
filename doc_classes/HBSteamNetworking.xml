@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBSteamNetworking" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="accept_p2p_session_with_user">
+			<return type="bool" />
+			<param index="0" name="user" type="HBSteamFriend" />
+			<description>
+				This allows the game to specify accept an incoming packet. This needs to be called before a real connection is established to a remote host, the game will get a chance to say whether or not the remote user is allowed to talk to them.
+			</description>
+		</method>
+		<method name="allow_p2p_packet_relay">
+			<return type="void" />
+			<param index="0" name="allow_packet_relay" type="bool" />
+			<description>
+				Allow or disallow P2P connections to fall back to being relayed through the Steam servers if a direct connection or NAT-traversal cannot be established.
+
+				This only applies to connections created after setting this value, or to existing connections that need to automatically reconnect after this value is set.
+
+				P2P packet relay is allowed by default.
+			</description>
+		</method>
+		<method name="close_p2p_session_with_user">
+			<return type="bool" />
+			<param index="0" name="user" type="HBSteamFriend" />
+			<description>
+				This should be called when you're done communicating with a user, as this will free up all of the resources allocated for the connection under-the-hood.
+			</description>
+		</method>
+		<method name="is_p2p_packet_available">
+			<return type="bool" />
+			<param index="0" name="channel" type="int" default="0" />
+			<description>
+				Returns [code]true[/code] if there's a new packet available, you can retrieve it with [method read_p2p_packet].
+			</description>
+		</method>
+		<method name="read_p2p_packet">
+			<return type="SteamP2PPacket" />
+			<param index="0" name="channel" type="int" default="0" />
+			<description>
+				Returns a P2P packet, make sure you've checked there's any packets to process with [method is_p2p_packet_available] first.
+			</description>
+		</method>
+		<method name="send_p2p_packet">
+			<return type="bool" />
+			<param index="0" name="target_user" type="HBSteamFriend" />
+			<param index="1" name="data" type="PackedByteArray" />
+			<param index="2" name="send_type" type="int" enum="SteamworksConstants.P2PSend" default="2" />
+			<param index="3" name="channel" type="int" default="0" />
+			<description>
+				Sends a P2P packet through the given channel to the given user.
+			</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="p2p_connection_failed">
+			<param index="0" name="user" type="HBSteamFriend" />
+			<param index="1" name="connection_error" type="int" />
+			<description>
+				Emitted when a connection has failed, returns a [enum SteamworksConstants.P2PSessionError].
+			</description>
+		</signal>
+		<signal name="p2p_session_requested">
+			<param index="0" name="user" type="HBSteamFriend" />
+			<description>
+				Emitted when a user wants to establish a P2P connection with us.
+
+				You can accept this connection by calling [method accept_p2p_session_with_user].
+			</description>
+		</signal>
+	</signals>
+</class>

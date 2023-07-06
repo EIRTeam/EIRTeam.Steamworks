@@ -30,7 +30,6 @@
 
 #include "steamworks.h"
 #include "scene/main/window.h"
-#include "steam/steam_api_common.h"
 #include "steam/steam_api_flat.h"
 #include "steamworks_constants.gen.h"
 #include "sw_error_macros.h"
@@ -55,11 +54,16 @@ void Steamworks::_run_callbacks() {
 			SteamAPICallCompleted_t *api_call = (SteamAPICallCompleted_t *)msg.m_pubParam;
 			Ref<SteamworksCallbackData> callback_data = memnew(SteamworksCallbackData(msg));
 			bool failed;
-			bool api_call_ok = SteamAPI_ManualDispatch_GetAPICallResult(steam_pipe, api_call->m_hAsyncCall, callback_data->get_ptr(), msg.m_cubParam, msg.m_iCallback, &failed);
+			bool api_call_ok = SteamAPI_ManualDispatch_GetAPICallResult(steam_pipe, api_call->m_hAsyncCall, callback_data->get_ptr(), api_call->m_cubParam, api_call->m_iCallback, &failed);
 			if (!api_call_ok) {
 				SteamAPI_ManualDispatch_FreeLastCallback(steam_pipe);
 				ERR_PRINT("API call failed");
 				continue;
+			}
+
+			if (failed) {
+				ESteamAPICallFailure failure = SteamAPI_ISteamUtils_GetAPICallFailureReason(utils->get_interface(), api_call->m_hAsyncCall);
+				ERR_PRINT(vformat("API CALL FAILED! with reason: %d", failure));
 			}
 
 			if (call_result_callbacks.has(api_call->m_hAsyncCall)) {
@@ -79,6 +83,7 @@ void Steamworks::_run_callbacks() {
 		} else {
 			if (callback_infos.has(msg.m_iCallback)) {
 				Ref<SteamworksCallbackData> callback_data = memnew(SteamworksCallbackData(msg));
+				memcpy(callback_data->get_ptr(), msg.m_pubParam, msg.m_cubParam);
 				for (Callable callable : callback_infos[msg.m_iCallback].callbacks) {
 					if (!callable.is_valid()) {
 						continue;
@@ -145,6 +150,9 @@ bool Steamworks::init(int p_app_id, bool p_run_callbacks_automatically) {
 
 	utils.instantiate();
 	utils->init_interface();
+
+	networking.instantiate();
+	networking->init_interface();
 
 	set_run_callbacks_automatically(p_run_callbacks_automatically);
 
@@ -213,6 +221,10 @@ Ref<HBSteamFriends> Steamworks::get_friends() const {
 
 Ref<HBSteamUtils> Steamworks::get_utils() const {
 	return utils;
+}
+
+Ref<HBSteamNetworking> Steamworks::get_networking() const {
+	return networking;
 }
 
 Ref<HBSteamFriend> Steamworks::get_local_user() const {

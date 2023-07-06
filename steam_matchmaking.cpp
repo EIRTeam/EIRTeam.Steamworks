@@ -72,6 +72,7 @@ void HBSteamLobby::_on_lobby_entered(Ref<SteamworksCallbackData> p_callback_data
 	const LobbyEnter_t *lobby_enter = p_callback_data->get_data<LobbyEnter_t>();
 	if (lobby_enter->m_ulSteamIDLobby == lobby_id) {
 		emit_signal("lobby_entered", lobby_enter->m_EChatRoomEnterResponse == k_EChatRoomEnterResponseSuccess);
+		Steamworks::get_singleton()->add_callback(LobbyChatMsg_t::k_iCallback, callable_mp(this, &HBSteamLobby::_on_lobby_chat_msg));
 	}
 }
 
@@ -81,17 +82,96 @@ void HBSteamLobby::_on_lobby_created(Ref<SteamworksCallbackData> p_callback_data
 	emit_signal("lobby_created", (SWC::Result)lobby_created->m_eResult);
 }
 
+void HBSteamLobby::_on_lobby_chat_msg(Ref<SteamworksCallbackData> p_callback_data) {
+	const LobbyChatMsg_t *msg = p_callback_data->get_data<LobbyChatMsg_t>();
+	if (msg->m_ulSteamIDLobby != lobby_id) {
+		return;
+	}
+	Vector<uint8_t> msg_data;
+	msg_data.resize(4000);
+
+	uint64_t steam_id_user = msg->m_ulSteamIDUser;
+	// This is unused because we already have steam_id_user and because we don't deal with
+	// c++ types for cross-compiler compatibility
+	uint64_t _steam_id_ret;
+
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	EChatEntryType entry_type;
+	int bytes_received = SteamAPI_ISteamMatchmaking_GetLobbyChatEntry(mm, lobby_id, msg->m_iChatID, (CSteamID *)&_steam_id_ret, msg_data.ptrw(), msg_data.size(), &entry_type);
+	msg_data.resize(bytes_received);
+
+	if (entry_type == EChatEntryType::k_EChatEntryTypeChatMsg) {
+		emit_signal("chat_message_received", HBSteamFriend::from_steam_id(steam_id_user), msg_data);
+	}
+}
+
+void HBSteamLobby::_on_lobby_data_updated(Ref<SteamworksCallbackData> p_callback_data) {
+	LobbyDataUpdate_t *update = (LobbyDataUpdate_t *)p_callback_data->get_data<LobbyDataUpdate_t>();
+	if (update->m_ulSteamIDLobby != lobby_id) {
+		return;
+	}
+	if (update->m_ulSteamIDMember == lobby_id) {
+		emit_signal("lobby_data_updated");
+	} else {
+		emit_signal("lobby_member_data_updated", HBSteamFriend::from_steam_id(update->m_ulSteamIDMember));
+	}
+}
+
+void HBSteamLobby::_on_lobby_chat_updated(Ref<SteamworksCallbackData> p_callback_data) {
+	LobbyChatUpdate_t *update = (LobbyChatUpdate_t *)p_callback_data->get_data<LobbyChatUpdate_t>();
+	if (update->m_ulSteamIDLobby != lobby_id) {
+		return;
+	}
+	// I'm pretty sure kicking and banning doesn't actually work this way anymore
+	// so we don't have a explicit signal for that
+	int leave_mask = EChatMemberStateChange::k_EChatMemberStateChangeDisconnected | EChatMemberStateChange::k_EChatMemberStateChangeBanned | EChatMemberStateChange::k_EChatMemberStateChangeKicked | EChatMemberStateChange::k_EChatMemberStateChangeLeft;
+	if (update->m_rgfChatMemberStateChange & leave_mask) {
+		emit_signal("member_left", HBSteamFriend::from_steam_id(update->m_ulSteamIDUserChanged));
+	} else if (update->m_rgfChatMemberStateChange & k_EChatMemberStateChangeEntered) {
+		emit_signal("member_joined", HBSteamFriend::from_steam_id(update->m_ulSteamIDUserChanged));
+	}
+}
+
 void HBSteamLobby::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("join_lobby"), &HBSteamLobby::join_lobby);
+	ClassDB::bind_method(D_METHOD("get_owner"), &HBSteamLobby::get_owner);
+	ClassDB::bind_method(D_METHOD("set_lobby_owner", "owner"), &HBSteamLobby::set_lobby_owner);
+	ClassDB::bind_method(D_METHOD("set_data", "key", "value"), &HBSteamLobby::set_data);
+	ClassDB::bind_method(D_METHOD("get_data", "key"), &HBSteamLobby::get_data);
+	ClassDB::bind_method(D_METHOD("get_member_data", "member", "key"), &HBSteamLobby::get_member_data);
+
+	ClassDB::bind_method(D_METHOD("get_max_members"), &HBSteamLobby::get_max_members);
+	ClassDB::bind_method(D_METHOD("set_max_members", "max_members"), &HBSteamLobby::set_max_members);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "max_members"), "set_max_members", "get_max_members");
+
 	ClassDB::bind_static_method("HBSteamLobby", D_METHOD("create_lobby", "lobby_type", "max_members"), &HBSteamLobby::create_lobby);
 	ClassDB::bind_static_method("HBSteamLobby", D_METHOD("from_id", "lobby_id"), &HBSteamLobby::from_id);
 	ADD_SIGNAL(MethodInfo("lobby_entered", PropertyInfo(Variant::BOOL, "success")));
 	ADD_SIGNAL(MethodInfo("lobby_created", PropertyInfo(Variant::INT, "result")));
+	ADD_SIGNAL(MethodInfo("lobby_data_updated"));
+	ADD_SIGNAL(MethodInfo("lobby_member_data_updated", PropertyInfo(Variant::OBJECT, "member", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend")));
+	ADD_SIGNAL(MethodInfo("chat_message_received", PropertyInfo(Variant::OBJECT, "sender", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend"), PropertyInfo(Variant::PACKED_BYTE_ARRAY, "data")));
+	ADD_SIGNAL(MethodInfo("member_joined", PropertyInfo(Variant::OBJECT, "new_member", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend")));
+	ADD_SIGNAL(MethodInfo("member_left", PropertyInfo(Variant::OBJECT, "new_member", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend")));
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "owner", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend"), "", "get_owner");
 }
 
 void HBSteamLobby::join_lobby() {
 	ERR_FAIL_COND_MSG(lobby_id == 0, "Lobby ID is invalid");
 	_join_lobby(lobby_id);
+}
+
+Ref<HBSteamFriend> HBSteamLobby::get_owner() const {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	ERR_FAIL_COND_V_MSG(lobby_id == 0, Ref<HBSteamFriend>(), "Lobby is invalid");
+	uint64_t owner = SteamAPI_ISteamMatchmaking_GetLobbyOwner(mm, lobby_id);
+	return HBSteamFriend::from_steam_id(owner);
+}
+
+bool HBSteamLobby::set_lobby_owner(Ref<HBSteamFriend> p_new_owner) {
+	ERR_FAIL_COND_V_MSG(!p_new_owner.is_valid(), false, "New lobby owner was invalid");
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	return SteamAPI_ISteamMatchmaking_SetLobbyOwner(mm, lobby_id, p_new_owner->get_steam_id());
 }
 
 Ref<HBSteamLobby> HBSteamLobby::create_lobby(SteamworksConstants::LobbyType p_lobby_type, int p_max_members) {
@@ -108,9 +188,67 @@ Ref<HBSteamLobby> HBSteamLobby::from_id(uint64_t lobby_id) {
 	return lobby;
 }
 
+bool HBSteamLobby::set_data(const String &p_key, const String &p_value) {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	return SteamAPI_ISteamMatchmaking_SetLobbyData(mm, lobby_id, p_key.utf8().get_data(), p_value.utf8().get_data());
+}
+
+void HBSteamLobby::set_member_data(const String &p_key, const String &p_value) {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	SteamAPI_ISteamMatchmaking_SetLobbyMemberData(mm, lobby_id, p_key.utf8().get_data(), p_value.utf8().get_data());
+}
+
+String HBSteamLobby::get_data(const String &p_key) const {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	return String::utf8(SteamAPI_ISteamMatchmaking_GetLobbyData(mm, lobby_id, p_key.utf8().get_data()));
+}
+
+String HBSteamLobby::get_member_data(const Ref<HBSteamFriend> &p_steam_user, const String &p_key) const {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	return String::utf8(SteamAPI_ISteamMatchmaking_GetLobbyMemberData(mm, lobby_id, p_steam_user->get_steam_id(), p_key.utf8().get_data()));
+}
+
+int HBSteamLobby::get_max_members() const {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	return SteamAPI_ISteamMatchmaking_GetLobbyMemberLimit(mm, lobby_id);
+}
+
+void HBSteamLobby::set_max_members(int p_max_members) const {
+	ERR_FAIL_COND_MSG(get_owner() != Steamworks::get_singleton()->get_local_user(), "Only the owner can set the max members in a lobby");
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	ERR_FAIL_COND_MSG(!SteamAPI_ISteamMatchmaking_SetLobbyMemberLimit(mm, lobby_id, p_max_members), "Setting lobby member limit failed");
+}
+
+bool HBSteamLobby::send_chat_string(const String &p_chat_string) {
+	return send_chat_binary(p_chat_string.to_utf8_buffer());
+}
+
+bool HBSteamLobby::send_chat_binary(const Vector<uint8_t> &p_buffer) {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	return SteamAPI_ISteamMatchmaking_SendLobbyChatMsg(mm, lobby_id, p_buffer.ptr(), p_buffer.size());
+}
+
+bool HBSteamLobby::set_lobby_joinable(bool p_joinable) {
+	ERR_FAIL_COND_V_MSG(lobby_id == 0, false, "Lobby ID is invalid");
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	return SteamAPI_ISteamMatchmaking_SetLobbyJoinable(mm, lobby_id, p_joinable);
+}
+
+uint64_t HBSteamLobby::get_lobby_id() const {
+	return lobby_id;
+}
+
+void HBSteamLobby::leave_lobby() {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	SteamAPI_ISteamMatchmaking_LeaveLobby(mm, lobby_id);
+	lobby_id = 0;
+}
+
 HBSteamLobby::HBSteamLobby() {
 	// listen to global LobbyEnter_t callbacks since they might be triggered by lobby creation
 	Steamworks::get_singleton()->add_callback(LobbyEnter_t::k_iCallback, callable_mp(this, &HBSteamLobby::_on_lobby_entered).bind(false));
+	Steamworks::get_singleton()->add_callback(LobbyDataUpdate_t::k_iCallback, callable_mp(this, &HBSteamLobby::_on_lobby_data_updated));
+	Steamworks::get_singleton()->add_callback(LobbyChatUpdate_t::k_iCallback, callable_mp(this, &HBSteamLobby::_on_lobby_chat_updated));
 }
 
 void HBLobbyListQuery::_bind_methods() {

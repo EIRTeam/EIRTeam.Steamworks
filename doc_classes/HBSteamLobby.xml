@@ -23,24 +23,95 @@
 				Creates a steam lobby from a given ID.
 			</description>
 		</method>
+		<method name="get_data" qualifiers="const">
+			<return type="String" />
+			<param index="0" name="key" type="String" />
+			<description>
+				Returns custom data that was set on this lobby.
+			</description>
+		</method>
+		<method name="get_member_data" qualifiers="const">
+			<return type="String" />
+			<param index="0" name="member" type="HBSteamFriend" />
+			<param index="1" name="key" type="String" />
+			<description>
+				Returns member-specific custom data.
+			</description>
+		</method>
 		<method name="join_lobby">
 			<return type="void" />
 			<description>
 				Joins this lobby.
 			</description>
 		</method>
+		<method name="set_data">
+			<return type="bool" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="String" />
+			<description>
+				Sets custom data for this lobby, can only be done by the owner.
+
+				[b]Note:[/b] Can only be set by the owner of the lobby.
+			</description>
+		</method>
+		<method name="set_lobby_owner">
+			<return type="bool" />
+			<param index="0" name="owner" type="HBSteamFriend" />
+			<description>
+			</description>
+		</method>
 	</methods>
+	<members>
+		<member name="max_members" type="int" setter="set_max_members" getter="get_max_members">
+			Maximum number of members that can join this lobby.
+
+			[b]Note:[/b] Can only be set by the owner of the lobby.
+		</member>
+		<member name="owner" type="HBSteamFriend" setter="" getter="get_owner">
+			Current owner of the lobby.
+		</member>
+	</members>
 	<signals>
+		<signal name="chat_message_received">
+			<param index="0" name="sender" type="HBSteamFriend" />
+			<param index="1" name="data" type="PackedByteArray" />
+			<description>
+				Emitted when a chat message is received.
+			</description>
+		</signal>
 		<signal name="lobby_created">
 			<param index="0" name="result" type="int" />
 			<description>
-				Called when a lobby is finished creating.
+				Emitted when lobby creation has completed.
+			</description>
+		</signal>
+		<signal name="lobby_data_updated">
+			<description>
+				Emitted when the per-lobby custom data has changed.
 			</description>
 		</signal>
 		<signal name="lobby_entered">
 			<param index="0" name="success" type="bool" />
 			<description>
-				Called when a lobby is entered.
+				Emitted when the user has entered the lobby.
+			</description>
+		</signal>
+		<signal name="lobby_member_data_updated">
+			<param index="0" name="member" type="HBSteamFriend" />
+			<description>
+				Emitted when the per-lobby member custom data has changed.
+			</description>
+		</signal>
+		<signal name="member_joined">
+			<param index="0" name="new_member" type="HBSteamFriend" />
+			<description>
+				Emitted when a new member enters the lobby.
+			</description>
+		</signal>
+		<signal name="member_left">
+			<param index="0" name="new_member" type="HBSteamFriend" />
+			<description>
+				Emitted when a new member leaves the lobby.
 			</description>
 		</signal>
 	</signals>

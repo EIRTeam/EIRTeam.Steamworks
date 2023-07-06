@@ -32,6 +32,12 @@
 #include "steam/steam_api_flat.h"
 #include "sw_error_macros.h"
 
+HashMap<uint64_t, Ref<WeakRef>> HBSteamFriend::friend_cache = HashMap<uint64_t, Ref<WeakRef>>();
+
+void HBSteamFriends::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("activate_game_overlay_invite_dialog", "lobby"), &HBSteamFriends::activate_game_overlay_invite_dialog);
+}
+
 void HBSteamFriends::init_interface() {
 	steam_friends = SteamAPI_SteamFriends();
 	SW_ERR_FAIL_COND_MSG(steam_friends == nullptr, "Steamworks: Failed to initialize Steam Friends, something catastrophic must have happened");
@@ -41,14 +47,30 @@ bool HBSteamFriends::is_valid() const {
 	return steam_friends != nullptr;
 }
 
+void HBSteamFriends::activate_game_overlay_invite_dialog(Ref<HBSteamLobby> p_lobby) {
+	SteamAPI_ISteamFriends_ActivateGameOverlayInviteDialog(steam_friends, p_lobby->get_lobby_id());
+}
+
 ISteamFriends *HBSteamFriends::get_interface() const {
 	return steam_friends;
 }
 
 Ref<HBSteamFriend> HBSteamFriend::from_steam_id(uint64_t p_steam_id) {
+	ERR_FAIL_COND_V_MSG(p_steam_id == 0, Ref<HBSteamFriend>(), "An invalid steam user ID was given.");
+	if (friend_cache.has(p_steam_id)) {
+		Ref<WeakRef> cached_friend_ref = friend_cache[p_steam_id];
+		Ref<HBSteamFriend> cached_friend = cached_friend_ref->get_ref();
+		if (cached_friend.is_valid()) {
+			return cached_friend;
+		}
+	}
 	Ref<HBSteamFriend> steam_friend;
 	steam_friend.instantiate();
 	steam_friend->steam_id = p_steam_id;
+	Ref<WeakRef> weak_ref;
+	weak_ref.instantiate();
+	weak_ref->set_ref(steam_friend);
+	friend_cache.insert(p_steam_id, weak_ref);
 	return steam_friend;
 }
 
