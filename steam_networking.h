@@ -43,6 +43,9 @@ class SteamP2PPacket : public RefCounted {
 	Vector<uint8_t> data;
 	uint64_t sender_steam_id;
 
+protected:
+	static void _bind_methods();
+
 public:
 	Vector<uint8_t> get_data();
 	Ref<HBSteamFriend> get_sender();

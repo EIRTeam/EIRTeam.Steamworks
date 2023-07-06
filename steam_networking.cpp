@@ -113,6 +113,13 @@ bool HBSteamNetworking::is_valid() const {
 	return steam_networking;
 }
 
+void SteamP2PPacket::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_data"), &SteamP2PPacket::get_data);
+	ClassDB::bind_method(D_METHOD("get_sender"), &SteamP2PPacket::get_sender);
+	ADD_PROPERTY(PropertyInfo(Variant::PACKED_BYTE_ARRAY, "data"), "", "get_data");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "sender", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend"), "", "get_sender");
+}
+
 Vector<uint8_t> SteamP2PPacket::get_data() {
 	return data;
 }

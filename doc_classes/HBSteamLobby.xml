@@ -58,6 +58,7 @@
 			<return type="bool" />
 			<param index="0" name="owner" type="HBSteamFriend" />
 			<description>
+				Sets the owner of the lobby.
 			</description>
 		</method>
 	</methods>

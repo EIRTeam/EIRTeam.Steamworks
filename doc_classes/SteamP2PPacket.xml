@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <class name="SteamP2PPacket" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
 	<brief_description>
+		A P2P packet from a Steam P2P session.
 	</brief_description>
 	<description>
 	</description>
 	<tutorials>
 	</tutorials>
+	<members>
+		<member name="data" type="PackedByteArray" setter="" getter="get_data">
+			The data in this P2P packet.
+		</member>
+		<member name="sender" type="HBSteamFriend" setter="" getter="get_sender">
+			The sender of the packet.
+		</member>
+	</members>
 </class>
