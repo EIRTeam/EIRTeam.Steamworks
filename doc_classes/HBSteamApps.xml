@@ -6,4 +6,29 @@
 	</description>
 	<tutorials>
 	</tutorials>
+	<methods>
+		<method name="get_app_install_dir" qualifiers="const">
+			<return type="String" />
+			<param index="0" name="app_id" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="is_app_installed" qualifiers="const">
+			<return type="bool" />
+			<param index="0" name="app_id" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="is_subscribed" qualifiers="const">
+			<return type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="is_subscribed_app" qualifiers="const">
+			<return type="bool" />
+			<param index="0" name="app_id" type="int" />
+			<description>
+			</description>
+		</method>
+	</methods>
 </class>

@@ -13,5 +13,10 @@
 			<description>
 			</description>
 		</method>
+		<method name="get_local_user" qualifiers="const">
+			<return type="HBSteamFriend" />
+			<description>
+			</description>
+		</method>
 	</methods>
 </class>

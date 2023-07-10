@@ -648,6 +648,7 @@ void HBSteamUGCItem::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_children"), &HBSteamUGCItem::get_children);
 	ClassDB::bind_method(D_METHOD("get_additional_previews"), &HBSteamUGCItem::get_additional_previews_godot);
 	ClassDB::bind_method(D_METHOD("get_kv_tags"), &HBSteamUGCItem::get_kv_tags);
+	ClassDB::bind_method(D_METHOD("edit"), &HBSteamUGCItem::edit);
 
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "title"), "", "get_title");
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "description"), "", "get_description");
@@ -731,6 +732,14 @@ BitField<SWC::ItemState> HBSteamUGCItem::get_item_state() const {
 	return SteamAPI_ISteamUGC_GetItemState(iugc, ugc_details.published_file_id);
 }
 
+Ref<HBSteamUGCEditor> HBSteamUGCItem::edit() const {
+	Ref<HBSteamUGCEditor> editor;
+	editor.instantiate();
+	editor->file_id = ugc_details.published_file_id;
+	editor->app_id = ugc_details.consumer_app_id;
+	return editor;
+}
+
 bool HBSteamUGCItem::subscribe() const {
 	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
 	return SteamAPI_ISteamUGC_SubscribeItem(iugc, ugc_details.published_file_id);
@@ -778,3 +787,190 @@ Ref<HBSteamUGCQuery> HBSteamUGCQuery::with_key_value_tags(bool p_with_key_value_
 	wants_key_value_tags = true;
 	return this;
 };
+
+void HBSteamUGCEditor::_submit_update() {
+	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
+	uint64_t consumer_app_id = app_id;
+	if (consumer_app_id == 0) {
+		consumer_app_id = Steamworks::get_singleton()->get_app_id();
+	}
+	UGCUpdateHandle_t update_handle = SteamAPI_ISteamUGC_StartItemUpdate(iugc, consumer_app_id, file_id);
+
+	if (kv_tags_to_add.size() > 0) {
+		for (KeyValue<String, String> kv : kv_tags_to_add) {
+			SteamAPI_ISteamUGC_AddItemKeyValueTag(iugc, update_handle, kv.key.utf8(), kv.value.utf8());
+		}
+	}
+	if (kv_tags_to_remove.size() > 0) {
+		for (String key : kv_tags_to_remove) {
+			SteamAPI_ISteamUGC_RemoveItemKeyValueTags(iugc, update_handle, key.utf8());
+		}
+	}
+	if (has_content) {
+		SteamAPI_ISteamUGC_SetItemContent(iugc, update_handle, content.utf8());
+	}
+	if (has_description) {
+		SteamAPI_ISteamUGC_SetItemDescription(iugc, update_handle, description.utf8());
+	}
+	if (has_visiblity) {
+		SteamAPI_ISteamUGC_SetItemVisibility(iugc, update_handle, (ERemoteStoragePublishedFileVisibility)visibility);
+	}
+	if (has_metadata) {
+		SteamAPI_ISteamUGC_SetItemMetadata(iugc, update_handle, metadata.utf8());
+	}
+	if (has_preview_file) {
+		SteamAPI_ISteamUGC_SetItemPreview(iugc, update_handle, preview_file.utf8());
+	}
+	if (has_tags) {
+		SteamParamStringArray_t steam_tags;
+		steam_tags.m_nNumStrings = tags.size();
+		steam_tags.m_ppStrings = memnew_arr(const char *, tags.size());
+		// We need to keep the strings alive in memory
+		Vector<CharString> strings;
+		for (int i = 0; i < tags.size(); i++) {
+			CharString cs = tags[i].utf8();
+			strings.push_back(cs);
+			steam_tags.m_ppStrings[i] = cs;
+		}
+		SteamAPI_ISteamUGC_SetItemTags(iugc, update_handle, &steam_tags);
+		memdelete(steam_tags.m_ppStrings);
+	}
+	if (has_title) {
+		SteamAPI_ISteamUGC_SetItemTitle(iugc, update_handle, title.utf8());
+	}
+
+	SteamAPICall_t api_call;
+	if (!has_changelog) {
+		api_call = SteamAPI_ISteamUGC_SubmitItemUpdate(iugc, update_handle, nullptr);
+	} else {
+		api_call = SteamAPI_ISteamUGC_SubmitItemUpdate(iugc, update_handle, changelog.utf8());
+	}
+	if (api_call == k_uAPICallInvalid) {
+		emit_signal("file_submitted", SWC::Result::RESULT_FAIL, false);
+		return;
+	}
+	Steamworks::get_singleton()->add_call_result_callback(api_call, callable_mp(this, &HBSteamUGCEditor::_on_item_updated));
+}
+
+void HBSteamUGCEditor::_on_item_created(Ref<SteamworksCallbackData> p_callback, bool p_io_failure) {
+	const CreateItemResult_t *result = p_callback->get_data<CreateItemResult_t>();
+	if (result->m_eResult != EResult::k_EResultOK) {
+		emit_signal("file_submitted", (SWC::Result)result->m_eResult, false);
+		return;
+	}
+	file_id = result->m_nPublishedFileId;
+	_submit_update();
+}
+
+void HBSteamUGCEditor::_on_item_updated(Ref<SteamworksCallbackData> p_callback, bool p_io_failure) {
+	const SubmitItemUpdateResult_t *update_result = p_callback->get_data<SubmitItemUpdateResult_t>();
+	if (update_result->m_eResult != k_EResultOK) {
+		emit_signal("file_submitted", (SWC::Result)update_result->m_eResult, false);
+		return;
+	}
+	emit_signal("file_submitted", SWC::Result::RESULT_OK, update_result->m_bUserNeedsToAcceptWorkshopLegalAgreement);
+}
+
+void HBSteamUGCEditor::_bind_methods() {
+	ClassDB::bind_static_method("HBSteamUGCEditor", D_METHOD("new_community_file"), &HBSteamUGCEditor::new_community_file);
+	ClassDB::bind_method(D_METHOD("add_kv_tag", "key", "value"), &HBSteamUGCEditor::add_kv_tag);
+	ClassDB::bind_method(D_METHOD("remove_kv_tag", "key"), &HBSteamUGCEditor::remove_kv_tag);
+	ClassDB::bind_method(D_METHOD("for_app_id", "app_id"), &HBSteamUGCEditor::for_app_id);
+	ClassDB::bind_method(D_METHOD("with_changelog", "changelog"), &HBSteamUGCEditor::with_changelog);
+	ClassDB::bind_method(D_METHOD("with_description", "description"), &HBSteamUGCEditor::with_description);
+	ClassDB::bind_method(D_METHOD("with_visibility", "visiblity"), &HBSteamUGCEditor::with_visibility);
+	ClassDB::bind_method(D_METHOD("with_metadata", "metadata"), &HBSteamUGCEditor::with_metadata);
+	ClassDB::bind_method(D_METHOD("with_preview_file", "preview_file"), &HBSteamUGCEditor::with_preview_file);
+	ClassDB::bind_method(D_METHOD("with_tags", "tags"), &HBSteamUGCEditor::with_tags);
+	ClassDB::bind_method(D_METHOD("with_title", "title"), &HBSteamUGCEditor::with_title);
+	ClassDB::bind_method(D_METHOD("submit"), &HBSteamUGCEditor::submit);
+
+	ADD_SIGNAL(MethodInfo("file_submitted", PropertyInfo(Variant::INT, "result"), PropertyInfo(Variant::BOOL, "user_needs_to_accept_workshop_legal_agreement")));
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::add_kv_tag(const String &p_key, const String &p_value) {
+	if (kv_tags_to_remove.has(p_key)) {
+		kv_tags_to_remove.erase(p_key);
+	}
+	kv_tags_to_add.insert(p_key, p_value);
+	return this;
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::remove_kv_tag(const String &p_key) {
+	if (kv_tags_to_add.has(p_key)) {
+		kv_tags_to_add.erase(p_key);
+	}
+	kv_tags_to_remove.push_back(p_key);
+	return this;
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::for_app_id(uint64_t p_app_id) {
+	app_id = p_app_id;
+	return this;
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_changelog(const String &p_changelog) {
+	has_changelog = true;
+	changelog = p_changelog;
+	return this;
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_description(const String &p_description) {
+	has_description = true;
+	description = p_description;
+	return this;
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_visibility(SWC::RemoteStoragePublishedFileVisibility p_visibility) {
+	has_visiblity = true;
+	visibility = p_visibility;
+	return this;
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_metadata(const String &p_metadata) {
+	has_metadata = true;
+	metadata = p_metadata;
+	return this;
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_preview_file(const String &p_preview_file) {
+	has_preview_file = true;
+	preview_file = p_preview_file;
+	return this;
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_tags(Vector<String> p_tags) {
+	has_tags = p_tags.size() != 0;
+	tags = p_tags;
+	return this;
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_title(const String &p_title) {
+	has_title = true;
+	title = p_title;
+	return this;
+}
+
+void HBSteamUGCEditor::submit() {
+	if (!creating_new) {
+		_submit_update();
+	}
+	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
+	uint64_t consumer_app_id = app_id;
+	if (consumer_app_id == 0) {
+		consumer_app_id = Steamworks::get_singleton()->get_app_id();
+	}
+	SteamAPICall_t api_call = SteamAPI_ISteamUGC_CreateItem(iugc, consumer_app_id, EWorkshopFileType::k_EWorkshopFileTypeCommunity);
+	if (api_call == k_uAPICallInvalid) {
+		emit_signal("file_submitted", SWC::Result::RESULT_FAIL, false);
+		return;
+	}
+	Steamworks::get_singleton()->add_call_result_callback(api_call, callable_mp(this, &HBSteamUGCEditor::_on_item_created));
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::new_community_file() {
+	Ref<HBSteamUGCEditor> editor;
+	editor.instantiate();
+	editor->creating_new = true;
+	return editor;
+}

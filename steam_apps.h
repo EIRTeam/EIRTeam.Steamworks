@@ -38,6 +38,9 @@ class HBSteamApps : public RefCounted {
 	GDCLASS(HBSteamApps, RefCounted);
 	ISteamApps *steam_apps = nullptr;
 
+protected:
+	static void _bind_methods();
+
 public:
 	bool is_subscribed() const;
 	bool is_subscribed_app(uint64_t p_app_id) const;

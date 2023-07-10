@@ -7,6 +7,11 @@
 	<tutorials>
 	</tutorials>
 	<methods>
+		<method name="edit" qualifiers="const">
+			<return type="RefCounted" />
+			<description>
+			</description>
+		</method>
 		<method name="has_tag" qualifiers="const">
 			<return type="bool" />
 			<param index="0" name="tag" type="String" />

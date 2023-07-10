@@ -31,6 +31,13 @@
 #include "steam_apps.h"
 #include "steam/steam_api_flat.h"
 
+void HBSteamApps::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("is_subscribed"), &HBSteamApps::is_subscribed);
+	ClassDB::bind_method(D_METHOD("is_subscribed_app", "app_id"), &HBSteamApps::is_subscribed_app);
+	ClassDB::bind_method(D_METHOD("is_app_installed", "app_id"), &HBSteamApps::is_app_installed);
+	ClassDB::bind_method(D_METHOD("get_app_install_dir", "app_id"), &HBSteamApps::get_app_install_dir);
+}
+
 bool HBSteamApps::is_subscribed() const {
 	return SteamAPI_ISteamApps_BIsSubscribed(steam_apps);
 }

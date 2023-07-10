@@ -47,8 +47,16 @@ bool HBSteamFriends::is_valid() const {
 	return steam_friends != nullptr;
 }
 
-void HBSteamFriends::activate_game_overlay_invite_dialog(Ref<HBSteamLobby> p_lobby) {
+void HBSteamFriends::activate_game_overlay_invite_dialog(Ref<HBSteamLobby> p_lobby) const {
 	SteamAPI_ISteamFriends_ActivateGameOverlayInviteDialog(steam_friends, p_lobby->get_lobby_id());
+}
+
+void HBSteamFriends::activate_game_overlay_to_web_page(const String &p_web_page, bool p_modal) const {
+	EActivateGameOverlayToWebPageMode mode = EActivateGameOverlayToWebPageMode::k_EActivateGameOverlayToWebPageMode_Default;
+	if (p_modal) {
+		mode = EActivateGameOverlayToWebPageMode::k_EActivateGameOverlayToWebPageMode_Modal;
+	}
+	SteamAPI_ISteamFriends_ActivateGameOverlayToWebPage(steam_friends, p_web_page.utf8(), mode);
 }
 
 ISteamFriends *HBSteamFriends::get_interface() const {

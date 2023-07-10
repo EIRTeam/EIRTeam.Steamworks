@@ -38,6 +38,58 @@
 
 class ISteamUGC;
 class HBSteamUGCQueryPageResult;
+class HBSteamUGCItem;
+
+class HBSteamUGCPublishResult : public RefCounted {
+	GDCLASS(HBSteamUGCPublishResult, RefCounted);
+};
+
+class HBSteamUGCEditor : public RefCounted {
+	bool creating_new = false;
+	uint64_t app_id = 0;
+	uint64_t file_id = 0;
+
+	HashMap<String, String> kv_tags_to_add;
+	Vector<String> kv_tags_to_remove;
+	bool has_changelog = false;
+	String changelog;
+	bool has_content = false;
+	String content;
+	bool has_description = false;
+	String description;
+	bool has_visiblity = false;
+	SWC::RemoteStoragePublishedFileVisibility visibility;
+	bool has_metadata = false;
+	String metadata;
+	bool has_preview_file = false;
+	String preview_file;
+	bool has_tags = false;
+	Vector<String> tags;
+	bool has_title = false;
+	String title;
+	void _submit_update();
+	void _on_item_created(Ref<SteamworksCallbackData> p_callback, bool p_io_failure);
+	void _on_item_updated(Ref<SteamworksCallbackData> p_callback, bool p_io_failure);
+
+protected:
+	static void _bind_methods();
+
+public:
+	Ref<HBSteamUGCEditor> add_kv_tag(const String &p_key, const String &p_value);
+	Ref<HBSteamUGCEditor> remove_kv_tag(const String &p_key);
+	Ref<HBSteamUGCEditor> for_app_id(uint64_t p_app_id);
+	Ref<HBSteamUGCEditor> with_changelog(const String &p_changelog);
+	Ref<HBSteamUGCEditor> with_description(const String &p_description);
+	Ref<HBSteamUGCEditor> with_visibility(SWC::RemoteStoragePublishedFileVisibility p_visibility);
+	Ref<HBSteamUGCEditor> with_metadata(const String &p_metadata);
+	Ref<HBSteamUGCEditor> with_preview_file(const String &p_preview_file);
+	Ref<HBSteamUGCEditor> with_tags(Vector<String> p_tags);
+
+	Ref<HBSteamUGCEditor> with_title(const String &p_title);
+	void submit();
+	static Ref<HBSteamUGCEditor> new_community_file();
+	friend class HBSteamUGCItem;
+};
 
 class HBSteamUGCAdditionalPreview : public RefCounted {
 	GDCLASS(HBSteamUGCAdditionalPreview, RefCounted);
@@ -95,6 +147,7 @@ public:
 	Vector<Ref<HBSteamUGCAdditionalPreview>> get_additional_previews() const;
 	Dictionary get_kv_tags() const;
 	BitField<SWC::ItemState> get_item_state() const;
+	Ref<HBSteamUGCEditor> edit() const;
 
 	bool subscribe() const;
 	bool unsubscribe() const;

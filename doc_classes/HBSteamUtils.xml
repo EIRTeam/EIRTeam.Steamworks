@@ -6,6 +6,35 @@
 	</description>
 	<tutorials>
 	</tutorials>
+	<methods>
+		<method name="is_in_big_picture_mode" qualifiers="const">
+			<return type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="is_on_steam_deck" qualifiers="const">
+			<return type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="show_floating_gamepad_text_input" qualifiers="const">
+			<return type="bool" />
+			<param index="0" name="input_mode" type="int" enum="SteamworksConstants.FloatingGamepadTextInputMode" />
+			<param index="1" name="text_field_rect" type="Rect2i" />
+			<description>
+			</description>
+		</method>
+		<method name="show_gamepad_text_input" qualifiers="const">
+			<return type="bool" />
+			<param index="0" name="input_mode" type="int" enum="SteamworksConstants.GamepadTextInputMode" />
+			<param index="1" name="line_input_mode" type="int" enum="SteamworksConstants.GamepadTextInputLineMode" />
+			<param index="2" name="description" type="String" />
+			<param index="3" name="existing_text" type="String" />
+			<param index="4" name="max_text" type="int" />
+			<description>
+			</description>
+		</method>
+	</methods>
 	<signals>
 		<signal name="floating_gamepad_text_input_dismissed">
 			<description>

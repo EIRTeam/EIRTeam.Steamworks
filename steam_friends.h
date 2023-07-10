@@ -66,7 +66,8 @@ protected:
 public:
 	void init_interface();
 	bool is_valid() const;
-	void activate_game_overlay_invite_dialog(Ref<HBSteamLobby> p_lobby);
+	void activate_game_overlay_invite_dialog(Ref<HBSteamLobby> p_lobby) const;
+	void activate_game_overlay_to_web_page(const String &p_web_page, bool p_modal) const;
 	ISteamFriends *get_interface() const;
 };
 

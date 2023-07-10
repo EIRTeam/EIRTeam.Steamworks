@@ -58,6 +58,7 @@ HBAuthTicketForWebAPI::HBAuthTicketForWebAPI(SWC::HAuthTicket p_ticket) {
 
 void HBSteamUser::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_auth_ticket_for_web_api", "identity"), &HBSteamUser::get_auth_ticket_for_web_api);
+	ClassDB::bind_method(D_METHOD("get_local_user"), &HBSteamUser::get_local_user);
 }
 
 Ref<HBAuthTicketForWebAPI> HBSteamUser::get_auth_ticket_for_web_api(const String &p_identity) const {

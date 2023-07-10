@@ -8,7 +8,7 @@
 	<tutorials>
 	</tutorials>
 	<methods>
-		<method name="activate_game_overlay_invite_dialog">
+		<method name="activate_game_overlay_invite_dialog" qualifiers="const">
 			<return type="void" />
 			<param index="0" name="lobby" type="HBSteamLobby" />
 			<description>
