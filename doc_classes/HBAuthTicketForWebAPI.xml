@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBAuthTicketForWebAPI" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="ticket_data" type="PackedByteArray" setter="" getter="get_ticket_data">
+		</member>
+	</members>
+	<signals>
+		<signal name="ticket_received">
+			<param index="0" name="success" type="bool" />
+			<description>
+			</description>
+		</signal>
+	</signals>
+</class>

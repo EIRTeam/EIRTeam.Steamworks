@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBSteamUGCItem" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="has_tag" qualifiers="const">
+			<return type="bool" />
+			<param index="0" name="tag" type="String" />
+			<description>
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="additional_previews" type="HBSteamUGCAdditionalPreview[]" setter="" getter="get_additional_previews">
+		</member>
+		<member name="children" type="int[]" setter="" getter="get_children">
+		</member>
+		<member name="consumer_app" type="int" setter="" getter="get_consumer_app">
+		</member>
+		<member name="creator_app" type="int" setter="" getter="get_creator_app">
+		</member>
+		<member name="description" type="String" setter="" getter="get_description">
+		</member>
+		<member name="is_banned" type="bool" setter="" getter="get_is_banned">
+		</member>
+		<member name="item_id" type="int" setter="" getter="get_item_id">
+		</member>
+		<member name="kv_tags" type="Dictionary" setter="" getter="get_kv_tags">
+		</member>
+		<member name="owner" type="HBSteamFriend" setter="" getter="get_owner">
+		</member>
+		<member name="preview_image_url" type="String" setter="" getter="get_preview_image_url">
+		</member>
+		<member name="score" type="float" setter="" getter="get_score">
+		</member>
+		<member name="time_updated" type="int" setter="" getter="get_time_updated">
+		</member>
+		<member name="title" type="String" setter="" getter="get_title">
+		</member>
+		<member name="visibility" type="int" setter="" getter="get_visibility" enum="SteamworksConstants.RemoteStoragePublishedFileVisibility">
+		</member>
+		<member name="votes_down" type="int" setter="" getter="get_votes_down">
+		</member>
+		<member name="votes_up" type="int" setter="" getter="get_votes_up">
+		</member>
+	</members>
+</class>

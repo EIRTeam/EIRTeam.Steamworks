@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBSteamUtils" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<signals>
+		<signal name="floating_gamepad_text_input_dismissed">
+			<description>
+			</description>
+		</signal>
+		<signal name="gamepad_text_input_dismissed">
+			<param index="0" name="submitted" type="bool" />
+			<param index="1" name="text" type="String" />
+			<description>
+			</description>
+		</signal>
+	</signals>
+</class>

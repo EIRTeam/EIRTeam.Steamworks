@@ -262,6 +262,22 @@
 		</constant>
 		<constant name="RESULT_PHONE_NUMBER_IS_VOIP" value="127" enum="Result">
 		</constant>
+		<constant name="GAMEPAD_TEXT_INPUT_MODE_NORMAL" value="0" enum="GamepadTextInputMode">
+		</constant>
+		<constant name="GAMEPAD_TEXT_INPUT_MODE_PASSWORD" value="1" enum="GamepadTextInputMode">
+		</constant>
+		<constant name="GAMEPAD_TEXT_INPUT_LINE_MODE_SINGLE_LINE" value="0" enum="GamepadTextInputLineMode">
+		</constant>
+		<constant name="GAMEPAD_TEXT_INPUT_LINE_MODE_MULTIPLE_LINES" value="1" enum="GamepadTextInputLineMode">
+		</constant>
+		<constant name="FLOATING_GAMEPAD_TEXT_INPUT_MODE_MODE_SINGLE_LINE" value="0" enum="FloatingGamepadTextInputMode">
+		</constant>
+		<constant name="FLOATING_GAMEPAD_TEXT_INPUT_MODE_MODE_MULTIPLE_LINES" value="1" enum="FloatingGamepadTextInputMode">
+		</constant>
+		<constant name="FLOATING_GAMEPAD_TEXT_INPUT_MODE_MODE_EMAIL" value="2" enum="FloatingGamepadTextInputMode">
+		</constant>
+		<constant name="FLOATING_GAMEPAD_TEXT_INPUT_MODE_MODE_NUMERIC" value="3" enum="FloatingGamepadTextInputMode">
+		</constant>
 		<constant name="LOBBY_TYPE_PRIVATE" value="0" enum="LobbyType">
 		</constant>
 		<constant name="LOBBY_TYPE_FRIENDS_ONLY" value="1" enum="LobbyType">
@@ -291,6 +307,50 @@
 		<constant name="LOBBY_DISTANCE_FILTER_FAR" value="2" enum="LobbyDistanceFilter">
 		</constant>
 		<constant name="LOBBY_DISTANCE_FILTER_WORLDWIDE" value="3" enum="LobbyDistanceFilter">
+		</constant>
+		<constant name="REMOTE_STORAGE_PUBLISHED_FILE_VISIBILITY_PUBLIC" value="0" enum="RemoteStoragePublishedFileVisibility">
+		</constant>
+		<constant name="REMOTE_STORAGE_PUBLISHED_FILE_VISIBILITY_FRIENDS_ONLY" value="1" enum="RemoteStoragePublishedFileVisibility">
+		</constant>
+		<constant name="REMOTE_STORAGE_PUBLISHED_FILE_VISIBILITY_PRIVATE" value="2" enum="RemoteStoragePublishedFileVisibility">
+		</constant>
+		<constant name="REMOTE_STORAGE_PUBLISHED_FILE_VISIBILITY_UNLISTED" value="3" enum="RemoteStoragePublishedFileVisibility">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_FIRST" value="0" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_COMMUNITY" value="0" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_MICROTRANSACTION" value="1" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_COLLECTION" value="2" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_ART" value="3" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_VIDEO" value="4" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_SCREENSHOT" value="5" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_GAME" value="6" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_SOFTWARE" value="7" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_CONCEPT" value="8" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_WEB_GUIDE" value="9" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_INTEGRATED_GUIDE" value="10" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_MERCH" value="11" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_CONTROLLER_BINDING" value="12" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_STEAMWORKS_ACCESS_INVITE" value="13" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_STEAM_VIDEO" value="14" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_GAME_MANAGED_ITEM" value="15" enum="WorkshopFileType">
+		</constant>
+		<constant name="WORKSHOP_FILE_TYPE_MAX" value="16" enum="WorkshopFileType">
 		</constant>
 		<constant name="P2P_SESSION_ERROR_NONE" value="0" enum="P2PSessionError">
 		</constant>
@@ -1169,6 +1229,132 @@
 		<constant name="STEAM_INPUT_GLYPH_SIZE_LARGE" value="2" enum="SteamInputGlyphSize">
 		</constant>
 		<constant name="STEAM_INPUT_GLYPH_SIZE_COUNT" value="3" enum="SteamInputGlyphSize">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_ITEMS" value="0" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_ITEMS_MTX" value="1" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_ITEMS_READY_TO_USE" value="2" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_COLLECTIONS" value="3" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_ARTWORK" value="4" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_VIDEOS" value="5" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_SCREENSHOTS" value="6" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_ALL_GUIDES" value="7" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_WEB_GUIDES" value="8" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_INTEGRATED_GUIDES" value="9" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_USABLE_IN_GAME" value="10" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_CONTROLLER_BINDINGS" value="11" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_GAME_MANAGED_ITEMS" value="12" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="UGC_MATCHING_UGC_TYPE_ALL" value="-1" enum="UGCMatchingUGCType">
+		</constant>
+		<constant name="USER_UGC_LIST_PUBLISHED" value="0" enum="UserUGCList">
+		</constant>
+		<constant name="USER_UGC_LIST_VOTED_ON" value="1" enum="UserUGCList">
+		</constant>
+		<constant name="USER_UGC_LIST_VOTED_UP" value="2" enum="UserUGCList">
+		</constant>
+		<constant name="USER_UGC_LIST_VOTED_DOWN" value="3" enum="UserUGCList">
+		</constant>
+		<constant name="USER_UGC_LIST_WILL_VOTE_LATER" value="4" enum="UserUGCList">
+		</constant>
+		<constant name="USER_UGC_LIST_FAVORITED" value="5" enum="UserUGCList">
+		</constant>
+		<constant name="USER_UGC_LIST_SUBSCRIBED" value="6" enum="UserUGCList">
+		</constant>
+		<constant name="USER_UGC_LIST_USED_OR_PLAYED" value="7" enum="UserUGCList">
+		</constant>
+		<constant name="USER_UGC_LIST_FOLLOWED" value="8" enum="UserUGCList">
+		</constant>
+		<constant name="USER_UGC_LIST_SORT_ORDER_CREATION_ORDER_DESC" value="0" enum="UserUGCListSortOrder">
+		</constant>
+		<constant name="USER_UGC_LIST_SORT_ORDER_CREATION_ORDER_ASC" value="1" enum="UserUGCListSortOrder">
+		</constant>
+		<constant name="USER_UGC_LIST_SORT_ORDER_TITLE_ASC" value="2" enum="UserUGCListSortOrder">
+		</constant>
+		<constant name="USER_UGC_LIST_SORT_ORDER_LAST_UPDATED_DESC" value="3" enum="UserUGCListSortOrder">
+		</constant>
+		<constant name="USER_UGC_LIST_SORT_ORDER_SUBSCRIPTION_DATE_DESC" value="4" enum="UserUGCListSortOrder">
+		</constant>
+		<constant name="USER_UGC_LIST_SORT_ORDER_VOTE_SCORE_DESC" value="5" enum="UserUGCListSortOrder">
+		</constant>
+		<constant name="USER_UGC_LIST_SORT_ORDER_FOR_MODERATION" value="6" enum="UserUGCListSortOrder">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_VOTE" value="0" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_PUBLICATION_DATE" value="1" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_ACCEPTED_FOR_GAME_RANKED_BY_ACCEPTANCE_DATE" value="2" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_TREND" value="3" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_FAVORITED_BY_FRIENDS_RANKED_BY_PUBLICATION_DATE" value="4" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_CREATED_BY_FRIENDS_RANKED_BY_PUBLICATION_DATE" value="5" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_NUM_TIMES_REPORTED" value="6" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_CREATED_BY_FOLLOWED_USERS_RANKED_BY_PUBLICATION_DATE" value="7" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_NOT_YET_RATED" value="8" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_TOTAL_VOTES_ASC" value="9" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_VOTES_UP" value="10" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_TEXT_SEARCH" value="11" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_TOTAL_UNIQUE_SUBSCRIPTIONS" value="12" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_PLAYTIME_TREND" value="13" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_TOTAL_PLAYTIME" value="14" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_AVERAGE_PLAYTIME_TREND" value="15" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_LIFETIME_AVERAGE_PLAYTIME" value="16" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_PLAYTIME_SESSIONS_TREND" value="17" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_LIFETIME_PLAYTIME_SESSIONS" value="18" enum="UGCQuery">
+		</constant>
+		<constant name="UGC_QUERY_RANKED_BY_LAST_UPDATED_DATE" value="19" enum="UGCQuery">
+		</constant>
+		<constant name="ITEM_STATE_NONE" value="0" enum="ItemState">
+		</constant>
+		<constant name="ITEM_STATE_SUBSCRIBED" value="1" enum="ItemState">
+		</constant>
+		<constant name="ITEM_STATE_LEGACY_ITEM" value="2" enum="ItemState">
+		</constant>
+		<constant name="ITEM_STATE_INSTALLED" value="4" enum="ItemState">
+		</constant>
+		<constant name="ITEM_STATE_NEEDS_UPDATE" value="8" enum="ItemState">
+		</constant>
+		<constant name="ITEM_STATE_DOWNLOADING" value="16" enum="ItemState">
+		</constant>
+		<constant name="ITEM_STATE_DOWNLOAD_PENDING" value="32" enum="ItemState">
+		</constant>
+		<constant name="ITEM_PREVIEW_TYPE_IMAGE" value="0" enum="ItemPreviewType">
+		</constant>
+		<constant name="ITEM_PREVIEW_TYPE_YOU_TUBE_VIDEO" value="1" enum="ItemPreviewType">
+		</constant>
+		<constant name="ITEM_PREVIEW_TYPE_SKETCHFAB" value="2" enum="ItemPreviewType">
+		</constant>
+		<constant name="ITEM_PREVIEW_TYPE_ENVIRONMENT_MAP_HORIZONTAL_CROSS" value="3" enum="ItemPreviewType">
+		</constant>
+		<constant name="ITEM_PREVIEW_TYPE_ENVIRONMENT_MAP_LAT_LONG" value="4" enum="ItemPreviewType">
+		</constant>
+		<constant name="ITEM_PREVIEW_TYPE_RESERVED_MAX" value="255" enum="ItemPreviewType">
 		</constant>
 	</constants>
 </class>

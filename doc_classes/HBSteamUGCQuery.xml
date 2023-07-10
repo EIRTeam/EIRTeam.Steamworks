@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBSteamUGCQuery" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="add_required_key_value_tag">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="allow_cached_response">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="max_age_seconds" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="create_query" qualifiers="static">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="matching_type" type="int" enum="SteamworksConstants.UGCMatchingUGCType" />
+			<description>
+			</description>
+		</method>
+		<method name="created_by_followed_users">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="created_by_friends">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="favorited_by_friends">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="in_language">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="language" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="match_all_tags">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="match_any_tag">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="not_yet_rated">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_acceptance_date">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_average_playtime_trend">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_lifetime_average_playtime">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_lifetime_playtime_sessions">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_num_times_reported">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_playtime_sessions_trend">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_playtime_trend">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_publication_date">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_text_search">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_total_playtime">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_total_unique_subscriptions">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_total_votes_asc">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_trend">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="ranked_by_vote">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="request_page">
+			<return type="void" />
+			<param index="0" name="page" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="sort_by_creation_date">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="sort_by_creation_date_asc">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="sort_by_moderation">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="sort_by_subscription_date">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="sort_by_title_asc">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="sort_by_update_date">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="sort_by_vote_score">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="where_search_text">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="search_text" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="where_user_favorited">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="where_user_followed">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="where_user_published">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="where_user_subscribed">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="where_user_used_or_played">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="where_user_voted_down">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="where_user_voted_on">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="where_user_voted_up">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="where_user_will_vote_later">
+			<return type="HBSteamUGCQuery" />
+			<description>
+			</description>
+		</method>
+		<method name="with_additional_previews">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="with_additional_previews" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="with_children">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="with_children" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="with_file_ids">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="file_ids" type="PackedInt64Array" />
+			<description>
+			</description>
+		</method>
+		<method name="with_key_value_tags">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="with_key_value_tags" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="with_long_description">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="with_long_description" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="with_metadata">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="with_metadata" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="with_only_ids">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="with_only_ids" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="with_playtime_stats">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="with_playtime_stats" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="with_tag">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="tag" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="with_total_only">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="with_total_only" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="with_trend_days">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="trend_days" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="with_type">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="matching_type" type="int" enum="SteamworksConstants.UGCMatchingUGCType" />
+			<description>
+			</description>
+		</method>
+		<method name="without_tag">
+			<return type="HBSteamUGCQuery" />
+			<param index="0" name="tag" type="String" />
+			<description>
+			</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="query_completed">
+			<param index="0" name="page" type="int" />
+			<param index="1" name="result" type="HBSteamUGCQueryPageResult" />
+			<description>
+			</description>
+		</signal>
+	</signals>
+</class>

@@ -18,6 +18,7 @@ def get_doc_classes():
         "HBSteamFriends",
         "HBSteamFriend",
         "HBSteamLobby",
+        "HBSteamApps",
         "HBSteamUGC",
         "HBSteamUGCItem",
         "HBSteamUGCAdditionalPreview",

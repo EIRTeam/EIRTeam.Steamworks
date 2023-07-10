@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBSteamRemoteStorage" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="file_exists" qualifiers="const">
+			<return type="bool" />
+			<param index="0" name="file_name" type="String" />
+			<param index="1" name="data" type="PackedByteArray" />
+			<description>
+			</description>
+		</method>
+		<method name="file_read" qualifiers="const">
+			<return type="PackedByteArray" />
+			<param index="0" name="file_name" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="file_write" qualifiers="const">
+			<return type="bool" />
+			<param index="0" name="file_name" type="String" />
+			<param index="1" name="data" type="PackedByteArray" />
+			<description>
+			</description>
+		</method>
+		<method name="get_file_size" qualifiers="const">
+			<return type="int" />
+			<param index="0" name="file_name" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="is_cloud_enabled" qualifiers="const">
+			<return type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="is_valid" qualifiers="const">
+			<return type="bool" />
+			<description>
+			</description>
+		</method>
+	</methods>
+</class>
