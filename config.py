@@ -21,6 +21,7 @@ def get_doc_classes():
         "HBSteamApps",
         "HBSteamUGC",
         "HBSteamUGCItem",
+        "HBSteamUGCEditor",
         "HBSteamUGCAdditionalPreview",
         "HBSteamUGCQuery",
         "HBSteamUGCQueryPageResult",

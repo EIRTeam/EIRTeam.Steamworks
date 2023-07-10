@@ -45,6 +45,7 @@ class HBSteamUGCPublishResult : public RefCounted {
 };
 
 class HBSteamUGCEditor : public RefCounted {
+	GDCLASS(HBSteamUGCEditor, RefCounted);
 	bool creating_new = false;
 	uint64_t app_id = 0;
 	uint64_t file_id = 0;

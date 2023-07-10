@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBSteamUGCEditor" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="add_kv_tag">
+			<return type="HBSteamUGCEditor" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="for_app_id">
+			<return type="HBSteamUGCEditor" />
+			<param index="0" name="app_id" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="new_community_file" qualifiers="static">
+			<return type="HBSteamUGCEditor" />
+			<description>
+			</description>
+		</method>
+		<method name="remove_kv_tag">
+			<return type="HBSteamUGCEditor" />
+			<param index="0" name="key" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="submit">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+		<method name="with_changelog">
+			<return type="HBSteamUGCEditor" />
+			<param index="0" name="changelog" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="with_description">
+			<return type="HBSteamUGCEditor" />
+			<param index="0" name="description" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="with_metadata">
+			<return type="HBSteamUGCEditor" />
+			<param index="0" name="metadata" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="with_preview_file">
+			<return type="HBSteamUGCEditor" />
+			<param index="0" name="preview_file" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="with_tags">
+			<return type="HBSteamUGCEditor" />
+			<param index="0" name="tags" type="PackedStringArray" />
+			<description>
+			</description>
+		</method>
+		<method name="with_title">
+			<return type="HBSteamUGCEditor" />
+			<param index="0" name="title" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="with_visibility">
+			<return type="HBSteamUGCEditor" />
+			<param index="0" name="visiblity" type="int" enum="SteamworksConstants.RemoteStoragePublishedFileVisibility" />
+			<description>
+			</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="file_submitted">
+			<param index="0" name="result" type="int" />
+			<param index="1" name="user_needs_to_accept_workshop_legal_agreement" type="bool" />
+			<description>
+			</description>
+		</signal>
+	</signals>
+</class>
