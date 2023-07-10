@@ -70,6 +70,7 @@ public:
 	bool send_chat_binary(const Vector<uint8_t> &p_buffer);
 	bool set_lobby_joinable(bool p_joinable);
 	uint64_t get_lobby_id() const;
+	String get_lobby_name() const;
 	void leave_lobby();
 	HBSteamLobby();
 };

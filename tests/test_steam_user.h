@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  steam_utils.h                                                         */
+/*  test_steam_user.h                                                     */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,35 +28,40 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef STEAM_UTILS_H
-#define STEAM_UTILS_H
+#ifndef TEST_STEAM_USER_H
+#define TEST_STEAM_USER_H
 
-#include "core/object/ref_counted.h"
-#include "steamworks_callback_data.h"
-#include "steamworks_constants.gen.h"
+#include "test_steamworks.h"
+#include "tests/test_macros.h"
 
-class ISteamUtils;
-
-class HBSteamUtils : public RefCounted {
-	GDCLASS(HBSteamUtils, RefCounted);
-
-private:
-	ISteamUtils *steam_utils = nullptr;
-	void _on_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-	void _on_floating_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-
-protected:
-	static void _bind_methods();
+namespace TestSteamUser {
+class SteamUserSignalTester : public RefCounted {
+	GDCLASS(SteamUserSignalTester, RefCounted);
 
 public:
-	bool is_in_big_picture_mode() const;
-	bool is_on_steam_deck() const;
-	bool show_gamepad_text_input(SWC::GamepadTextInputMode p_input_mode, SWC::GamepadTextInputLineMode p_line_input_mode, String p_description, String p_existing_text, uint32_t p_max_text) const;
-	bool show_floating_gamepad_text_input(SWC::FloatingGamepadTextInputMode p_input_mode, Rect2i p_text_field_rect) const;
-	void init_interface();
-	ISteamUtils *get_interface();
-	bool is_valid() const;
-	HBSteamUtils();
+	bool got_ticket_received_signal = false;
+	void _on_ticket_received(bool p_success) {
+		got_ticket_received_signal = true;
+	}
 };
 
-#endif // STEAM_UTILS_H
+TEST_CASE("[SteamUser] Test app tickets") {
+	TestSteamworks::reinit_steamworks_if_needed();
+	Ref<SteamUserSignalTester> signal_tester;
+	signal_tester.instantiate();
+	Ref<HBAuthTicketForWebAPI> ticket = Steamworks::get_singleton()->get_user()->get_auth_ticket_for_web_api("Test app");
+	CHECK_MESSAGE(ticket.is_valid(), "Ticket must be valid");
+	ticket->connect("ticket_received", callable_mp(signal_tester.ptr(), &SteamUserSignalTester::_on_ticket_received));
+	for (int i = 0; i < 40; i++) {
+		Steamworks::get_singleton()->run_callbacks();
+		if (signal_tester->got_ticket_received_signal) {
+			break;
+		}
+		OS::get_singleton()->delay_usec(50000);
+	}
+	CHECK_MESSAGE(signal_tester->got_ticket_received_signal, "Ticket received signal must get emitted");
+	CHECK_MESSAGE(ticket->get_ticket_data().size() > 0, "Ticket must not be empty");
+}
+}; //namespace TestSteamUser
+
+#endif // TEST_STEAM_USER_H

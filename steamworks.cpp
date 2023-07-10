@@ -39,7 +39,7 @@ Steamworks *Steamworks::singleton = nullptr;
 String Steamworks::last_error = "";
 
 extern "C" void __cdecl SteamAPIDebugTextHook(int nSeverity, const char *pchDebugText) {
-	if (nSeverity >= 1) {
+	if (nSeverity > 1) {
 		ERR_PRINT_ED(pchDebugText);
 	} else {
 		WARN_PRINT_ED(pchDebugText);
@@ -99,15 +99,37 @@ void Steamworks::_run_callbacks() {
 	}
 }
 
+bool Steamworks::get_ticket_for_web_api(const String &p_identity) const {
+	return SteamAPI_ISteamUser_GetAuthTicketForWebApi(SteamAPI_SteamUser(), p_identity.utf8()) != k_HAuthTicketInvalid;
+}
+
 void Steamworks::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("init", "app_id", "run_callbacks_automatically"), &Steamworks::init, DEFVAL(true));
 	ClassDB::bind_method(D_METHOD("is_valid"), &Steamworks::is_valid);
 
 	ClassDB::bind_method(D_METHOD("run_callbacks"), &Steamworks::run_callbacks);
-	ClassDB::bind_method(D_METHOD("get_input"), &Steamworks::get_input);
-	ClassDB::bind_method(D_METHOD("get_local_user"), &Steamworks::get_local_user);
 
 	ClassDB::bind_static_method("Steamworks", D_METHOD("get_last_error"), &Steamworks::get_last_error);
+
+	ClassDB::bind_method(D_METHOD("get_input"), &Steamworks::get_input);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "input", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamInput"), "", "get_input");
+	ClassDB::bind_method(D_METHOD("get_matchmaking"), &Steamworks::get_matchmaking);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_matchmaking", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamMatchmaking"), "", "get_matchmaking");
+	ClassDB::bind_method(D_METHOD("get_friends"), &Steamworks::get_friends);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_friends", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriends"), "", "get_friends");
+	ClassDB::bind_method(D_METHOD("get_utils"), &Steamworks::get_utils);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_utils", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUtils"), "", "get_utils");
+	ClassDB::bind_method(D_METHOD("get_networking"), &Steamworks::get_networking);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_networking", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamNetworking"), "", "get_networking");
+	ClassDB::bind_method(D_METHOD("get_ugc"), &Steamworks::get_ugc);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_ugc", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUGC"), "", "get_ugc");
+	ClassDB::bind_method(D_METHOD("get_apps"), &Steamworks::get_apps);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_apps", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamApps"), "", "get_apps");
+	ClassDB::bind_method(D_METHOD("get_user"), &Steamworks::get_user);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_user", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUser"), "", "get_user");
+	ClassDB::bind_method(D_METHOD("get_remote_storage"), &Steamworks::get_remote_storage);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_remote_storage", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamRemoteStorage"), "", "get_remote_storage");
+	ClassDB::bind_method(D_METHOD("get_app_id"), &Steamworks::get_app_id);
 }
 
 void Steamworks::add_callback(int p_callback_type, Callable p_callable) {
@@ -153,6 +175,18 @@ bool Steamworks::init(int p_app_id, bool p_run_callbacks_automatically) {
 
 	networking.instantiate();
 	networking->init_interface();
+
+	ugc.instantiate();
+	ugc->init_interface();
+
+	apps.instantiate();
+	apps->init_interface();
+
+	user.instantiate();
+	user->init_interface();
+
+	remote_storage.instantiate();
+	remote_storage->init_interface();
 
 	set_run_callbacks_automatically(p_run_callbacks_automatically);
 
@@ -227,6 +261,22 @@ Ref<HBSteamNetworking> Steamworks::get_networking() const {
 	return networking;
 }
 
-Ref<HBSteamFriend> Steamworks::get_local_user() const {
-	return HBSteamFriend::from_steam_id(SteamAPI_ISteamUser_GetSteamID(SteamAPI_SteamUser()));
+Ref<HBSteamUGC> Steamworks::get_ugc() const {
+	return ugc;
+}
+
+Ref<HBSteamApps> Steamworks::get_apps() const {
+	return apps;
+}
+
+Ref<HBSteamUser> Steamworks::get_user() const {
+	return user;
+}
+
+Ref<HBSteamRemoteStorage> Steamworks::get_remote_storage() const {
+	return remote_storage;
+}
+
+int Steamworks::get_app_id() const {
+	return app_id;
 }

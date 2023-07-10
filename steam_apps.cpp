@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  steam_utils.h                                                         */
+/*  steam_apps.cpp                                                        */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,35 +28,31 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef STEAM_UTILS_H
-#define STEAM_UTILS_H
+#include "steam_apps.h"
+#include "steam/steam_api_flat.h"
 
-#include "core/object/ref_counted.h"
-#include "steamworks_callback_data.h"
-#include "steamworks_constants.gen.h"
+bool HBSteamApps::is_subscribed() const {
+	return SteamAPI_ISteamApps_BIsSubscribed(steam_apps);
+}
 
-class ISteamUtils;
+bool HBSteamApps::is_subscribed_app(uint64_t p_app_id) const {
+	return SteamAPI_ISteamApps_BIsSubscribedApp(steam_apps, p_app_id);
+}
 
-class HBSteamUtils : public RefCounted {
-	GDCLASS(HBSteamUtils, RefCounted);
+bool HBSteamApps::is_app_installed(uint64_t p_app_id) const {
+	return SteamAPI_ISteamApps_BIsAppInstalled(steam_apps, p_app_id);
+}
 
-private:
-	ISteamUtils *steam_utils = nullptr;
-	void _on_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-	void _on_floating_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
+String HBSteamApps::get_app_install_dir(uint64_t p_app_id) const {
+	char bytes[256];
+	uint32_t dir_length = SteamAPI_ISteamApps_GetAppInstallDir(steam_apps, p_app_id, bytes, 256);
+	return String::utf8(bytes, dir_length);
+}
 
-protected:
-	static void _bind_methods();
+void HBSteamApps::init_interface() {
+	steam_apps = SteamAPI_SteamApps();
+}
 
-public:
-	bool is_in_big_picture_mode() const;
-	bool is_on_steam_deck() const;
-	bool show_gamepad_text_input(SWC::GamepadTextInputMode p_input_mode, SWC::GamepadTextInputLineMode p_line_input_mode, String p_description, String p_existing_text, uint32_t p_max_text) const;
-	bool show_floating_gamepad_text_input(SWC::FloatingGamepadTextInputMode p_input_mode, Rect2i p_text_field_rect) const;
-	void init_interface();
-	ISteamUtils *get_interface();
-	bool is_valid() const;
-	HBSteamUtils();
-};
-
-#endif // STEAM_UTILS_H
+bool HBSteamApps::is_valid() const {
+	return steam_apps != nullptr;
+}

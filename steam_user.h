@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  steam_utils.h                                                         */
+/*  steam_user.h                                                          */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,35 +28,44 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef STEAM_UTILS_H
-#define STEAM_UTILS_H
+#ifndef STEAM_USER_H
+#define STEAM_USER_H
 
 #include "core/object/ref_counted.h"
+#include "steam_friends.h"
 #include "steamworks_callback_data.h"
 #include "steamworks_constants.gen.h"
 
-class ISteamUtils;
+class ISteamUser;
+class HBSteamUser;
 
-class HBSteamUtils : public RefCounted {
-	GDCLASS(HBSteamUtils, RefCounted);
-
-private:
-	ISteamUtils *steam_utils = nullptr;
-	void _on_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-	void _on_floating_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
+class HBAuthTicketForWebAPI : public RefCounted {
+	GDCLASS(HBAuthTicketForWebAPI, RefCounted);
+	Vector<uint8_t> ticket_data;
+	SWC::HAuthTicket auth_ticket_handle;
+	void _on_get_ticket(Ref<SteamworksCallbackData> p_callback);
 
 protected:
 	static void _bind_methods();
 
 public:
-	bool is_in_big_picture_mode() const;
-	bool is_on_steam_deck() const;
-	bool show_gamepad_text_input(SWC::GamepadTextInputMode p_input_mode, SWC::GamepadTextInputLineMode p_line_input_mode, String p_description, String p_existing_text, uint32_t p_max_text) const;
-	bool show_floating_gamepad_text_input(SWC::FloatingGamepadTextInputMode p_input_mode, Rect2i p_text_field_rect) const;
-	void init_interface();
-	ISteamUtils *get_interface();
-	bool is_valid() const;
-	HBSteamUtils();
+	Vector<uint8_t> get_ticket_data() const;
+	HBAuthTicketForWebAPI(SWC::HAuthTicket p_ticket);
+	friend class HBSteamUser;
 };
 
-#endif // STEAM_UTILS_H
+class HBSteamUser : public RefCounted {
+	GDCLASS(HBSteamUser, RefCounted);
+	ISteamUser *steam_user = nullptr;
+
+protected:
+	static void _bind_methods();
+
+public:
+	Ref<HBAuthTicketForWebAPI> get_auth_ticket_for_web_api(const String &p_identity) const;
+	void init_interface();
+	bool is_valid() const;
+	Ref<HBSteamFriend> get_local_user() const;
+};
+
+#endif // STEAM_USER_H

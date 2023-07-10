@@ -74,6 +74,11 @@ Ref<HBSteamFriend> HBSteamFriend::from_steam_id(uint64_t p_steam_id) {
 	return steam_friend;
 }
 
+uint32_t HBSteamFriend::get_account_id() const {
+	// Account id are the lowest 32 bits of the steam ID
+	return steam_id & 0xFFFFFFFF;
+}
+
 void HBSteamFriend::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_persona_name"), &HBSteamFriend::get_persona_name);
 	ClassDB::bind_method(D_METHOD("get_steam_id"), &HBSteamFriend::get_steam_id);

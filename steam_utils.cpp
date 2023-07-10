@@ -32,6 +32,53 @@
 #include "steam/steam_api_flat.h"
 #include "sw_error_macros.h"
 
+void HBSteamUtils::_on_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback) {
+	const GamepadTextInputDismissed_t *input = p_callback->get_data<GamepadTextInputDismissed_t>();
+	if (!input->m_bSubmitted) {
+		emit_signal("gamepad_text_input_dismissed", false, "");
+	}
+	Vector<uint8_t> text_input;
+	text_input.resize(SteamAPI_ISteamUtils_GetEnteredGamepadTextLength(steam_utils));
+	SteamAPI_ISteamUtils_GetEnteredGamepadTextInput(steam_utils, (char *)text_input.ptrw(), text_input.size());
+	emit_signal("gamepad_text_input_dismissed", true, String::utf8((char *)text_input.ptr(), text_input.size()));
+}
+
+void HBSteamUtils::_on_floating_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback) {
+}
+
+void HBSteamUtils::_bind_methods() {
+	ADD_SIGNAL(MethodInfo("gamepad_text_input_dismissed", PropertyInfo(Variant::BOOL, "submitted"), PropertyInfo(Variant::STRING, "text")));
+	ADD_SIGNAL(MethodInfo("floating_gamepad_text_input_dismissed"));
+}
+
+bool HBSteamUtils::is_in_big_picture_mode() const {
+	return SteamAPI_ISteamUtils_IsSteamInBigPictureMode(steam_utils);
+}
+
+bool HBSteamUtils::is_on_steam_deck() const {
+	return SteamAPI_ISteamUtils_IsSteamRunningOnSteamDeck(steam_utils);
+}
+
+bool HBSteamUtils::show_gamepad_text_input(SWC::GamepadTextInputMode p_input_mode, SWC::GamepadTextInputLineMode p_line_input_mode, String p_description, String p_existing_text, uint32_t p_max_text) const {
+	return SteamAPI_ISteamUtils_ShowGamepadTextInput(
+			steam_utils,
+			(EGamepadTextInputMode)p_input_mode,
+			(EGamepadTextInputLineMode)p_line_input_mode,
+			p_description.utf8().get_data(),
+			p_max_text,
+			p_existing_text.utf8().get_data());
+}
+
+bool HBSteamUtils::show_floating_gamepad_text_input(SWC::FloatingGamepadTextInputMode p_input_mode, Rect2i p_text_field_rect) const {
+	return SteamAPI_ISteamUtils_ShowFloatingGamepadTextInput(
+			steam_utils,
+			(EFloatingGamepadTextInputMode)p_input_mode,
+			p_text_field_rect.position.x,
+			p_text_field_rect.position.y,
+			p_text_field_rect.size.x,
+			p_text_field_rect.size.y);
+}
+
 void HBSteamUtils::init_interface() {
 	steam_utils = SteamAPI_SteamUtils();
 	SW_ERR_FAIL_COND_MSG(steam_utils == nullptr, "Steamworks: Failed to initialize Steam Utils, something catastrophic must have happened");
@@ -43,4 +90,9 @@ ISteamUtils *HBSteamUtils::get_interface() {
 
 bool HBSteamUtils::is_valid() const {
 	return steam_utils != nullptr;
+}
+
+HBSteamUtils::HBSteamUtils() {
+	Steamworks::get_singleton()->add_callback(GamepadTextInputDismissed_t::k_iCallback, callable_mp(this, &HBSteamUtils::_on_gamepad_text_input_dismissed));
+	Steamworks::get_singleton()->add_callback(FloatingGamepadTextInputDismissed_t::k_iCallback, callable_mp(this, &HBSteamUtils::_on_floating_gamepad_text_input_dismissed));
 }

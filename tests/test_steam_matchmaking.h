@@ -107,7 +107,7 @@ TEST_CASE("[SteamMatchmaking] Test lobby creation and interaction") {
 
 	CHECK_MESSAGE(signal_tester->got_lobby_creation_signal, "Lobby should trigger the lobby created signal.");
 	CHECK_MESSAGE(signal_tester->got_lobby_entered_signal, "Lobby should trigger the lobby entered signal.");
-	Ref<HBSteamFriend> local_user = singleton->get_local_user();
+	Ref<HBSteamFriend> local_user = singleton->get_user()->get_local_user();
 	Ref<HBSteamFriend> lobby_owner = lobby->get_owner();
 	CHECK_MESSAGE(lobby_owner == local_user, "Lobby owner should be the local user");
 

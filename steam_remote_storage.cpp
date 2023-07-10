@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  steam_utils.h                                                         */
+/*  steam_remote_storage.cpp                                              */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,35 +28,47 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef STEAM_UTILS_H
-#define STEAM_UTILS_H
+#include "steam_remote_storage.h"
+#include "steam/steam_api_flat.h"
 
-#include "core/object/ref_counted.h"
-#include "steamworks_callback_data.h"
-#include "steamworks_constants.gen.h"
+void HBSteamRemoteStorage::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("is_cloud_enabled"), &HBSteamRemoteStorage::is_cloud_enabled);
+	ClassDB::bind_method(D_METHOD("file_read", "file_name"), &HBSteamRemoteStorage::file_read);
+	ClassDB::bind_method(D_METHOD("file_write", "file_name", "data"), &HBSteamRemoteStorage::file_write);
+	ClassDB::bind_method(D_METHOD("file_exists", "file_name", "data"), &HBSteamRemoteStorage::file_write);
+	ClassDB::bind_method(D_METHOD("get_file_size", "file_name"), &HBSteamRemoteStorage::get_file_size);
+	ClassDB::bind_method(D_METHOD("is_valid"), &HBSteamRemoteStorage::is_valid);
+}
 
-class ISteamUtils;
+bool HBSteamRemoteStorage::is_cloud_enabled() const {
+	return SteamAPI_ISteamRemoteStorage_IsCloudEnabledForAccount(remote_storage) && SteamAPI_ISteamRemoteStorage_IsCloudEnabledForApp(remote_storage);
+}
 
-class HBSteamUtils : public RefCounted {
-	GDCLASS(HBSteamUtils, RefCounted);
+void HBSteamRemoteStorage::init_interface() {
+	remote_storage = SteamAPI_SteamRemoteStorage();
+}
 
-private:
-	ISteamUtils *steam_utils = nullptr;
-	void _on_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-	void _on_floating_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
+bool HBSteamRemoteStorage::is_valid() const {
+	return remote_storage != nullptr;
+}
 
-protected:
-	static void _bind_methods();
+Vector<uint8_t> HBSteamRemoteStorage::file_read(const String &p_file_name) const {
+	int32_t file_size = get_file_size(p_file_name);
+	Vector<uint8_t> data;
+	data.resize(file_size);
+	int data_read_bytes = SteamAPI_ISteamRemoteStorage_FileRead(remote_storage, p_file_name.utf8().get_data(), data.ptrw(), data.size());
+	data.resize(data_read_bytes);
+	return data;
+}
 
-public:
-	bool is_in_big_picture_mode() const;
-	bool is_on_steam_deck() const;
-	bool show_gamepad_text_input(SWC::GamepadTextInputMode p_input_mode, SWC::GamepadTextInputLineMode p_line_input_mode, String p_description, String p_existing_text, uint32_t p_max_text) const;
-	bool show_floating_gamepad_text_input(SWC::FloatingGamepadTextInputMode p_input_mode, Rect2i p_text_field_rect) const;
-	void init_interface();
-	ISteamUtils *get_interface();
-	bool is_valid() const;
-	HBSteamUtils();
-};
+bool HBSteamRemoteStorage::file_write(const String &p_file_name, Vector<uint8_t> p_data) const {
+	return SteamAPI_ISteamRemoteStorage_FileWrite(remote_storage, p_file_name.utf8(), p_data.ptr(), p_data.size());
+}
 
-#endif // STEAM_UTILS_H
+bool HBSteamRemoteStorage::file_exists(const String &p_file_name) const {
+	return SteamAPI_ISteamRemoteStorage_FileExists(remote_storage, p_file_name.utf8());
+}
+
+uint64_t HBSteamRemoteStorage::get_file_size(const String &p_file_name) const {
+	return SteamAPI_ISteamRemoteStorage_GetFileSize(remote_storage, p_file_name.utf8().get_data());
+}

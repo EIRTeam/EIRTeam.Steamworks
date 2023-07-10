@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  steam_utils.h                                                         */
+/*  steam_apps.h                                                          */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,35 +28,24 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef STEAM_UTILS_H
-#define STEAM_UTILS_H
+#ifndef STEAM_APPS_H
+#define STEAM_APPS_H
 
 #include "core/object/ref_counted.h"
-#include "steamworks_callback_data.h"
-#include "steamworks_constants.gen.h"
 
-class ISteamUtils;
-
-class HBSteamUtils : public RefCounted {
-	GDCLASS(HBSteamUtils, RefCounted);
-
-private:
-	ISteamUtils *steam_utils = nullptr;
-	void _on_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-	void _on_floating_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-
-protected:
-	static void _bind_methods();
+class ISteamApps;
+class HBSteamApps : public RefCounted {
+	GDCLASS(HBSteamApps, RefCounted);
+	ISteamApps *steam_apps = nullptr;
 
 public:
-	bool is_in_big_picture_mode() const;
-	bool is_on_steam_deck() const;
-	bool show_gamepad_text_input(SWC::GamepadTextInputMode p_input_mode, SWC::GamepadTextInputLineMode p_line_input_mode, String p_description, String p_existing_text, uint32_t p_max_text) const;
-	bool show_floating_gamepad_text_input(SWC::FloatingGamepadTextInputMode p_input_mode, Rect2i p_text_field_rect) const;
+	bool is_subscribed() const;
+	bool is_subscribed_app(uint64_t p_app_id) const;
+	bool is_app_installed(uint64_t p_app_id) const;
+	String get_app_install_dir(uint64_t p_app_id) const;
+
 	void init_interface();
-	ISteamUtils *get_interface();
 	bool is_valid() const;
-	HBSteamUtils();
 };
 
-#endif // STEAM_UTILS_H
+#endif // STEAM_APPS_H

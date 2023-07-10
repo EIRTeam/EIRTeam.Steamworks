@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  steam_utils.h                                                         */
+/*  steam_user.cpp                                                        */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,35 +28,54 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef STEAM_UTILS_H
-#define STEAM_UTILS_H
+#include "steam_user.h"
+#include "steam/steam_api_flat.h"
+#include "steamworks.h"
 
-#include "core/object/ref_counted.h"
-#include "steamworks_callback_data.h"
-#include "steamworks_constants.gen.h"
+void HBAuthTicketForWebAPI::_on_get_ticket(Ref<SteamworksCallbackData> p_callback) {
+	const GetTicketForWebApiResponse_t *response = p_callback->get_data<GetTicketForWebApiResponse_t>();
+	if (response->m_eResult == k_EResultOK) {
+		ticket_data.resize(response->m_cubTicket);
+		memcpy(ticket_data.ptrw(), response->m_rgubTicket, response->m_cubTicket);
+	}
+	emit_signal("ticket_received", response->m_eResult == k_EResultOK);
+}
 
-class ISteamUtils;
+void HBAuthTicketForWebAPI::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_ticket_data"), &HBAuthTicketForWebAPI::get_ticket_data);
+	ADD_PROPERTY(PropertyInfo(Variant::PACKED_BYTE_ARRAY, "ticket_data"), "", "get_ticket_data");
+	ADD_SIGNAL(MethodInfo("ticket_received", PropertyInfo(Variant::BOOL, "success")));
+}
 
-class HBSteamUtils : public RefCounted {
-	GDCLASS(HBSteamUtils, RefCounted);
+Vector<uint8_t> HBAuthTicketForWebAPI::get_ticket_data() const {
+	return ticket_data;
+}
 
-private:
-	ISteamUtils *steam_utils = nullptr;
-	void _on_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-	void _on_floating_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
+HBAuthTicketForWebAPI::HBAuthTicketForWebAPI(SWC::HAuthTicket p_ticket) {
+	auth_ticket_handle = p_ticket;
+	Steamworks::get_singleton()->add_callback(GetTicketForWebApiResponse_t::k_iCallback, callable_mp(this, &HBAuthTicketForWebAPI::_on_get_ticket));
+}
 
-protected:
-	static void _bind_methods();
+void HBSteamUser::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_auth_ticket_for_web_api", "identity"), &HBSteamUser::get_auth_ticket_for_web_api);
+}
 
-public:
-	bool is_in_big_picture_mode() const;
-	bool is_on_steam_deck() const;
-	bool show_gamepad_text_input(SWC::GamepadTextInputMode p_input_mode, SWC::GamepadTextInputLineMode p_line_input_mode, String p_description, String p_existing_text, uint32_t p_max_text) const;
-	bool show_floating_gamepad_text_input(SWC::FloatingGamepadTextInputMode p_input_mode, Rect2i p_text_field_rect) const;
-	void init_interface();
-	ISteamUtils *get_interface();
-	bool is_valid() const;
-	HBSteamUtils();
-};
+Ref<HBAuthTicketForWebAPI> HBSteamUser::get_auth_ticket_for_web_api(const String &p_identity) const {
+	HAuthTicket ticket = SteamAPI_ISteamUser_GetAuthTicketForWebApi(steam_user, p_identity.utf8());
+	if (ticket == k_HAuthTicketInvalid) {
+		return Ref<HBAuthTicketForWebAPI>();
+	}
+	return memnew(HBAuthTicketForWebAPI(ticket));
+}
 
-#endif // STEAM_UTILS_H
+void HBSteamUser::init_interface() {
+	steam_user = SteamAPI_SteamUser();
+}
+
+bool HBSteamUser::is_valid() const {
+	return steam_user != nullptr;
+}
+
+Ref<HBSteamFriend> HBSteamUser::get_local_user() const {
+	return HBSteamFriend::from_steam_id(SteamAPI_ISteamUser_GetSteamID(steam_user));
+}

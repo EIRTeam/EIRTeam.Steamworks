@@ -75,12 +75,15 @@ TEST_CASE("[Steamworks] Test correct initialization") {
 	CHECK_MESSAGE(singleton->get_friends().is_valid(), "SteamFriends interface should be valid");
 	CHECK_MESSAGE(singleton->get_utils().is_valid(), "SteamUtils interface should be valid");
 	CHECK_MESSAGE(singleton->get_networking().is_valid(), "SteamNetworking interface should be valid");
+	CHECK_MESSAGE(singleton->get_ugc().is_valid(), "SteamUGC interface should be valid");
+	CHECK_MESSAGE(singleton->get_remote_storage().is_valid(), "SteamRemoteStorage interface should be valid");
+	CHECK_MESSAGE(singleton->get_user().is_valid(), "SteamUser interface should be valid");
 }
 TEST_CASE("[Steamworks] Test getting the local user") {
 	reinit_steamworks_if_needed();
 	Steamworks *singleton = Steamworks::get_singleton();
 
-	Ref<HBSteamFriend> user = singleton->get_local_user();
+	Ref<HBSteamFriend> user = singleton->get_user()->get_local_user();
 	CHECK_MESSAGE(user.is_valid(), "Local user should be valid.");
 }
 TEST_CASE("[Steamworks] Check basic steamworks interactions") {
@@ -88,7 +91,7 @@ TEST_CASE("[Steamworks] Check basic steamworks interactions") {
 	Steamworks *singleton = Steamworks::get_singleton();
 
 	SUBCASE("[Steawmorks] Test getting local user") {
-		Ref<HBSteamFriend> local_user = singleton->get_local_user();
+		Ref<HBSteamFriend> local_user = singleton->get_user()->get_local_user();
 		CHECK_MESSAGE(local_user.is_valid(), "Local user must be valid");
 	}
 }

@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  steam_utils.h                                                         */
+/*  test_steam_apps.h                                                     */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,35 +28,20 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef STEAM_UTILS_H
-#define STEAM_UTILS_H
+#ifndef TEST_STEAM_APPS_H
+#define TEST_STEAM_APPS_H
 
-#include "core/object/ref_counted.h"
-#include "steamworks_callback_data.h"
-#include "steamworks_constants.gen.h"
+#include "test_steamworks.h"
+#include "tests/test_macros.h"
 
-class ISteamUtils;
+namespace TestSteamApps {
+TEST_CASE("[SteamApps] Test app subscription checks") {
+	TestSteamworks::reinit_steamworks_if_needed();
+	Ref<HBSteamApps> apps = Steamworks::get_singleton()->get_apps();
+	CHECK_MESSAGE(apps->is_subscribed(), "Should be subscribed to current app");
+	CHECK_MESSAGE(apps->is_subscribed_app(480), "Should be subscribed to the spacewar app.");
+	CHECK_MESSAGE(apps->get_app_install_dir(480).length() > 0, "App install dir for spacewar should not be empty.");
+}
+} //namespace TestSteamApps
 
-class HBSteamUtils : public RefCounted {
-	GDCLASS(HBSteamUtils, RefCounted);
-
-private:
-	ISteamUtils *steam_utils = nullptr;
-	void _on_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-	void _on_floating_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-
-protected:
-	static void _bind_methods();
-
-public:
-	bool is_in_big_picture_mode() const;
-	bool is_on_steam_deck() const;
-	bool show_gamepad_text_input(SWC::GamepadTextInputMode p_input_mode, SWC::GamepadTextInputLineMode p_line_input_mode, String p_description, String p_existing_text, uint32_t p_max_text) const;
-	bool show_floating_gamepad_text_input(SWC::FloatingGamepadTextInputMode p_input_mode, Rect2i p_text_field_rect) const;
-	void init_interface();
-	ISteamUtils *get_interface();
-	bool is_valid() const;
-	HBSteamUtils();
-};
-
-#endif // STEAM_UTILS_H
+#endif // TEST_STEAM_APPS_H

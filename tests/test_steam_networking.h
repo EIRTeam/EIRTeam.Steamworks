@@ -37,7 +37,7 @@
 namespace TestSteamNetworking {
 TEST_CASE("[SteamNetworking] Test sending an receiving Steam P2P packets") {
 	TestSteamworks::reinit_steamworks_if_needed();
-	Ref<HBSteamFriend> local_user = Steamworks::get_singleton()->get_local_user();
+	Ref<HBSteamFriend> local_user = Steamworks::get_singleton()->get_user()->get_local_user();
 	Ref<HBSteamNetworking> networking = Steamworks::get_singleton()->get_networking();
 	Vector<uint8_t> test_data;
 	test_data.push_back(1);

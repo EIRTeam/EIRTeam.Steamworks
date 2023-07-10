@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  steam_utils.h                                                         */
+/*  steam_remote_storage.h                                                */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                           EIRTeam.Steamworks                           */
@@ -28,35 +28,29 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef STEAM_UTILS_H
-#define STEAM_UTILS_H
+#ifndef STEAM_REMOTE_STORAGE_H
+#define STEAM_REMOTE_STORAGE_H
 
 #include "core/object/ref_counted.h"
-#include "steamworks_callback_data.h"
-#include "steamworks_constants.gen.h"
 
-class ISteamUtils;
+class ISteamRemoteStorage;
+class HBSteamRemoteStorage;
 
-class HBSteamUtils : public RefCounted {
-	GDCLASS(HBSteamUtils, RefCounted);
-
-private:
-	ISteamUtils *steam_utils = nullptr;
-	void _on_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
-	void _on_floating_gamepad_text_input_dismissed(Ref<SteamworksCallbackData> p_callback);
+class HBSteamRemoteStorage : public RefCounted {
+	GDCLASS(HBSteamRemoteStorage, RefCounted);
+	ISteamRemoteStorage *remote_storage = nullptr;
 
 protected:
 	static void _bind_methods();
 
 public:
-	bool is_in_big_picture_mode() const;
-	bool is_on_steam_deck() const;
-	bool show_gamepad_text_input(SWC::GamepadTextInputMode p_input_mode, SWC::GamepadTextInputLineMode p_line_input_mode, String p_description, String p_existing_text, uint32_t p_max_text) const;
-	bool show_floating_gamepad_text_input(SWC::FloatingGamepadTextInputMode p_input_mode, Rect2i p_text_field_rect) const;
+	bool is_cloud_enabled() const;
 	void init_interface();
-	ISteamUtils *get_interface();
 	bool is_valid() const;
-	HBSteamUtils();
+	uint64_t get_file_size(const String &p_file_name) const;
+	Vector<uint8_t> file_read(const String &p_file_name) const;
+	bool file_write(const String &p_file_name, Vector<uint8_t> p_data) const;
+	bool file_exists(const String &p_file_name) const;
 };
 
-#endif // STEAM_UTILS_H
+#endif // STEAM_REMOTE_STORAGE_H

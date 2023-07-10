@@ -53,6 +53,7 @@ public:
 	Ref<Texture2D> get_avatar() const;
 	uint64_t get_steam_id() const;
 	static Ref<HBSteamFriend> from_steam_id(uint64_t p_steam_id);
+	uint32_t get_account_id() const;
 };
 
 class HBSteamFriends : public RefCounted {

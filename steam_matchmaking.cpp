@@ -214,7 +214,7 @@ int HBSteamLobby::get_max_members() const {
 }
 
 void HBSteamLobby::set_max_members(int p_max_members) const {
-	ERR_FAIL_COND_MSG(get_owner() != Steamworks::get_singleton()->get_local_user(), "Only the owner can set the max members in a lobby");
+	ERR_FAIL_COND_MSG(get_owner() != Steamworks::get_singleton()->get_user()->get_local_user(), "Only the owner can set the max members in a lobby");
 	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
 	ERR_FAIL_COND_MSG(!SteamAPI_ISteamMatchmaking_SetLobbyMemberLimit(mm, lobby_id, p_max_members), "Setting lobby member limit failed");
 }

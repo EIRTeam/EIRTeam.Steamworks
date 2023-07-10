@@ -32,10 +32,14 @@
 #define STEAMWORKS_H
 
 #include "scene/main/node.h"
+#include "steam_apps.h"
 #include "steam_friends.h"
 #include "steam_input.h"
 #include "steam_matchmaking.h"
 #include "steam_networking.h"
+#include "steam_remote_storage.h"
+#include "steam_ugc.h"
+#include "steam_user.h"
 #include "steam_utils.h"
 
 class ISteamClient;
@@ -54,6 +58,10 @@ class Steamworks : public Object {
 	Ref<HBSteamFriends> friends;
 	Ref<HBSteamUtils> utils;
 	Ref<HBSteamNetworking> networking;
+	Ref<HBSteamUGC> ugc;
+	Ref<HBSteamApps> apps;
+	Ref<HBSteamUser> user;
+	Ref<HBSteamRemoteStorage> remote_storage;
 	typedef int CallbackType;
 
 	struct SteamworksCallbackInfo {
@@ -65,6 +73,7 @@ class Steamworks : public Object {
 	HashMap<CallbackType, SteamworksCallbackInfo> callback_infos;
 	HashMap<ResultCallbackType, SteamworksCallbackInfo> call_result_callbacks;
 	void _run_callbacks();
+	bool get_ticket_for_web_api(const String &p_identifier) const;
 
 protected:
 	static void _bind_methods();
@@ -89,7 +98,11 @@ public:
 	Ref<HBSteamFriends> get_friends() const;
 	Ref<HBSteamUtils> get_utils() const;
 	Ref<HBSteamNetworking> get_networking() const;
-	Ref<HBSteamFriend> get_local_user() const;
+	Ref<HBSteamUGC> get_ugc() const;
+	Ref<HBSteamApps> get_apps() const;
+	Ref<HBSteamUser> get_user() const;
+	Ref<HBSteamRemoteStorage> get_remote_storage() const;
+	int get_app_id() const;
 
 	Steamworks();
 	~Steamworks();
