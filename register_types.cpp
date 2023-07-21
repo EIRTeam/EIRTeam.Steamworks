@@ -58,6 +58,9 @@ void initialize_steamworks_module(ModuleInitializationLevel p_level) {
 	GDREGISTER_ABSTRACT_CLASS(HBSteamUser);
 	GDREGISTER_ABSTRACT_CLASS(HBAuthTicketForWebAPI);
 	GDREGISTER_ABSTRACT_CLASS(HBSteamApps);
+	GDREGISTER_ABSTRACT_CLASS(HBSteamUserStats);
+	GDREGISTER_ABSTRACT_CLASS(HBSteamUGCUserItemVoteResult);
+	GDREGISTER_ABSTRACT_CLASS(HBSteamUGCItemUpdateProgress);
 	Steamworks *steamworks_singleton = memnew(Steamworks);
 	Engine::get_singleton()->add_singleton(Engine::Singleton("Steamworks", steamworks_singleton));
 }

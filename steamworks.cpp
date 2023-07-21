@@ -114,21 +114,23 @@ void Steamworks::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_input"), &Steamworks::get_input);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "input", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamInput"), "", "get_input");
 	ClassDB::bind_method(D_METHOD("get_matchmaking"), &Steamworks::get_matchmaking);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_matchmaking", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamMatchmaking"), "", "get_matchmaking");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "matchmaking", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamMatchmaking"), "", "get_matchmaking");
 	ClassDB::bind_method(D_METHOD("get_friends"), &Steamworks::get_friends);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_friends", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriends"), "", "get_friends");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "friends", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriends"), "", "get_friends");
 	ClassDB::bind_method(D_METHOD("get_utils"), &Steamworks::get_utils);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_utils", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUtils"), "", "get_utils");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "utils", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUtils"), "", "get_utils");
 	ClassDB::bind_method(D_METHOD("get_networking"), &Steamworks::get_networking);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_networking", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamNetworking"), "", "get_networking");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "networking", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamNetworking"), "", "get_networking");
 	ClassDB::bind_method(D_METHOD("get_ugc"), &Steamworks::get_ugc);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_ugc", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUGC"), "", "get_ugc");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "ugc", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUGC"), "", "get_ugc");
 	ClassDB::bind_method(D_METHOD("get_apps"), &Steamworks::get_apps);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_apps", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamApps"), "", "get_apps");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "apps", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamApps"), "", "get_apps");
 	ClassDB::bind_method(D_METHOD("get_user"), &Steamworks::get_user);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_user", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUser"), "", "get_user");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "user", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUser"), "", "get_user");
 	ClassDB::bind_method(D_METHOD("get_remote_storage"), &Steamworks::get_remote_storage);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "get_remote_storage", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamRemoteStorage"), "", "get_remote_storage");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "remote_storage", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamRemoteStorage"), "", "get_remote_storage");
+	ClassDB::bind_method(D_METHOD("get_user_stats"), &Steamworks::get_user_stats);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "user_stats", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUserStats"), "", "get_user_stats");
 	ClassDB::bind_method(D_METHOD("get_app_id"), &Steamworks::get_app_id);
 }
 
@@ -187,6 +189,9 @@ bool Steamworks::init(int p_app_id, bool p_run_callbacks_automatically) {
 
 	remote_storage.instantiate();
 	remote_storage->init_interface();
+
+	user_stats.instantiate();
+	user_stats->init_interface();
 
 	set_run_callbacks_automatically(p_run_callbacks_automatically);
 
@@ -275,6 +280,10 @@ Ref<HBSteamUser> Steamworks::get_user() const {
 
 Ref<HBSteamRemoteStorage> Steamworks::get_remote_storage() const {
 	return remote_storage;
+}
+
+Ref<HBSteamUserStats> Steamworks::get_user_stats() const {
+	return user_stats;
 }
 
 int Steamworks::get_app_id() const {

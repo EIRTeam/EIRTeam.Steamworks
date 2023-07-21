@@ -96,7 +96,7 @@ void HBSteamUGCQuery::_on_query_completed(Ref<SteamworksCallbackData> p_callback
 	page_info.result_count = query_completed->m_unNumResultsReturned;
 
 	Ref<HBSteamUGCQueryPageResult> page_result = memnew(HBSteamUGCQueryPageResult(page_info));
-	emit_signal("query_completed", p_page, page_result);
+	emit_signal("query_completed", page_result);
 }
 
 void HBSteamUGCQuery::_bind_methods() {
@@ -119,6 +119,7 @@ void HBSteamUGCQuery::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("ranked_by_playtime_sessions_trend"), &HBSteamUGCQuery::ranked_by_playtime_sessions_trend);
 	ClassDB::bind_method(D_METHOD("ranked_by_lifetime_playtime_sessions"), &HBSteamUGCQuery::ranked_by_lifetime_playtime_sessions);
 
+	ClassDB::bind_method(D_METHOD("with_user", "user"), &HBSteamUGCQuery::with_user);
 	ClassDB::bind_method(D_METHOD("where_user_published"), &HBSteamUGCQuery::where_user_published);
 	ClassDB::bind_method(D_METHOD("where_user_voted_on"), &HBSteamUGCQuery::where_user_voted_on);
 	ClassDB::bind_method(D_METHOD("where_user_voted_up"), &HBSteamUGCQuery::where_user_voted_up);
@@ -163,7 +164,7 @@ void HBSteamUGCQuery::_bind_methods() {
 
 	ClassDB::bind_static_method("HBSteamUGCQuery", D_METHOD("create_query", "matching_type"), &HBSteamUGCQuery::create_query);
 
-	ADD_SIGNAL(MethodInfo("query_completed", PropertyInfo(Variant::INT, "page"), PropertyInfo(Variant::OBJECT, "result", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUGCQueryPageResult")));
+	ADD_SIGNAL(MethodInfo("query_completed", PropertyInfo(Variant::OBJECT, "result", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUGCQueryPageResult")));
 }
 
 HBSteamUGCQuery::HBSteamUGCQuery(SWC::UGCMatchingUGCType p_matching_type) {
@@ -483,31 +484,39 @@ void HBSteamUGCQuery::request_page(int p_page) {
 		true,
 		wants_metadata,
 		wants_children,
-		wants_additional_previews
-
+		wants_additional_previews,
+		p_page
 	};
 	page_infos[query_handle] = page_result;
 	Steamworks::get_singleton()->add_call_result_callback(api_call, callable_mp(this, &HBSteamUGCQuery::_on_query_completed).bind(p_page));
 }
 
+void HBSteamUGC::_on_item_downloaded(Ref<SteamworksCallbackData> p_callback) {
+	const DownloadItemResult_t *item_downloaded = p_callback->get_data<DownloadItemResult_t>();
+	emit_signal("item_installed", (uint64_t)item_downloaded->m_unAppID, (uint64_t)item_downloaded->m_nPublishedFileId);
+	print_line("DOWNLOADED!", (uint64_t)item_downloaded->m_unAppID, (uint64_t)item_downloaded->m_nPublishedFileId);
+}
+
 void HBSteamUGC::_on_item_installed(Ref<SteamworksCallbackData> p_callback) {
 	const ItemInstalled_t *item_installed = p_callback->get_data<ItemInstalled_t>();
 	emit_signal("item_installed", (uint64_t)item_installed->m_unAppID, (uint64_t)item_installed->m_nPublishedFileId);
+	print_line("INSTALLED!", (uint64_t)item_installed->m_unAppID, (uint64_t)item_installed->m_nPublishedFileId);
 }
 
 void HBSteamUGC::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("is_valid"), &HBSteamUGC::is_valid);
+	ClassDB::bind_method(D_METHOD("get_subscribed_items"), &HBSteamUGC::get_subscribed_items);
 	ADD_SIGNAL(MethodInfo("item_installed", PropertyInfo(Variant::INT, "app_id"), PropertyInfo(Variant::INT, "item_id")));
 }
 
-Vector<Ref<HBSteamUGCItem>> HBSteamUGC::get_subscribed_items() {
+TypedArray<HBSteamUGCItem> HBSteamUGC::get_subscribed_items() {
 	Vector<PublishedFileId_t> file_ids;
+	TypedArray<HBSteamUGCItem> items;
 	file_ids.resize(SteamAPI_ISteamUGC_GetNumSubscribedItems(steam_ugc));
 	int items_returned = SteamAPI_ISteamUGC_GetSubscribedItems(steam_ugc, file_ids.ptrw(), file_ids.size());
-	Vector<Ref<HBSteamUGCItem>> items;
 	items.resize(items_returned);
 	for (int i = 0; i < items_returned; i++) {
-		items.ptrw()[i] = HBSteamUGCItem::from_id(file_ids[i]);
+		items.set(i, HBSteamUGCItem::from_id(file_ids[i]));
 	}
 	return items;
 }
@@ -515,6 +524,7 @@ Vector<Ref<HBSteamUGCItem>> HBSteamUGC::get_subscribed_items() {
 void HBSteamUGC::init_interface() {
 	steam_ugc = SteamAPI_SteamUGC();
 	Steamworks::get_singleton()->add_callback(ItemInstalled_t::k_iCallback, callable_mp(this, &HBSteamUGC::_on_item_installed));
+	Steamworks::get_singleton()->add_callback(DownloadItemResult_t::k_iCallback, callable_mp(this, &HBSteamUGC::_on_item_downloaded));
 }
 
 bool HBSteamUGC::is_valid() const {
@@ -527,7 +537,11 @@ ISteamUGC *HBSteamUGC::get_interface() const {
 
 void HBSteamUGCQueryPageResult::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_results"), &HBSteamUGCQueryPageResult::get_results_godot);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "results", PROPERTY_HINT_ARRAY_TYPE, "HBsteamUGCItem"), "", "get_results");
+	ClassDB::bind_method(D_METHOD("get_total_results"), &HBSteamUGCQueryPageResult::get_total_results);
+	ClassDB::bind_method(D_METHOD("get_page"), &HBSteamUGCQueryPageResult::get_page);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "results", PROPERTY_HINT_ARRAY_TYPE, "HBSteamUGCItem"), "", "get_results");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "total_results"), "", "get_total_results");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "page"), "", "get_page");
 }
 
 TypedArray<HBSteamUGCItem> HBSteamUGCQueryPageResult::get_results_godot() {
@@ -556,8 +570,7 @@ Vector<Ref<HBSteamUGCItem>> HBSteamUGCQueryPageResult::get_results() {
 			continue;
 		}
 
-		SWC::SteamUGCDetails_t *ugc_details = (SWC::SteamUGCDetails_t *)&details;
-		Ref<HBSteamUGCItem> item = HBSteamUGCItem::from_details(*ugc_details);
+		Ref<HBSteamUGCItem> item = HBSteamUGCItem::from_details(details);
 
 		char preview_url[256];
 		if (SteamAPI_ISteamUGC_GetQueryUGCPreviewURL(iugc, query_handle, i, preview_url, 256)) {
@@ -615,6 +628,14 @@ Vector<Ref<HBSteamUGCItem>> HBSteamUGCQueryPageResult::get_results() {
 	return results_cache;
 }
 
+int HBSteamUGCQueryPageResult::get_total_results() const {
+	return page_info.total_results;
+}
+
+int HBSteamUGCQueryPageResult::get_page() const {
+	return page_info.page;
+}
+
 HBSteamUGCQueryPageResult::HBSteamUGCQueryPageResult(const ResultPageInfo &p_page_info) {
 	query_handle = p_page_info.handle;
 
@@ -630,6 +651,26 @@ HBSteamUGCQueryPageResult::~HBSteamUGCQueryPageResult() {
 
 HashMap<SWC::PublishedFileId_t, Ref<WeakRef>> HBSteamUGCItem::item_cache = HashMap<SWC::PublishedFileId_t, Ref<WeakRef>>();
 
+void HBSteamUGCItem::_on_get_user_item_vote(Ref<SteamworksCallbackData> p_callback, bool p_io_failure) {
+	const GetUserItemVoteResult_t *result = p_callback->get_data<GetUserItemVoteResult_t>();
+	Ref<HBSteamUGCUserItemVoteResult> vote_result;
+	vote_result.instantiate();
+	vote_result->vote_down = result->m_bVotedDown;
+	vote_result->vote_up = result->m_bVotedUp;
+	vote_result->vote_skipped = result->m_bVoteSkipped;
+	emit_signal("user_item_vote_received", vote_result);
+}
+
+void HBSteamUGCItem::_on_added_dependency(Ref<SteamworksCallbackData> p_callback, bool p_io_failure) {
+	const AddUGCDependencyResult_t *result = p_callback->get_data<AddUGCDependencyResult_t>();
+	emit_signal("dependency_added", (uint64_t)result->m_nChildPublishedFileId);
+}
+
+void HBSteamUGCItem::_on_removed_dependency(Ref<SteamworksCallbackData> p_callback, bool p_io_failure) {
+	const RemoveUGCDependencyResult_t *result = p_callback->get_data<RemoveUGCDependencyResult_t>();
+	emit_signal("dependency_removed", (uint64_t)result->m_nChildPublishedFileId);
+}
+
 void HBSteamUGCItem::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_title"), &HBSteamUGCItem::get_title);
 	ClassDB::bind_method(D_METHOD("get_description"), &HBSteamUGCItem::get_description);
@@ -640,7 +681,9 @@ void HBSteamUGCItem::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_consumer_app"), &HBSteamUGCItem::get_consumer_app);
 	ClassDB::bind_method(D_METHOD("get_owner"), &HBSteamUGCItem::get_owner);
 	ClassDB::bind_method(D_METHOD("get_score"), &HBSteamUGCItem::get_score);
+	ClassDB::bind_method(D_METHOD("get_time_created"), &HBSteamUGCItem::get_time_created);
 	ClassDB::bind_method(D_METHOD("get_time_updated"), &HBSteamUGCItem::get_time_updated);
+	ClassDB::bind_method(D_METHOD("get_time_added_to_user_list"), &HBSteamUGCItem::get_time_added_to_user_list);
 	ClassDB::bind_method(D_METHOD("get_visibility"), &HBSteamUGCItem::get_visibility);
 	ClassDB::bind_method(D_METHOD("get_is_banned"), &HBSteamUGCItem::get_is_banned);
 	ClassDB::bind_method(D_METHOD("get_votes_up"), &HBSteamUGCItem::get_votes_up);
@@ -649,6 +692,18 @@ void HBSteamUGCItem::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_additional_previews"), &HBSteamUGCItem::get_additional_previews_godot);
 	ClassDB::bind_method(D_METHOD("get_kv_tags"), &HBSteamUGCItem::get_kv_tags);
 	ClassDB::bind_method(D_METHOD("edit"), &HBSteamUGCItem::edit);
+	ClassDB::bind_method(D_METHOD("get_item_state"), &HBSteamUGCItem::get_item_state);
+	ClassDB::bind_method(D_METHOD("get_metadata"), &HBSteamUGCItem::get_metadata);
+	ClassDB::bind_method(D_METHOD("subscribe"), &HBSteamUGCItem::subscribe);
+	ClassDB::bind_method(D_METHOD("unsubscribe"), &HBSteamUGCItem::unsubscribe);
+	ClassDB::bind_method(D_METHOD("get_install_directory"), &HBSteamUGCItem::get_install_directory);
+	ClassDB::bind_method(D_METHOD("download", "high_priorty"), &HBSteamUGCItem::download);
+	ClassDB::bind_method(D_METHOD("request_user_vote"), &HBSteamUGCItem::request_user_vote);
+	ClassDB::bind_method(D_METHOD("add_dependency", "child_id"), &HBSteamUGCItem::add_dependency);
+	ClassDB::bind_method(D_METHOD("remove_dependency", "child_id"), &HBSteamUGCItem::remove_dependency);
+	ClassDB::bind_method(D_METHOD("delete_item"), &HBSteamUGCItem::delete_item);
+
+	ClassDB::bind_static_method("HBSteamUGCItem", D_METHOD("from_id", "steam_id"), &HBSteamUGCItem::from_id);
 
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "title"), "", "get_title");
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "description"), "", "get_description");
@@ -658,7 +713,9 @@ void HBSteamUGCItem::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "consumer_app"), "", "get_consumer_app");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "owner", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend"), "", "get_owner");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "score"), "", "get_score");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "time_created"), "", "get_time_created");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "time_updated"), "", "get_time_updated");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "time_added_to_user_list"), "", "get_time_added_to_user_list");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "visibility"), "", "get_visibility");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_banned"), "", "get_is_banned");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "votes_up"), "", "get_votes_up");
@@ -666,6 +723,13 @@ void HBSteamUGCItem::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "children", PROPERTY_HINT_ARRAY_TYPE, "int"), "", "get_children");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "additional_previews", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUGCAdditionalPreview"), "", "get_additional_previews");
 	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "kv_tags"), "", "get_kv_tags");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "item_state"), "", "get_item_state");
+	ADD_PROPERTY(PropertyInfo(Variant::STRING, "metadata"), "", "get_metadata");
+	ADD_PROPERTY(PropertyInfo(Variant::STRING, "install_directory"), "", "get_install_directory");
+
+	ADD_SIGNAL(MethodInfo("user_item_vote_received", PropertyInfo(Variant::OBJECT, "item_vote_result", PROPERTY_HINT_RESOURCE_TYPE, "HBUGCUserItemVoteResult")));
+	ADD_SIGNAL(MethodInfo("dependency_removed", PropertyInfo(Variant::INT, "child_id")));
+	ADD_SIGNAL(MethodInfo("dependency_added", PropertyInfo(Variant::INT, "child_id")));
 }
 
 void HBSteamUGCItem::update_from_details(const SWC::SteamUGCDetails_t &p_details) {
@@ -692,13 +756,19 @@ uint64_t HBSteamUGCItem::get_creator_app() const { return ugc_details.creator_ap
 
 uint64_t HBSteamUGCItem::get_consumer_app() const { return ugc_details.consumer_app_id; };
 
-Ref<HBSteamFriend> HBSteamUGCItem::get_owner() const { return HBSteamFriend::from_steam_id(ugc_details.steam_id_owner); };
+Ref<HBSteamFriend> HBSteamUGCItem::get_owner() const {
+	return HBSteamFriend::from_steam_id(ugc_details.steam_id_owner);
+};
 
 float HBSteamUGCItem::get_score() const { return ugc_details.score; };
 
 uint64_t HBSteamUGCItem::get_time_created() const { return ugc_details.created; };
 
 uint64_t HBSteamUGCItem::get_time_updated() const { return ugc_details.updated; };
+
+uint64_t HBSteamUGCItem::get_time_added_to_user_list() const {
+	return ugc_details.added_to_user_list;
+}
 
 SWC::RemoteStoragePublishedFileVisibility HBSteamUGCItem::get_visibility() const { return ugc_details.visibility; };
 
@@ -732,12 +802,28 @@ BitField<SWC::ItemState> HBSteamUGCItem::get_item_state() const {
 	return SteamAPI_ISteamUGC_GetItemState(iugc, ugc_details.published_file_id);
 }
 
+String HBSteamUGCItem::get_metadata() const {
+	return metadata;
+}
+
 Ref<HBSteamUGCEditor> HBSteamUGCItem::edit() const {
 	Ref<HBSteamUGCEditor> editor;
 	editor.instantiate();
 	editor->file_id = ugc_details.published_file_id;
 	editor->app_id = ugc_details.consumer_app_id;
 	return editor;
+}
+
+String HBSteamUGCItem::get_install_directory() const {
+	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
+	uint64_t size_on_disk;
+	uint32_t time_stamp;
+	char installation_folder[256];
+	bool success = SteamAPI_ISteamUGC_GetItemInstallInfo(iugc, ugc_details.published_file_id, (uint64 *)&size_on_disk, installation_folder, 256, &time_stamp);
+	if (!success) {
+		return "";
+	}
+	return String::utf8(installation_folder);
 }
 
 bool HBSteamUGCItem::subscribe() const {
@@ -748,6 +834,41 @@ bool HBSteamUGCItem::subscribe() const {
 bool HBSteamUGCItem::unsubscribe() const {
 	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
 	return SteamAPI_ISteamUGC_UnsubscribeItem(iugc, ugc_details.published_file_id);
+}
+
+bool HBSteamUGCItem::download(bool p_high_priority) const {
+	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
+	return SteamAPI_ISteamUGC_DownloadItem(iugc, ugc_details.published_file_id, p_high_priority);
+}
+
+bool HBSteamUGCItem::request_user_vote() {
+	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
+	SteamAPICall_t api_call = SteamAPI_ISteamUGC_GetUserItemVote(iugc, ugc_details.published_file_id);
+	Steamworks::get_singleton()->add_call_result_callback(api_call, callable_mp(this, &HBSteamUGCItem::_on_get_user_item_vote));
+	return api_call != k_uAPICallInvalid;
+}
+
+bool HBSteamUGCItem::set_user_item_vote(bool p_vote_up) const {
+	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
+	SteamAPICall_t api_call = SteamAPI_ISteamUGC_SetUserItemVote(iugc, ugc_details.published_file_id, p_vote_up);
+	return api_call != k_uAPICallInvalid;
+}
+
+void HBSteamUGCItem::add_dependency(uint64_t p_dependency_id) {
+	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
+	SteamAPICall_t api_call = SteamAPI_ISteamUGC_AddDependency(iugc, ugc_details.published_file_id, p_dependency_id);
+	Steamworks::get_singleton()->add_call_result_callback(api_call, callable_mp(this, &HBSteamUGCItem::_on_added_dependency));
+}
+
+void HBSteamUGCItem::remove_dependency(uint64_t p_dependency_id) {
+	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
+	SteamAPICall_t api_call = SteamAPI_ISteamUGC_RemoveDependency(iugc, ugc_details.published_file_id, p_dependency_id);
+	Steamworks::get_singleton()->add_call_result_callback(api_call, callable_mp(this, &HBSteamUGCItem::_on_removed_dependency));
+}
+
+void HBSteamUGCItem::delete_item() {
+	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
+	SteamAPI_ISteamUGC_DeleteItem(iugc, ugc_details.published_file_id);
 }
 
 Ref<HBSteamUGCItem> HBSteamUGCItem::from_id(uint64_t p_item_id) {
@@ -783,6 +904,12 @@ void HBSteamUGCAdditionalPreview::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_preview_type"), &HBSteamUGCAdditionalPreview::get_preview_type);
 }
 
+HBSteamUGCAdditionalPreview::HBSteamUGCAdditionalPreview(const String &p_url_or_video_id, const String &p_original_filename, const SWC::ItemPreviewType &p_preview_type) {
+	url_or_video_id = p_url_or_video_id;
+	original_filename = p_original_filename;
+	preview_type = p_preview_type;
+}
+
 Ref<HBSteamUGCQuery> HBSteamUGCQuery::with_key_value_tags(bool p_with_key_value_tags) {
 	wants_key_value_tags = true;
 	return this;
@@ -794,7 +921,7 @@ void HBSteamUGCEditor::_submit_update() {
 	if (consumer_app_id == 0) {
 		consumer_app_id = Steamworks::get_singleton()->get_app_id();
 	}
-	UGCUpdateHandle_t update_handle = SteamAPI_ISteamUGC_StartItemUpdate(iugc, consumer_app_id, file_id);
+	update_handle = SteamAPI_ISteamUGC_StartItemUpdate(iugc, consumer_app_id, file_id);
 
 	if (kv_tags_to_add.size() > 0) {
 		for (KeyValue<String, String> kv : kv_tags_to_add) {
@@ -820,6 +947,9 @@ void HBSteamUGCEditor::_submit_update() {
 	}
 	if (has_preview_file) {
 		SteamAPI_ISteamUGC_SetItemPreview(iugc, update_handle, preview_file.utf8());
+	}
+	if (has_preview_video_id) {
+		SteamAPI_ISteamUGC_AddItemPreviewVideo(iugc, update_handle, preview_video_id.utf8());
 	}
 	if (has_tags) {
 		SteamParamStringArray_t steam_tags;
@@ -878,11 +1008,15 @@ void HBSteamUGCEditor::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("for_app_id", "app_id"), &HBSteamUGCEditor::for_app_id);
 	ClassDB::bind_method(D_METHOD("with_changelog", "changelog"), &HBSteamUGCEditor::with_changelog);
 	ClassDB::bind_method(D_METHOD("with_description", "description"), &HBSteamUGCEditor::with_description);
+	ClassDB::bind_method(D_METHOD("with_content", "content_path"), &HBSteamUGCEditor::with_content);
 	ClassDB::bind_method(D_METHOD("with_visibility", "visiblity"), &HBSteamUGCEditor::with_visibility);
 	ClassDB::bind_method(D_METHOD("with_metadata", "metadata"), &HBSteamUGCEditor::with_metadata);
 	ClassDB::bind_method(D_METHOD("with_preview_file", "preview_file"), &HBSteamUGCEditor::with_preview_file);
+	ClassDB::bind_method(D_METHOD("with_preview_video_id", "video_id"), &HBSteamUGCEditor::with_preview_video_id);
 	ClassDB::bind_method(D_METHOD("with_tags", "tags"), &HBSteamUGCEditor::with_tags);
 	ClassDB::bind_method(D_METHOD("with_title", "title"), &HBSteamUGCEditor::with_title);
+	ClassDB::bind_method(D_METHOD("get_update_progress"), &HBSteamUGCEditor::get_update_progress);
+
 	ClassDB::bind_method(D_METHOD("submit"), &HBSteamUGCEditor::submit);
 
 	ADD_SIGNAL(MethodInfo("file_submitted", PropertyInfo(Variant::INT, "result"), PropertyInfo(Variant::BOOL, "user_needs_to_accept_workshop_legal_agreement")));
@@ -921,6 +1055,12 @@ Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_description(const String &p_descrip
 	return this;
 }
 
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_content(const String &p_content_path) {
+	has_content = true;
+	content = p_content_path;
+	return this;
+}
+
 Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_visibility(SWC::RemoteStoragePublishedFileVisibility p_visibility) {
 	has_visiblity = true;
 	visibility = p_visibility;
@@ -936,6 +1076,12 @@ Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_metadata(const String &p_metadata) 
 Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_preview_file(const String &p_preview_file) {
 	has_preview_file = true;
 	preview_file = p_preview_file;
+	return this;
+}
+
+Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_preview_video_id(const String &p_video_id) {
+	has_preview_video_id = true;
+	preview_video_id = p_video_id;
 	return this;
 }
 
@@ -968,9 +1114,58 @@ void HBSteamUGCEditor::submit() {
 	Steamworks::get_singleton()->add_call_result_callback(api_call, callable_mp(this, &HBSteamUGCEditor::_on_item_created));
 }
 
+Ref<HBSteamUGCItemUpdateProgress> HBSteamUGCEditor::get_update_progress() const {
+	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
+	uint64_t bytes_processed, bytes_total;
+	EItemUpdateStatus update_status = SteamAPI_ISteamUGC_GetItemUpdateProgress(iugc, update_handle, (uint64 *)&bytes_processed, (uint64 *)&bytes_total);
+	Ref<HBSteamUGCItemUpdateProgress> update_progress;
+	update_progress.instantiate();
+	update_progress->update_status = (SWC::ItemUpdateStatus)update_status;
+	update_progress->bytes_processed = bytes_processed;
+	update_progress->bytes_total = bytes_total;
+	return update_progress;
+}
+
 Ref<HBSteamUGCEditor> HBSteamUGCEditor::new_community_file() {
 	Ref<HBSteamUGCEditor> editor;
 	editor.instantiate();
 	editor->creating_new = true;
 	return editor;
+}
+
+void HBSteamUGCUserItemVoteResult::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_vote_skipped"), &HBSteamUGCUserItemVoteResult::get_vote_skipped);
+	ClassDB::bind_method(D_METHOD("get_vote_up"), &HBSteamUGCUserItemVoteResult::get_vote_skipped);
+	ClassDB::bind_method(D_METHOD("get_vote_down"), &HBSteamUGCUserItemVoteResult::get_vote_skipped);
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "vote_up"), "", "get_vote_up");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "vote_skipped"), "", "get_vote_skipped");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "vote_down"), "", "get_vote_down");
+}
+
+bool HBSteamUGCUserItemVoteResult::get_vote_up() const { return vote_up; }
+
+bool HBSteamUGCUserItemVoteResult::get_vote_down() const { return vote_down; }
+
+bool HBSteamUGCUserItemVoteResult::get_vote_skipped() const { return vote_skipped; }
+
+void HBSteamUGCItemUpdateProgress::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_update_status"), &HBSteamUGCItemUpdateProgress::get_update_status);
+	ClassDB::bind_method(D_METHOD("get_bytes_total"), &HBSteamUGCItemUpdateProgress::get_bytes_total);
+	ClassDB::bind_method(D_METHOD("get_bytes_processed"), &HBSteamUGCItemUpdateProgress::get_bytes_processed);
+
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "update_status"), "", "get_update_status");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "bytes_total"), "", "get_bytes_total");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "bytes_processed"), "", "get_bytes_processed");
+}
+
+SWC::ItemUpdateStatus HBSteamUGCItemUpdateProgress::get_update_status() const {
+	return update_status;
+}
+
+uint64_t HBSteamUGCItemUpdateProgress::get_bytes_total() const {
+	return bytes_total;
+}
+
+uint64_t HBSteamUGCItemUpdateProgress::get_bytes_processed() const {
+	return bytes_processed;
 }

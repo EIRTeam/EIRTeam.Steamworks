@@ -33,6 +33,7 @@
 
 #include "core/object/ref_counted.h"
 #include "scene/resources/texture.h"
+#include "steamworks_callback_data.h"
 
 class ISteamFriends;
 class HBSteamLobby;
@@ -44,6 +45,7 @@ private:
 	Ref<Texture2D> avatar;
 	uint64_t steam_id;
 	static HashMap<uint64_t, Ref<WeakRef>> friend_cache;
+	void _on_persona_state_change(Ref<SteamworksCallbackData> p_callback);
 
 protected:
 	static void _bind_methods();
@@ -54,6 +56,8 @@ public:
 	uint64_t get_steam_id() const;
 	static Ref<HBSteamFriend> from_steam_id(uint64_t p_steam_id);
 	uint32_t get_account_id() const;
+	bool request_user_information(bool p_include_avatars) const;
+	HBSteamFriend();
 };
 
 class HBSteamFriends : public RefCounted {

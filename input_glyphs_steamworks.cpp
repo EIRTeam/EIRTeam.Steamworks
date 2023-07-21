@@ -33,6 +33,8 @@
 #include "core/io/dir_access.h"
 #include "core/io/image.h"
 #include "core/io/json.h"
+#include "scene/resources/image_texture.h"
+#include "scene/resources/placeholder_textures.h"
 #include "steamworks.h"
 #include "thirdparty/steamworks/public/steam/isteaminput.h"
 #include <iterator>

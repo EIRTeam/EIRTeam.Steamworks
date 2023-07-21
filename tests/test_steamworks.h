@@ -78,6 +78,7 @@ TEST_CASE("[Steamworks] Test correct initialization") {
 	CHECK_MESSAGE(singleton->get_ugc().is_valid(), "SteamUGC interface should be valid");
 	CHECK_MESSAGE(singleton->get_remote_storage().is_valid(), "SteamRemoteStorage interface should be valid");
 	CHECK_MESSAGE(singleton->get_user().is_valid(), "SteamUser interface should be valid");
+	CHECK_MESSAGE(singleton->get_user_stats().is_valid(), "SteamUserStats interface should be valid");
 }
 TEST_CASE("[Steamworks] Test getting the local user") {
 	reinit_steamworks_if_needed();

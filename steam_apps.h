@@ -32,6 +32,7 @@
 #define STEAM_APPS_H
 
 #include "core/object/ref_counted.h"
+#include "steam_friends.h"
 
 class ISteamApps;
 class HBSteamApps : public RefCounted {
@@ -46,6 +47,7 @@ public:
 	bool is_subscribed_app(uint64_t p_app_id) const;
 	bool is_app_installed(uint64_t p_app_id) const;
 	String get_app_install_dir(uint64_t p_app_id) const;
+	Ref<HBSteamFriend> get_app_owner() const;
 
 	void init_interface();
 	bool is_valid() const;

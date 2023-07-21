@@ -36,6 +36,7 @@ void HBSteamApps::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("is_subscribed_app", "app_id"), &HBSteamApps::is_subscribed_app);
 	ClassDB::bind_method(D_METHOD("is_app_installed", "app_id"), &HBSteamApps::is_app_installed);
 	ClassDB::bind_method(D_METHOD("get_app_install_dir", "app_id"), &HBSteamApps::get_app_install_dir);
+	ClassDB::bind_method(D_METHOD("get_app_owner"), &HBSteamApps::get_app_owner);
 }
 
 bool HBSteamApps::is_subscribed() const {
@@ -54,6 +55,11 @@ String HBSteamApps::get_app_install_dir(uint64_t p_app_id) const {
 	char bytes[256];
 	uint32_t dir_length = SteamAPI_ISteamApps_GetAppInstallDir(steam_apps, p_app_id, bytes, 256);
 	return String::utf8(bytes, dir_length);
+}
+
+Ref<HBSteamFriend> HBSteamApps::get_app_owner() const {
+	uint64_t id = SteamAPI_ISteamApps_GetAppOwner(steam_apps);
+	return HBSteamFriend::from_steam_id(id);
 }
 
 void HBSteamApps::init_interface() {

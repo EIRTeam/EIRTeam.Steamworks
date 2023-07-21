@@ -26,6 +26,8 @@ lib = ""
 if env["platform"] == "linuxbsd":
     lib_path += "linux64"
     lib = "steam_api"
+    if not "RPATH" in env:
+        env.Append(RPATH=env.Literal("\\$$ORIGIN"))
 elif env["platform"] == "windows":
     lib_path += "win64"
     if env["CC"] == "cl":

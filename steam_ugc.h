@@ -39,6 +39,40 @@
 class ISteamUGC;
 class HBSteamUGCQueryPageResult;
 class HBSteamUGCItem;
+class HBSteamUGCEditor;
+
+class HBSteamUGCItemUpdateProgress : public RefCounted {
+	GDCLASS(HBSteamUGCItemUpdateProgress, RefCounted);
+	uint64_t bytes_processed;
+	uint64_t bytes_total;
+	SWC::ItemUpdateStatus update_status;
+
+protected:
+	static void _bind_methods();
+
+public:
+	SWC::ItemUpdateStatus get_update_status() const;
+	uint64_t get_bytes_total() const;
+	uint64_t get_bytes_processed() const;
+	friend class HBSteamUGCEditor;
+};
+
+class HBSteamUGCUserItemVoteResult : public RefCounted {
+	GDCLASS(HBSteamUGCUserItemVoteResult, RefCounted);
+	bool vote_up;
+	bool vote_down;
+	bool vote_skipped;
+
+protected:
+	static void _bind_methods();
+
+public:
+	bool get_vote_up() const;
+	bool get_vote_down() const;
+	bool get_vote_skipped() const;
+
+	friend class HBSteamUGCItem;
+};
 
 class HBSteamUGCPublishResult : public RefCounted {
 	GDCLASS(HBSteamUGCPublishResult, RefCounted);
@@ -49,6 +83,7 @@ class HBSteamUGCEditor : public RefCounted {
 	bool creating_new = false;
 	uint64_t app_id = 0;
 	uint64_t file_id = 0;
+	SWC::UGCUpdateHandle_t update_handle = SWC::UGC_UPDATE_HANDLE_INVALID;
 
 	HashMap<String, String> kv_tags_to_add;
 	Vector<String> kv_tags_to_remove;
@@ -64,6 +99,8 @@ class HBSteamUGCEditor : public RefCounted {
 	String metadata;
 	bool has_preview_file = false;
 	String preview_file;
+	bool has_preview_video_id = false;
+	String preview_video_id;
 	bool has_tags = false;
 	Vector<String> tags;
 	bool has_title = false;
@@ -81,13 +118,16 @@ public:
 	Ref<HBSteamUGCEditor> for_app_id(uint64_t p_app_id);
 	Ref<HBSteamUGCEditor> with_changelog(const String &p_changelog);
 	Ref<HBSteamUGCEditor> with_description(const String &p_description);
+	Ref<HBSteamUGCEditor> with_content(const String &p_content_path);
 	Ref<HBSteamUGCEditor> with_visibility(SWC::RemoteStoragePublishedFileVisibility p_visibility);
 	Ref<HBSteamUGCEditor> with_metadata(const String &p_metadata);
 	Ref<HBSteamUGCEditor> with_preview_file(const String &p_preview_file);
+	Ref<HBSteamUGCEditor> with_preview_video_id(const String &p_video_id);
 	Ref<HBSteamUGCEditor> with_tags(Vector<String> p_tags);
 
 	Ref<HBSteamUGCEditor> with_title(const String &p_title);
 	void submit();
+	Ref<HBSteamUGCItemUpdateProgress> get_update_progress() const;
 	static Ref<HBSteamUGCEditor> new_community_file();
 	friend class HBSteamUGCItem;
 };
@@ -121,6 +161,9 @@ class HBSteamUGCItem : public RefCounted {
 	TypedArray<int64_t> children;
 	Vector<Ref<HBSteamUGCAdditionalPreview>> additional_previews;
 	Dictionary key_value_tags;
+	void _on_get_user_item_vote(Ref<SteamworksCallbackData> p_callback, bool p_io_failure);
+	void _on_added_dependency(Ref<SteamworksCallbackData> p_callback, bool p_io_failure);
+	void _on_removed_dependency(Ref<SteamworksCallbackData> p_callback, bool p_io_failure);
 
 protected:
 	static void _bind_methods();
@@ -138,6 +181,7 @@ public:
 	float get_score() const;
 	uint64_t get_time_created() const;
 	uint64_t get_time_updated() const;
+	uint64_t get_time_added_to_user_list() const;
 	SWC::RemoteStoragePublishedFileVisibility get_visibility() const;
 	bool get_is_banned() const;
 	bool get_is_accepted_for_use() const;
@@ -148,10 +192,20 @@ public:
 	Vector<Ref<HBSteamUGCAdditionalPreview>> get_additional_previews() const;
 	Dictionary get_kv_tags() const;
 	BitField<SWC::ItemState> get_item_state() const;
+	String get_metadata() const;
 	Ref<HBSteamUGCEditor> edit() const;
+	String get_install_directory() const;
 
 	bool subscribe() const;
 	bool unsubscribe() const;
+
+	bool download(bool p_high_priority) const;
+	bool request_user_vote();
+	bool set_user_item_vote(bool p_vote_up) const;
+
+	void add_dependency(uint64_t p_dependency);
+	void remove_dependency(uint64_t p_dependency);
+	void delete_item();
 
 	static Ref<HBSteamUGCItem> from_id(uint64_t p_item_id);
 	static Ref<HBSteamUGCItem> from_details(const SWC::SteamUGCDetails_t &p_details);
@@ -175,6 +229,7 @@ public:
 		bool returns_additional_previews;
 		int result_count;
 		int total_results;
+		int page;
 	};
 
 private:
@@ -186,6 +241,8 @@ protected:
 public:
 	TypedArray<HBSteamUGCItem> get_results_godot();
 	Vector<Ref<HBSteamUGCItem>> get_results();
+	int get_total_results() const;
+	int get_page() const;
 	HBSteamUGCQueryPageResult(const ResultPageInfo &p_page_info);
 	~HBSteamUGCQueryPageResult();
 };
@@ -314,7 +371,7 @@ protected:
 	static void _bind_methods();
 
 public:
-	Vector<Ref<HBSteamUGCItem>> get_subscribed_items();
+	TypedArray<HBSteamUGCItem> get_subscribed_items();
 	void init_interface();
 	bool is_valid() const;
 	ISteamUGC *get_interface() const;

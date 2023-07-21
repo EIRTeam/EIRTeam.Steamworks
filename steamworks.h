@@ -40,6 +40,7 @@
 #include "steam_remote_storage.h"
 #include "steam_ugc.h"
 #include "steam_user.h"
+#include "steam_user_stats.h"
 #include "steam_utils.h"
 
 class ISteamClient;
@@ -62,6 +63,7 @@ class Steamworks : public Object {
 	Ref<HBSteamApps> apps;
 	Ref<HBSteamUser> user;
 	Ref<HBSteamRemoteStorage> remote_storage;
+	Ref<HBSteamUserStats> user_stats;
 	typedef int CallbackType;
 
 	struct SteamworksCallbackInfo {
@@ -102,6 +104,7 @@ public:
 	Ref<HBSteamApps> get_apps() const;
 	Ref<HBSteamUser> get_user() const;
 	Ref<HBSteamRemoteStorage> get_remote_storage() const;
+	Ref<HBSteamUserStats> get_user_stats() const;
 	int get_app_id() const;
 
 	Steamworks();

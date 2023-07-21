@@ -35,7 +35,7 @@ void HBSteamRemoteStorage::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("is_cloud_enabled"), &HBSteamRemoteStorage::is_cloud_enabled);
 	ClassDB::bind_method(D_METHOD("file_read", "file_name"), &HBSteamRemoteStorage::file_read);
 	ClassDB::bind_method(D_METHOD("file_write", "file_name", "data"), &HBSteamRemoteStorage::file_write);
-	ClassDB::bind_method(D_METHOD("file_exists", "file_name", "data"), &HBSteamRemoteStorage::file_write);
+	ClassDB::bind_method(D_METHOD("file_exists", "file_name"), &HBSteamRemoteStorage::file_exists);
 	ClassDB::bind_method(D_METHOD("get_file_size", "file_name"), &HBSteamRemoteStorage::get_file_size);
 	ClassDB::bind_method(D_METHOD("is_valid"), &HBSteamRemoteStorage::is_valid);
 }

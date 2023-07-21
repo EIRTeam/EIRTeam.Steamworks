@@ -25,6 +25,7 @@ whitelisted_enum_names = [
     "EGamepadTextInputMode",
     "EFloatingGamepadTextInputMode",
     "EGamepadTextInputLineMode",
+    "EItemUpdateStatus",
 ]
 
 # Needed because godot can't convert unsigned long long
@@ -45,6 +46,8 @@ whitelisted_types = [
     "PublishedFileId_t",
     "HAuthTicket",
 ]
+
+bitfields = ["ItemState"]
 
 whitelisted_constants = ["k_UGCQueryHandleInvalid", "k_UGCUpdateHandleInvalid"]
 
@@ -118,6 +121,7 @@ def generate_constants(constants: List[Dict]) -> StringIO:
 
 def generate_structs(structs: List[Dict]) -> StringIO:
     f = StringIO()
+    f.write("\t#pragma pack( push, 4 )\n\n")
     for struct in structs:
         if not struct["struct"] in whitelisted_structs:
             continue
@@ -143,6 +147,7 @@ def generate_structs(structs: List[Dict]) -> StringIO:
             field_name = snake_case(field["fieldname"][name_start_index:]).lower()
             f.write(f"\t\t{field_type} {field_name}{field_type_array};\n")
         f.write("};\n\n")
+    f.write("\t#pragma pack( pop )\n\n")
     return f
 
 
@@ -184,7 +189,10 @@ def generate_constants_file(target, source, env):
         f.write("};\n\n")
 
         for enum in enum_infos:
-            f.write(f"VARIANT_ENUM_CAST(SteamworksConstants::{enum.enum_name});\n")
+            if enum.enum_name in bitfields:
+                f.write(f"VARIANT_BITFIELD_CAST(SteamworksConstants::{enum.enum_name});\n")
+            else:
+                f.write(f"VARIANT_ENUM_CAST(SteamworksConstants::{enum.enum_name});\n")
         f.write("\n")
 
         f.write("using SWC = SteamworksConstants;\n\n")

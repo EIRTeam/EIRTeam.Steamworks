@@ -29,6 +29,7 @@
 /**************************************************************************/
 
 #include "steam_friends.h"
+#include "scene/resources/image_texture.h"
 #include "steam/steam_api_flat.h"
 #include "sw_error_macros.h"
 
@@ -36,6 +37,7 @@ HashMap<uint64_t, Ref<WeakRef>> HBSteamFriend::friend_cache = HashMap<uint64_t, 
 
 void HBSteamFriends::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("activate_game_overlay_invite_dialog", "lobby"), &HBSteamFriends::activate_game_overlay_invite_dialog);
+	ClassDB::bind_method(D_METHOD("activate_game_overlay_to_web_page", "web_page", "modal"), &HBSteamFriends::activate_game_overlay_to_web_page);
 }
 
 void HBSteamFriends::init_interface() {
@@ -87,13 +89,35 @@ uint32_t HBSteamFriend::get_account_id() const {
 	return steam_id & 0xFFFFFFFF;
 }
 
+bool HBSteamFriend::request_user_information(bool p_include_avatars) const {
+	ISteamFriends *friends = Steamworks::get_singleton()->get_friends()->get_interface();
+	return SteamAPI_ISteamFriends_RequestUserInformation(friends, steam_id, !p_include_avatars);
+}
+
+HBSteamFriend::HBSteamFriend() {
+	Steamworks::get_singleton()->add_callback(PersonaStateChange_t::k_iCallback, callable_mp(this, &HBSteamFriend::_on_persona_state_change));
+}
+
+void HBSteamFriend::_on_persona_state_change(Ref<SteamworksCallbackData> p_callback) {
+	const PersonaStateChange_t *state_change = p_callback->get_data<PersonaStateChange_t>();
+	if (state_change->m_ulSteamID == steam_id) {
+		if (state_change->m_nChangeFlags & k_EPersonaChangeAvatar) {
+			avatar.unref();
+		}
+		emit_signal("information_updated");
+	}
+}
+
 void HBSteamFriend::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_persona_name"), &HBSteamFriend::get_persona_name);
 	ClassDB::bind_method(D_METHOD("get_steam_id"), &HBSteamFriend::get_steam_id);
 	ClassDB::bind_method(D_METHOD("get_avatar"), &HBSteamFriend::get_avatar);
+	ClassDB::bind_method(D_METHOD("request_user_information", "include_avatars"), &HBSteamFriend::request_user_information);
+	ClassDB::bind_static_method("HBSteamFriend", D_METHOD("from_steam_id", "steam_id"), &HBSteamFriend::from_steam_id);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "avatar"), "", "get_avatar");
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "persona_name"), "", "get_persona_name");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "steam_id"), "", "get_steam_id");
+	ADD_SIGNAL(MethodInfo("information_updated"));
 }
 
 String HBSteamFriend::get_persona_name() const {
