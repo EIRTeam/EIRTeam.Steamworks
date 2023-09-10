@@ -72,6 +72,7 @@ public:
 	bool is_valid() const;
 	void activate_game_overlay_invite_dialog(Ref<HBSteamLobby> p_lobby) const;
 	void activate_game_overlay_to_web_page(const String &p_web_page, bool p_modal) const;
+	void set_rich_presence(const String &p_key, const String &p_value);
 	ISteamFriends *get_interface() const;
 };
 

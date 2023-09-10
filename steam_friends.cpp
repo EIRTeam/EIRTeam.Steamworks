@@ -38,6 +38,7 @@ HashMap<uint64_t, Ref<WeakRef>> HBSteamFriend::friend_cache = HashMap<uint64_t, 
 void HBSteamFriends::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("activate_game_overlay_invite_dialog", "lobby"), &HBSteamFriends::activate_game_overlay_invite_dialog);
 	ClassDB::bind_method(D_METHOD("activate_game_overlay_to_web_page", "web_page", "modal"), &HBSteamFriends::activate_game_overlay_to_web_page);
+	ClassDB::bind_method(D_METHOD("set_rich_presence", "key", "value"), &HBSteamFriends::set_rich_presence);
 }
 
 void HBSteamFriends::init_interface() {
@@ -59,6 +60,10 @@ void HBSteamFriends::activate_game_overlay_to_web_page(const String &p_web_page,
 		mode = EActivateGameOverlayToWebPageMode::k_EActivateGameOverlayToWebPageMode_Modal;
 	}
 	SteamAPI_ISteamFriends_ActivateGameOverlayToWebPage(steam_friends, p_web_page.utf8(), mode);
+}
+
+void HBSteamFriends::set_rich_presence(const String &p_key, const String &p_value) {
+	SteamAPI_ISteamFriends_SetRichPresence(steam_friends, p_key.utf8().get_data(), p_value.utf8().get_data());
 }
 
 ISteamFriends *HBSteamFriends::get_interface() const {
