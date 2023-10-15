@@ -45,11 +45,11 @@ class HBSteamworksInputGlyphsSource : public InputGlyphsSource {
 	GDCLASS(HBSteamworksInputGlyphsSource, InputGlyphsSource);
 
 protected:
-	static SWC::InputActionOrigin origin_to_steamworks_xbox_origin(const InputOrigin &p_input_origin);
-	static SWC::SteamInputType input_type_to_steamworks_input_type(const InputType &p_input_type);
+	static SWC::InputActionOrigin origin_to_steamworks_xbox_origin(const InputGlyphsConstants::InputOrigin &p_input_origin);
+	static SWC::SteamInputType input_type_to_steamworks_input_type(const InputGlyphsConstants::InputType &p_input_type);
 
 public:
-	static InputType steamworks_input_type_to_input_type(const SWC::SteamInputType &p_steam_input_type);
+	static InputGlyphsConstants::InputType steamworks_input_type_to_input_type(const SWC::SteamInputType &p_steam_input_type);
 	static Ref<InputGlyphsSource> _create_current() {
 		Ref<HBSteamworksInputGlyphsSource> ref;
 		ref.instantiate();
@@ -60,8 +60,8 @@ public:
 		_create_func = _create_current;
 	}
 
-	virtual Ref<Texture2D> get_input_glyph(const InputType &p_input_type, const InputOrigin &p_input_origin, const BitField<InputGlyphStyle> &p_glyphs_style, const InputGlyphSize &p_size) override;
-	virtual InputType identify_joy(int p_controller_idx) const override;
+	virtual Ref<Texture2D> get_input_glyph(const InputGlyphsConstants::InputType &p_input_type, const InputGlyphsConstants::InputOrigin &p_input_origin, const BitField<InputGlyphStyle> &p_glyphs_style, const InputGlyphSize &p_size) override;
+	virtual InputGlyphsConstants::InputType identify_joy(int p_controller_idx) const override;
 	friend class HBSteamworksInputGlyphDumpTool;
 };
 
@@ -72,12 +72,12 @@ class HBSteamworksInputGlyphDumpTool {
 			HashMap<String, int> filename_to_idx_map;
 			Vector<String> file_names;
 			int texture_map_abxy_overrides[4 * 3];
-			int texture_map[InputOrigin::INPUT_ORIGIN_COUNT];
+			int texture_map[InputGlyphsConstants::INPUT_ORIGIN_COUNT];
 		} themes[InputGlyphStyle::GLYPH_STYLE_THEME_COUNT];
 	};
 
 public:
-	static void _dump_input_type(InputDumpInfo &p_dump_info, InputType p_input_type, Ref<HBSteamworksInputGlyphsSource> p_source);
+	static void _dump_input_type(InputDumpInfo &p_dump_info, InputGlyphsConstants::InputType p_input_type, Ref<HBSteamworksInputGlyphsSource> p_source);
 	static void dump(const String &p_module_dir_path);
 };
 
