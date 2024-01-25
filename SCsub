@@ -17,7 +17,16 @@ sources = [
 ]
 
 # For SVG rendering
-env_steamworks.Prepend(CPPPATH=["#thirdparty/thorvg/inc"])
+if "svg" in env.module_list:
+    env_steamworks.Prepend(
+        CPPPATH=[
+            "#thirdparty/thorvg/inc",
+            "#thirdparty/thorvg/src/common",
+            "#thirdparty/thorvg/src/renderer",
+        ]
+    )
+    # Enable ThorVG static object linking.
+    env_steamworks.Append(CPPDEFINES=["TVG_STATIC"])
 env_steamworks.Prepend(CPPPATH=[module_path + "/thirdparty/steamworks/public"])
 
 lib_path = module_path + "/thirdparty/steamworks/redistributable_bin/"
@@ -48,6 +57,8 @@ env.CommandNoCache(
         subprocess=False,
     ),
 )
+
+env_steamworks.Append(CPPDEFINES=["TVG_STATIC"])
 
 if ARGUMENTS.get("steamworks_shared", "no") == "yes":
     # Shared lib compilation
