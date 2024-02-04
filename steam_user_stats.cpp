@@ -2,7 +2,7 @@
 #include "steam/steam_api_flat.h"
 
 void HBSteamUserStats::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("set_achivement", "achievement"), &HBSteamUserStats::set_achievement);
+	ClassDB::bind_method(D_METHOD("set_achievement", "achievement"), &HBSteamUserStats::set_achievement);
 	ClassDB::bind_method(D_METHOD("store_stats"), &HBSteamUserStats::store_stats);
 }
 

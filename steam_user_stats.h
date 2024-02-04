@@ -1,3 +1,4 @@
+
 #ifndef STEAM_USER_STATS_H
 #define STEAM_USER_STATS_H
 

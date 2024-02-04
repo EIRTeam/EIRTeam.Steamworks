@@ -702,6 +702,7 @@ void HBSteamUGCItem::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("add_dependency", "child_id"), &HBSteamUGCItem::add_dependency);
 	ClassDB::bind_method(D_METHOD("remove_dependency", "child_id"), &HBSteamUGCItem::remove_dependency);
 	ClassDB::bind_method(D_METHOD("delete_item"), &HBSteamUGCItem::delete_item);
+	ClassDB::bind_method(D_METHOD("set_user_item_vote", "vote_up"), &HBSteamUGCItem::set_user_item_vote);
 
 	ClassDB::bind_static_method("HBSteamUGCItem", D_METHOD("from_id", "steam_id"), &HBSteamUGCItem::from_id);
 
