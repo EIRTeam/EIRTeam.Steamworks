@@ -49,7 +49,7 @@ void initialize_steamworks_module(ModuleInitializationLevel p_level) {
 		if (app_id == -1) {
 			return;
 		}
-		steamworks_singleton->init(GLOBAL_GET("steamworks/app_id"));
+		steamworks_singleton->init(app_id);
 	}
 
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
