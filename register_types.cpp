@@ -30,10 +30,28 @@
 
 #include "register_types.h"
 
+#include "core/config/project_settings.h"
 #include "steamworks.h"
 #include "steamworks_constants.gen.h"
 
+Steamworks *steamworks_singleton;
 void initialize_steamworks_module(ModuleInitializationLevel p_level) {
+	if (p_level == MODULE_INITIALIZATION_LEVEL_CORE) {
+		GLOBAL_DEF("eirteam/steamworks/app_id", -1);
+		steamworks_singleton = memnew(Steamworks);
+		Engine::get_singleton()->add_singleton(Engine::Singleton("Steamworks", steamworks_singleton));
+
+		if (Engine::get_singleton()->is_editor_hint()) {
+			return;
+		}
+
+		int app_id = GLOBAL_GET("eirteam/steamworks/app_id");
+		if (app_id == -1) {
+			return;
+		}
+		steamworks_singleton->init(GLOBAL_GET("steamworks/app_id"));
+	}
+
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
 	}
@@ -61,8 +79,6 @@ void initialize_steamworks_module(ModuleInitializationLevel p_level) {
 	GDREGISTER_ABSTRACT_CLASS(HBSteamUserStats);
 	GDREGISTER_ABSTRACT_CLASS(HBSteamUGCUserItemVoteResult);
 	GDREGISTER_ABSTRACT_CLASS(HBSteamUGCItemUpdateProgress);
-	Steamworks *steamworks_singleton = memnew(Steamworks);
-	Engine::get_singleton()->add_singleton(Engine::Singleton("Steamworks", steamworks_singleton));
 }
 
 void uninitialize_steamworks_module(ModuleInitializationLevel p_level) {

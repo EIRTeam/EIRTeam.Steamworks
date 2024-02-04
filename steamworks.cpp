@@ -132,6 +132,8 @@ void Steamworks::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_user_stats"), &Steamworks::get_user_stats);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "user_stats", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUserStats"), "", "get_user_stats");
 	ClassDB::bind_method(D_METHOD("get_app_id"), &Steamworks::get_app_id);
+
+	ClassDB::bind_method(D_METHOD("set_run_callbacks_automatically", "run_callbacks_automatically"), &Steamworks::set_run_callbacks_automatically);
 }
 
 void Steamworks::add_callback(int p_callback_type, Callable p_callable) {
@@ -192,8 +194,6 @@ bool Steamworks::init(int p_app_id, bool p_run_callbacks_automatically) {
 
 	user_stats.instantiate();
 	user_stats->init_interface();
-
-	set_run_callbacks_automatically(p_run_callbacks_automatically);
 
 	return true;
 }
