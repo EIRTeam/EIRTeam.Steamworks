@@ -121,7 +121,7 @@ def generate_constants(constants: List[Dict]) -> StringIO:
 
 def generate_structs(structs: List[Dict]) -> StringIO:
     f = StringIO()
-    f.write("\t#if defined(LINUXBSD_ENABLED) || defined(MACOS_ENABLED)")
+    f.write("\t#if defined(LINUXBSD_ENABLED) || defined(MACOS_ENABLED)\n")
     f.write("\t#pragma pack( push, 4 )\n")
     f.write("\t#else\n")
     f.write("\t#pragma pack( push, 8 )\n")
