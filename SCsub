@@ -27,7 +27,12 @@ if "svg" in env.module_list:
     )
     # Enable ThorVG static object linking.
     env_steamworks.Append(CPPDEFINES=["TVG_STATIC"])
-env_steamworks.Prepend(CPPPATH=[module_path + "/thirdparty/steamworks/public"])
+
+# Treat steamworks headers as system headers to avoid raising warnings. Not supported on MSVC.
+if not env.msvc:
+    env_steamworks.Append(CPPFLAGS=["-isystem", Dir(module_path + "/thirdparty/steamworks/public").path])
+else:
+    env_steamworks.Prepend(CPPPATH=[module_path + "/thirdparty/steamworks/public"])
 
 lib_path = module_path + "/thirdparty/steamworks/redistributable_bin/"
 lib = ""

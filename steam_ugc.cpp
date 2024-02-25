@@ -478,14 +478,16 @@ void HBSteamUGCQuery::request_page(int p_page) {
 	// this is to ensure its consistent, otherwise the user could change the query
 	// params before callback
 	HBSteamUGCQueryPageResult::ResultPageInfo page_result = {
-		query_handle,
-		false,
-		wants_key_value_tags,
-		true,
-		wants_metadata,
-		wants_children,
-		wants_additional_previews,
-		p_page
+		.handle = query_handle,
+		.data_cached = false,
+		.returns_kv_tags = wants_key_value_tags,
+		.returns_default_stats = true,
+		.returns_metadata = wants_metadata,
+		.returns_children = wants_children,
+		.returns_additional_previews = wants_additional_previews,
+		.result_count = 0,
+		.total_results = 0,
+		.page = p_page,
 	};
 	page_infos[query_handle] = page_result;
 	Steamworks::get_singleton()->add_call_result_callback(api_call, callable_mp(this, &HBSteamUGCQuery::_on_query_completed).bind(p_page));
