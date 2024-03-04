@@ -57,7 +57,6 @@ env.CommandNoCache(
     steam_api_json_path,
     env.Run(
         steamworks_builders.generate_constants_file,
-        "Generating steamworks constants header.",
         # NOTE: No need to run in subprocess since this is still executed serially.
         subprocess=False,
     ),
