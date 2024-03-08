@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="Steamworks" inherits="Object" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+<class name="Steamworks" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
 	<brief_description>
 		Base singleton to interact with the Steamworks API.
 	</brief_description>
@@ -44,23 +44,25 @@
 		</method>
 	</methods>
 	<members>
-		<member name="get_apps" type="HBSteamApps" setter="" getter="get_apps">
+		<member name="apps" type="HBSteamApps" setter="" getter="get_apps">
 		</member>
-		<member name="get_friends" type="HBSteamFriends" setter="" getter="get_friends">
-		</member>
-		<member name="get_matchmaking" type="HBSteamMatchmaking" setter="" getter="get_matchmaking">
-		</member>
-		<member name="get_networking" type="HBSteamNetworking" setter="" getter="get_networking">
-		</member>
-		<member name="get_remote_storage" type="HBSteamRemoteStorage" setter="" getter="get_remote_storage">
-		</member>
-		<member name="get_ugc" type="HBSteamUGC" setter="" getter="get_ugc">
-		</member>
-		<member name="get_user" type="HBSteamUser" setter="" getter="get_user">
-		</member>
-		<member name="get_utils" type="HBSteamUtils" setter="" getter="get_utils">
+		<member name="friends" type="HBSteamFriends" setter="" getter="get_friends">
 		</member>
 		<member name="input" type="HBSteamInput" setter="" getter="get_input">
+		</member>
+		<member name="matchmaking" type="HBSteamMatchmaking" setter="" getter="get_matchmaking">
+		</member>
+		<member name="networking" type="HBSteamNetworking" setter="" getter="get_networking">
+		</member>
+		<member name="remote_storage" type="HBSteamRemoteStorage" setter="" getter="get_remote_storage">
+		</member>
+		<member name="ugc" type="HBSteamUGC" setter="" getter="get_ugc">
+		</member>
+		<member name="user" type="HBSteamUser" setter="" getter="get_user">
+		</member>
+		<member name="user_stats" type="HBSteamUserStats" setter="" getter="get_user_stats">
+		</member>
+		<member name="utils" type="HBSteamUtils" setter="" getter="get_utils">
 		</member>
 	</members>
 </class>

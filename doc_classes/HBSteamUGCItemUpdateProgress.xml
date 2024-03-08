@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="HBSteamUGCItemUpdateProgress" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="bytes_processed" type="int" setter="" getter="get_bytes_processed">
+		</member>
+		<member name="bytes_total" type="int" setter="" getter="get_bytes_total">
+		</member>
+		<member name="update_status" type="int" setter="" getter="get_update_status" enum="SteamworksConstants.ItemUpdateStatus">
+		</member>
+	</members>
+</class>

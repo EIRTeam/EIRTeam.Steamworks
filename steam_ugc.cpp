@@ -730,7 +730,7 @@ void HBSteamUGCItem::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "metadata"), "", "get_metadata");
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "install_directory"), "", "get_install_directory");
 
-	ADD_SIGNAL(MethodInfo("user_item_vote_received", PropertyInfo(Variant::OBJECT, "item_vote_result", PROPERTY_HINT_RESOURCE_TYPE, "HBUGCUserItemVoteResult")));
+	ADD_SIGNAL(MethodInfo("user_item_vote_received", PropertyInfo(Variant::OBJECT, "item_vote_result", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUGCUserItemVoteResult")));
 	ADD_SIGNAL(MethodInfo("dependency_removed", PropertyInfo(Variant::INT, "child_id")));
 	ADD_SIGNAL(MethodInfo("dependency_added", PropertyInfo(Variant::INT, "child_id")));
 }

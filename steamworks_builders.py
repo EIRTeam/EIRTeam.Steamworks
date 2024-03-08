@@ -21,11 +21,11 @@ whitelisted_enum_names = [
     "EWorkshopFileType",
     "ERemoteStoragePublishedFileVisibility",
     "EItemPreviewType",
-    "EItemState",
     "EGamepadTextInputMode",
     "EFloatingGamepadTextInputMode",
     "EGamepadTextInputLineMode",
     "EItemUpdateStatus",
+    "EItemState"
 ]
 
 # Needed because godot can't convert unsigned long long
@@ -189,7 +189,10 @@ def generate_constants_file(target, source, env):
         f.write("\tstatic void _bind_methods() {\n")
         for enum in enum_infos:
             for value_name, value in enum.enum_values:
-                f.write(f"\t\tBIND_ENUM_CONSTANT({value_name});\n")
+                if enum.enum_name in bitfields:
+                    f.write(f"\t\tBIND_BITFIELD_FLAG({value_name});\n")
+                else:
+                    f.write(f"\t\tBIND_ENUM_CONSTANT({value_name});\n")
         f.write("\t}\n")
         f.write("};\n\n")
 

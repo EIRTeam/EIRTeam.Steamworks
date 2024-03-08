@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="HBSteamApps" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+<class name="HBSteamApps" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -10,6 +10,11 @@
 		<method name="get_app_install_dir" qualifiers="const">
 			<return type="String" />
 			<param index="0" name="app_id" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="get_app_owner" qualifiers="const">
+			<return type="HBSteamFriend" />
 			<description>
 			</description>
 		</method>

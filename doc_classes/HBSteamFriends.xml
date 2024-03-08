@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="HBSteamFriends" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+<class name="HBSteamFriends" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
 	<brief_description>
 		Class to interact with Steam Friends.
 	</brief_description>
@@ -13,6 +13,20 @@
 			<param index="0" name="lobby" type="HBSteamLobby" />
 			<description>
 				Activates the steam overlay that allows the user to invite their friends to the specified lobby.
+			</description>
+		</method>
+		<method name="activate_game_overlay_to_web_page" qualifiers="const">
+			<return type="void" />
+			<param index="0" name="web_page" type="String" />
+			<param index="1" name="modal" type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="set_rich_presence">
+			<return type="void" />
+			<param index="0" name="key" type="String" />
+			<param index="1" name="value" type="String" />
+			<description>
 			</description>
 		</method>
 	</methods>

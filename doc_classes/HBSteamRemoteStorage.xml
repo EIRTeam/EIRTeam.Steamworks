@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="HBSteamRemoteStorage" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+<class name="HBSteamRemoteStorage" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -10,7 +10,6 @@
 		<method name="file_exists" qualifiers="const">
 			<return type="bool" />
 			<param index="0" name="file_name" type="String" />
-			<param index="1" name="data" type="PackedByteArray" />
 			<description>
 			</description>
 		</method>

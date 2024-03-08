@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="SteamworksConstants" inherits="Object" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+<class name="SteamworksConstants" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
 	<brief_description>
 		Steamworks constants.
 	</brief_description>
@@ -1330,19 +1330,31 @@
 		</constant>
 		<constant name="UGC_QUERY_RANKED_BY_LAST_UPDATED_DATE" value="19" enum="UGCQuery">
 		</constant>
-		<constant name="ITEM_STATE_NONE" value="0" enum="ItemState">
+		<constant name="ITEM_UPDATE_STATUS_INVALID" value="0" enum="ItemUpdateStatus">
 		</constant>
-		<constant name="ITEM_STATE_SUBSCRIBED" value="1" enum="ItemState">
+		<constant name="ITEM_UPDATE_STATUS_PREPARING_CONFIG" value="1" enum="ItemUpdateStatus">
 		</constant>
-		<constant name="ITEM_STATE_LEGACY_ITEM" value="2" enum="ItemState">
+		<constant name="ITEM_UPDATE_STATUS_PREPARING_CONTENT" value="2" enum="ItemUpdateStatus">
 		</constant>
-		<constant name="ITEM_STATE_INSTALLED" value="4" enum="ItemState">
+		<constant name="ITEM_UPDATE_STATUS_UPLOADING_CONTENT" value="3" enum="ItemUpdateStatus">
 		</constant>
-		<constant name="ITEM_STATE_NEEDS_UPDATE" value="8" enum="ItemState">
+		<constant name="ITEM_UPDATE_STATUS_UPLOADING_PREVIEW_FILE" value="4" enum="ItemUpdateStatus">
 		</constant>
-		<constant name="ITEM_STATE_DOWNLOADING" value="16" enum="ItemState">
+		<constant name="ITEM_UPDATE_STATUS_COMMITTING_CHANGES" value="5" enum="ItemUpdateStatus">
 		</constant>
-		<constant name="ITEM_STATE_DOWNLOAD_PENDING" value="32" enum="ItemState">
+		<constant name="ITEM_STATE_NONE" value="0" enum="ItemState" is_bitfield="true">
+		</constant>
+		<constant name="ITEM_STATE_SUBSCRIBED" value="1" enum="ItemState" is_bitfield="true">
+		</constant>
+		<constant name="ITEM_STATE_LEGACY_ITEM" value="2" enum="ItemState" is_bitfield="true">
+		</constant>
+		<constant name="ITEM_STATE_INSTALLED" value="4" enum="ItemState" is_bitfield="true">
+		</constant>
+		<constant name="ITEM_STATE_NEEDS_UPDATE" value="8" enum="ItemState" is_bitfield="true">
+		</constant>
+		<constant name="ITEM_STATE_DOWNLOADING" value="16" enum="ItemState" is_bitfield="true">
+		</constant>
+		<constant name="ITEM_STATE_DOWNLOAD_PENDING" value="32" enum="ItemState" is_bitfield="true">
 		</constant>
 		<constant name="ITEM_PREVIEW_TYPE_IMAGE" value="0" enum="ItemPreviewType">
 		</constant>

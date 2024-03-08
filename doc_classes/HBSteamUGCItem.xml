@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="HBSteamUGCItem" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+<class name="HBSteamUGCItem" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -7,14 +7,58 @@
 	<tutorials>
 	</tutorials>
 	<methods>
+		<method name="add_dependency">
+			<return type="void" />
+			<param index="0" name="child_id" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="delete_item">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+		<method name="download" qualifiers="const">
+			<return type="bool" />
+			<param index="0" name="high_priorty" type="bool" />
+			<description>
+			</description>
+		</method>
 		<method name="edit" qualifiers="const">
 			<return type="HBSteamUGCEditor" />
+			<description>
+			</description>
+		</method>
+		<method name="from_id" qualifiers="static">
+			<return type="HBSteamUGCItem" />
+			<param index="0" name="steam_id" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="has_tag" qualifiers="const">
 			<return type="bool" />
 			<param index="0" name="tag" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="remove_dependency">
+			<return type="void" />
+			<param index="0" name="child_id" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="request_user_vote">
+			<return type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="subscribe" qualifiers="const">
+			<return type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="unsubscribe" qualifiers="const">
+			<return type="bool" />
 			<description>
 			</description>
 		</method>
@@ -30,17 +74,27 @@
 		</member>
 		<member name="description" type="String" setter="" getter="get_description">
 		</member>
+		<member name="install_directory" type="String" setter="" getter="get_install_directory">
+		</member>
 		<member name="is_banned" type="bool" setter="" getter="get_is_banned">
 		</member>
 		<member name="item_id" type="int" setter="" getter="get_item_id">
 		</member>
+		<member name="item_state" type="int" setter="" getter="get_item_state" enum="SteamworksConstants.ItemState" is_bitfield="true">
+		</member>
 		<member name="kv_tags" type="Dictionary" setter="" getter="get_kv_tags">
+		</member>
+		<member name="metadata" type="String" setter="" getter="get_metadata">
 		</member>
 		<member name="owner" type="HBSteamFriend" setter="" getter="get_owner">
 		</member>
 		<member name="preview_image_url" type="String" setter="" getter="get_preview_image_url">
 		</member>
 		<member name="score" type="float" setter="" getter="get_score">
+		</member>
+		<member name="time_added_to_user_list" type="int" setter="" getter="get_time_added_to_user_list">
+		</member>
+		<member name="time_created" type="int" setter="" getter="get_time_created">
 		</member>
 		<member name="time_updated" type="int" setter="" getter="get_time_updated">
 		</member>
@@ -53,4 +107,21 @@
 		<member name="votes_up" type="int" setter="" getter="get_votes_up">
 		</member>
 	</members>
+	<signals>
+		<signal name="dependency_added">
+			<param index="0" name="child_id" type="int" />
+			<description>
+			</description>
+		</signal>
+		<signal name="dependency_removed">
+			<param index="0" name="child_id" type="int" />
+			<description>
+			</description>
+		</signal>
+		<signal name="user_item_vote_received">
+			<param index="0" name="item_vote_result" type="HBSteamUGCUserItemVoteResult" />
+			<description>
+			</description>
+		</signal>
+	</signals>
 </class>

@@ -21,6 +21,7 @@ def get_doc_classes():
         "HBSteamApps",
         "HBSteamUGC",
         "HBSteamUGCItem",
+        "HBSteamUserStats",
         "HBSteamUGCEditor",
         "HBSteamUGCAdditionalPreview",
         "HBSteamUGCQuery",
@@ -34,4 +35,6 @@ def get_doc_classes():
         "HBAuthTicketForWebAPI",
         "SteamP2PPacket",
         "SteamworksConstants",
+        "HBSteamUGCItemUpdateProgress",
+        "HBSteamUGCUserItemVoteResult",
     ]

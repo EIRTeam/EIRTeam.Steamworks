@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="HBSteamUGCQueryPageResult" inherits="RefCounted" version="4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+<class name="HBSteamUGCQueryPageResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -7,7 +7,11 @@
 	<tutorials>
 	</tutorials>
 	<members>
+		<member name="page" type="int" setter="" getter="get_page">
+		</member>
 		<member name="results" type="HBSteamUGCItem[]" setter="" getter="get_results">
+		</member>
+		<member name="total_results" type="int" setter="" getter="get_total_results">
 		</member>
 	</members>
 </class>
