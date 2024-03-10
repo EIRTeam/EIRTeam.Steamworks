@@ -335,6 +335,7 @@ Ref<HBLobbyListQuery> HBLobbyListQuery::with_key_value(const String &p_key, cons
 	ERR_FAIL_COND_V_MSG(p_key.length() > k_nMaxLobbyKeyLength, this, vformat("Filter key must not be longer than %d characters.", k_nMaxLobbyKeyLength));
 	ERR_FAIL_COND_V_MSG(p_key.is_empty(), this, "Filter value must not be empty");
 	string_filters[p_key] = p_value;
+	return this;
 }
 
 Ref<HBLobbyListQuery> HBLobbyListQuery::with_lower(const String &p_key, int p_value) {
