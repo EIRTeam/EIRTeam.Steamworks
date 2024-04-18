@@ -131,6 +131,8 @@ void Steamworks::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "remote_storage", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamRemoteStorage"), "", "get_remote_storage");
 	ClassDB::bind_method(D_METHOD("get_user_stats"), &Steamworks::get_user_stats);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "user_stats", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUserStats"), "", "get_user_stats");
+	ClassDB::bind_method(D_METHOD("get_networking_messages"), &Steamworks::get_networking_messages);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "networking_messages", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamNetworkingMessages"), "", "get_networking_messages");
 	ClassDB::bind_method(D_METHOD("get_app_id"), &Steamworks::get_app_id);
 
 	ClassDB::bind_method(D_METHOD("set_run_callbacks_automatically", "run_callbacks_automatically"), &Steamworks::set_run_callbacks_automatically);
@@ -194,6 +196,9 @@ bool Steamworks::init(int p_app_id, bool p_run_callbacks_automatically) {
 
 	user_stats.instantiate();
 	user_stats->init_interface();
+
+	networking_messages.instantiate();
+	networking_messages->init_interface();
 
 	return true;
 }
@@ -284,6 +289,10 @@ Ref<HBSteamRemoteStorage> Steamworks::get_remote_storage() const {
 
 Ref<HBSteamUserStats> Steamworks::get_user_stats() const {
 	return user_stats;
+}
+
+Ref<HBSteamNetworkingMessages> Steamworks::get_networking_messages() const {
+	return networking_messages;
 }
 
 int Steamworks::get_app_id() const {

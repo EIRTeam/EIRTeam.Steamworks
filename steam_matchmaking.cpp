@@ -139,6 +139,12 @@ void HBSteamLobby::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_data", "key", "value"), &HBSteamLobby::set_data);
 	ClassDB::bind_method(D_METHOD("get_data", "key"), &HBSteamLobby::get_data);
 	ClassDB::bind_method(D_METHOD("get_member_data", "member", "key"), &HBSteamLobby::get_member_data);
+	ClassDB::bind_method(D_METHOD("get_members"), &HBSteamLobby::get_members);
+	ClassDB::bind_method(D_METHOD("get_members_count"), &HBSteamLobby::get_members_count);
+	ClassDB::bind_method(D_METHOD("send_chat_string", "message"), &HBSteamLobby::send_chat_string);
+	ClassDB::bind_method(D_METHOD("send_chat_binary", "message"), &HBSteamLobby::send_chat_binary);
+	ClassDB::bind_method(D_METHOD("set_lobby_joinable", "joinable"), &HBSteamLobby::set_lobby_joinable);
+	ClassDB::bind_method(D_METHOD("leave_lobby"), &HBSteamLobby::leave_lobby);
 
 	ClassDB::bind_method(D_METHOD("get_max_members"), &HBSteamLobby::get_max_members);
 	ClassDB::bind_method(D_METHOD("set_max_members", "max_members"), &HBSteamLobby::set_max_members);
@@ -188,6 +194,25 @@ Ref<HBSteamLobby> HBSteamLobby::from_id(uint64_t lobby_id) {
 	return lobby;
 }
 
+TypedArray<HBSteamFriend> HBSteamLobby::get_members() const {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	int lobby_member_count = SteamAPI_ISteamMatchmaking_GetNumLobbyMembers(mm, lobby_id);
+	TypedArray<HBSteamFriend> out;
+	for (int i = 0; i < lobby_member_count; i++) {
+		uint64_t user_steam_id = SteamAPI_ISteamMatchmaking_GetLobbyMemberByIndex(mm, lobby_id, i);
+		Ref<HBSteamFriend> steam_friend = HBSteamFriend::from_steam_id(user_steam_id);
+		if (steam_friend.is_valid()) {
+			out.push_back(steam_friend);
+		}
+	}
+	return out;
+}
+
+int HBSteamLobby::get_members_count() const {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	return SteamAPI_ISteamMatchmaking_GetNumLobbyMembers(mm, lobby_id);
+}
+
 bool HBSteamLobby::set_data(const String &p_key, const String &p_value) {
 	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
 	return SteamAPI_ISteamMatchmaking_SetLobbyData(mm, lobby_id, p_key.utf8().get_data(), p_value.utf8().get_data());
@@ -223,7 +248,7 @@ bool HBSteamLobby::send_chat_string(const String &p_chat_string) {
 	return send_chat_binary(p_chat_string.to_utf8_buffer());
 }
 
-bool HBSteamLobby::send_chat_binary(const Vector<uint8_t> &p_buffer) {
+bool HBSteamLobby::send_chat_binary(const PackedByteArray &p_buffer) {
 	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
 	return SteamAPI_ISteamMatchmaking_SendLobbyChatMsg(mm, lobby_id, p_buffer.ptr(), p_buffer.size());
 }

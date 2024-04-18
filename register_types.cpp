@@ -79,6 +79,8 @@ void initialize_steamworks_module(ModuleInitializationLevel p_level) {
 	GDREGISTER_ABSTRACT_CLASS(HBSteamUserStats);
 	GDREGISTER_ABSTRACT_CLASS(HBSteamUGCUserItemVoteResult);
 	GDREGISTER_ABSTRACT_CLASS(HBSteamUGCItemUpdateProgress);
+	GDREGISTER_ABSTRACT_CLASS(HBSteamNetworkingMessages);
+	GDREGISTER_ABSTRACT_CLASS(HBSteamNetworkingMessage);
 }
 
 void uninitialize_steamworks_module(ModuleInitializationLevel p_level) {

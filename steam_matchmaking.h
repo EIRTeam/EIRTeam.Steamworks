@@ -60,6 +60,8 @@ public:
 	bool set_lobby_owner(Ref<HBSteamFriend> p_new_owner);
 	static Ref<HBSteamLobby> create_lobby(SteamworksConstants::LobbyType p_lobby_type, int p_max_members);
 	static Ref<HBSteamLobby> from_id(uint64_t lobby_id);
+	TypedArray<HBSteamFriend> get_members() const;
+	int get_members_count() const;
 	bool set_data(const String &p_key, const String &p_value);
 	void set_member_data(const String &p_key, const String &p_value);
 	String get_data(const String &p_key) const;
@@ -67,7 +69,7 @@ public:
 	int get_max_members() const;
 	void set_max_members(int p_max_members) const;
 	bool send_chat_string(const String &p_chat_string);
-	bool send_chat_binary(const Vector<uint8_t> &p_buffer);
+	bool send_chat_binary(const PackedByteArray &p_buffer);
 	bool set_lobby_joinable(bool p_joinable);
 	uint64_t get_lobby_id() const;
 	String get_lobby_name() const;

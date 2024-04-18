@@ -31,12 +31,12 @@
 #ifndef STEAMWORKS_H
 #define STEAMWORKS_H
 
-#include "scene/main/node.h"
 #include "steam_apps.h"
 #include "steam_friends.h"
 #include "steam_input.h"
 #include "steam_matchmaking.h"
 #include "steam_networking.h"
+#include "steam_networking_messages.h"
 #include "steam_remote_storage.h"
 #include "steam_ugc.h"
 #include "steam_user.h"
@@ -64,6 +64,7 @@ class Steamworks : public Object {
 	Ref<HBSteamUser> user;
 	Ref<HBSteamRemoteStorage> remote_storage;
 	Ref<HBSteamUserStats> user_stats;
+	Ref<HBSteamNetworkingMessages> networking_messages;
 	typedef int CallbackType;
 
 	struct SteamworksCallbackInfo {
@@ -105,6 +106,7 @@ public:
 	Ref<HBSteamUser> get_user() const;
 	Ref<HBSteamRemoteStorage> get_remote_storage() const;
 	Ref<HBSteamUserStats> get_user_stats() const;
+	Ref<HBSteamNetworkingMessages> get_networking_messages() const;
 	int get_app_id() const;
 
 	Steamworks();
