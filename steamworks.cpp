@@ -53,11 +53,16 @@ void Steamworks::_run_callbacks() {
 		if (msg.m_iCallback == SteamAPICallCompleted_t::k_iCallback) {
 			SteamAPICallCompleted_t *api_call = (SteamAPICallCompleted_t *)msg.m_pubParam;
 			Ref<SteamworksCallbackData> callback_data = memnew(SteamworksCallbackData(msg));
+			if (bool failed; !SteamAPI_ISteamUtils_IsAPICallCompleted(utils->get_interface(), api_call->m_hAsyncCall, &failed) || failed) {
+				SteamAPI_ManualDispatch_FreeLastCallback(steam_pipe);
+				continue;
+			}
 			bool failed;
 			bool api_call_ok = SteamAPI_ManualDispatch_GetAPICallResult(steam_pipe, api_call->m_hAsyncCall, callback_data->get_ptr(), api_call->m_cubParam, api_call->m_iCallback, &failed);
 			if (!api_call_ok) {
+				ESteamAPICallFailure reason = SteamAPI_ISteamUtils_GetAPICallFailureReason(utils->get_interface(), api_call->m_hAsyncCall);
 				SteamAPI_ManualDispatch_FreeLastCallback(steam_pipe);
-				ERR_PRINT("API call failed");
+				ERR_PRINT(vformat("API call failed, error code %d", reason));
 				continue;
 			}
 
