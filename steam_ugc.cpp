@@ -496,13 +496,11 @@ void HBSteamUGCQuery::request_page(int p_page) {
 void HBSteamUGC::_on_item_downloaded(Ref<SteamworksCallbackData> p_callback) {
 	const DownloadItemResult_t *item_downloaded = p_callback->get_data<DownloadItemResult_t>();
 	emit_signal("item_installed", (uint64_t)item_downloaded->m_unAppID, (uint64_t)item_downloaded->m_nPublishedFileId);
-	print_line("DOWNLOADED!", (uint64_t)item_downloaded->m_unAppID, (uint64_t)item_downloaded->m_nPublishedFileId);
 }
 
 void HBSteamUGC::_on_item_installed(Ref<SteamworksCallbackData> p_callback) {
 	const ItemInstalled_t *item_installed = p_callback->get_data<ItemInstalled_t>();
 	emit_signal("item_installed", (uint64_t)item_installed->m_unAppID, (uint64_t)item_installed->m_nPublishedFileId);
-	print_line("INSTALLED!", (uint64_t)item_installed->m_unAppID, (uint64_t)item_installed->m_nPublishedFileId);
 }
 
 void HBSteamUGC::_bind_methods() {
@@ -1138,8 +1136,8 @@ Ref<HBSteamUGCEditor> HBSteamUGCEditor::new_community_file() {
 
 void HBSteamUGCUserItemVoteResult::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_vote_skipped"), &HBSteamUGCUserItemVoteResult::get_vote_skipped);
-	ClassDB::bind_method(D_METHOD("get_vote_up"), &HBSteamUGCUserItemVoteResult::get_vote_skipped);
-	ClassDB::bind_method(D_METHOD("get_vote_down"), &HBSteamUGCUserItemVoteResult::get_vote_skipped);
+	ClassDB::bind_method(D_METHOD("get_vote_up"), &HBSteamUGCUserItemVoteResult::get_vote_up);
+	ClassDB::bind_method(D_METHOD("get_vote_down"), &HBSteamUGCUserItemVoteResult::get_vote_down);
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "vote_up"), "", "get_vote_up");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "vote_skipped"), "", "get_vote_skipped");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "vote_down"), "", "get_vote_down");
