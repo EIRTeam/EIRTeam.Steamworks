@@ -496,11 +496,23 @@ void HBSteamUGCQuery::request_page(int p_page) {
 void HBSteamUGC::_on_item_downloaded(Ref<SteamworksCallbackData> p_callback) {
 	const DownloadItemResult_t *item_downloaded = p_callback->get_data<DownloadItemResult_t>();
 	emit_signal("item_installed", (uint64_t)item_downloaded->m_unAppID, (uint64_t)item_downloaded->m_nPublishedFileId);
+	if (item_downloaded->m_unAppID == (unsigned int)Steamworks::get_singleton()->get_app_id()) {
+		Ref<HBSteamUGCItem> item = HBSteamUGCItem::from_id(item_downloaded->m_nPublishedFileId);
+		if (item.is_valid()) {
+			item->_notify_item_installed(item_downloaded->m_eResult);
+		}
+	}
 }
 
 void HBSteamUGC::_on_item_installed(Ref<SteamworksCallbackData> p_callback) {
 	const ItemInstalled_t *item_installed = p_callback->get_data<ItemInstalled_t>();
 	emit_signal("item_installed", (uint64_t)item_installed->m_unAppID, (uint64_t)item_installed->m_nPublishedFileId);
+	if (item_installed->m_unAppID == (unsigned int)Steamworks::get_singleton()->get_app_id()) {
+		Ref<HBSteamUGCItem> item = HBSteamUGCItem::from_id(item_installed->m_nPublishedFileId);
+		if (item.is_valid()) {
+			item->_notify_item_installed(OK);
+		}
+	}
 }
 
 void HBSteamUGC::_bind_methods() {
@@ -731,6 +743,11 @@ void HBSteamUGCItem::_bind_methods() {
 	ADD_SIGNAL(MethodInfo("user_item_vote_received", PropertyInfo(Variant::OBJECT, "item_vote_result", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamUGCUserItemVoteResult")));
 	ADD_SIGNAL(MethodInfo("dependency_removed", PropertyInfo(Variant::INT, "child_id")));
 	ADD_SIGNAL(MethodInfo("dependency_added", PropertyInfo(Variant::INT, "child_id")));
+	ADD_SIGNAL(MethodInfo("item_installed", PropertyInfo(Variant::INT, "result")));
+}
+
+void HBSteamUGCItem::_notify_item_installed(int p_result) {
+	emit_signal(SNAME("item_installed"), p_result);
 }
 
 void HBSteamUGCItem::update_from_details(const SWC::SteamUGCDetails_t &p_details) {

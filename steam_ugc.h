@@ -167,6 +167,7 @@ class HBSteamUGCItem : public RefCounted {
 
 protected:
 	static void _bind_methods();
+	void _notify_item_installed(int p_result);
 
 public:
 	void update_from_details(const SWC::SteamUGCDetails_t &p_details);
@@ -210,6 +211,7 @@ public:
 	static Ref<HBSteamUGCItem> from_id(uint64_t p_item_id);
 	static Ref<HBSteamUGCItem> from_details(const SWC::SteamUGCDetails_t &p_details);
 	friend class HBSteamUGCQueryPageResult;
+	friend class HBSteamUGC;
 };
 
 class HBSteamUGCQueryPageResult : public RefCounted {

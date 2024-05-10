@@ -25,7 +25,10 @@ whitelisted_enum_names = [
     "EFloatingGamepadTextInputMode",
     "EGamepadTextInputLineMode",
     "EItemUpdateStatus",
-    "EItemState"
+    "EItemState",
+    "EChatRoomEnterResponse",
+    "EChatEntryType",
+    "EChatMemberStateChange",
 ]
 
 # Needed because godot can't convert unsigned long long

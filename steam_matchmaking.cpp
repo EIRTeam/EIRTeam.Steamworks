@@ -68,10 +68,10 @@ void HBSteamLobby::_create_lobby(SteamworksConstants::LobbyType p_lobby_type, in
 	Steamworks::get_singleton()->add_call_result_callback(call, callable_mp(this, &HBSteamLobby::_on_lobby_created));
 }
 
-void HBSteamLobby::_on_lobby_entered(Ref<SteamworksCallbackData> p_callback_data, bool p_io_failure) {
+void HBSteamLobby::_on_lobby_entered(Ref<SteamworksCallbackData> p_callback_data) {
 	const LobbyEnter_t *lobby_enter = p_callback_data->get_data<LobbyEnter_t>();
 	if (lobby_enter->m_ulSteamIDLobby == lobby_id) {
-		emit_signal("lobby_entered", lobby_enter->m_EChatRoomEnterResponse == k_EChatRoomEnterResponseSuccess);
+		emit_signal("lobby_entered", lobby_enter->m_EChatRoomEnterResponse);
 		Steamworks::get_singleton()->add_callback(LobbyChatMsg_t::k_iCallback, callable_mp(this, &HBSteamLobby::_on_lobby_chat_msg));
 	}
 }
@@ -100,9 +100,7 @@ void HBSteamLobby::_on_lobby_chat_msg(Ref<SteamworksCallbackData> p_callback_dat
 	int bytes_received = SteamAPI_ISteamMatchmaking_GetLobbyChatEntry(mm, lobby_id, msg->m_iChatID, (CSteamID *)&_steam_id_ret, msg_data.ptrw(), msg_data.size(), &entry_type);
 	msg_data.resize(bytes_received);
 
-	if (entry_type == EChatEntryType::k_EChatEntryTypeChatMsg) {
-		emit_signal("chat_message_received", HBSteamFriend::from_steam_id(steam_id_user), msg_data);
-	}
+	emit_signal("chat_message_received", HBSteamFriend::from_steam_id(steam_id_user), entry_type, msg_data);
 }
 
 void HBSteamLobby::_on_lobby_data_updated(Ref<SteamworksCallbackData> p_callback_data) {
@@ -130,6 +128,7 @@ void HBSteamLobby::_on_lobby_chat_updated(Ref<SteamworksCallbackData> p_callback
 	} else if (update->m_rgfChatMemberStateChange & k_EChatMemberStateChangeEntered) {
 		emit_signal("member_joined", HBSteamFriend::from_steam_id(update->m_ulSteamIDUserChanged));
 	}
+	emit_signal("lobby_chat_updated", HBSteamFriend::from_steam_id(update->m_ulSteamIDMakingChange), HBSteamFriend::from_steam_id(update->m_ulSteamIDUserChanged), update->m_rgfChatMemberStateChange);
 }
 
 void HBSteamLobby::_bind_methods() {
@@ -143,8 +142,12 @@ void HBSteamLobby::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_members_count"), &HBSteamLobby::get_members_count);
 	ClassDB::bind_method(D_METHOD("send_chat_string", "message"), &HBSteamLobby::send_chat_string);
 	ClassDB::bind_method(D_METHOD("send_chat_binary", "message"), &HBSteamLobby::send_chat_binary);
+	ClassDB::bind_method(D_METHOD("set_member_data", "key", "data"), &HBSteamLobby::set_member_data);
 	ClassDB::bind_method(D_METHOD("set_lobby_joinable", "joinable"), &HBSteamLobby::set_lobby_joinable);
 	ClassDB::bind_method(D_METHOD("leave_lobby"), &HBSteamLobby::leave_lobby);
+	ClassDB::bind_method(D_METHOD("get_lobby_id"), &HBSteamLobby::get_lobby_id);
+	ClassDB::bind_method(D_METHOD("is_owned_by_local_user"), &HBSteamLobby::is_owned_by_local_user);
+	ClassDB::bind_method(D_METHOD("get_all_lobby_data"), &HBSteamLobby::get_all_lobby_data);
 
 	ClassDB::bind_method(D_METHOD("get_max_members"), &HBSteamLobby::get_max_members);
 	ClassDB::bind_method(D_METHOD("set_max_members", "max_members"), &HBSteamLobby::set_max_members);
@@ -152,14 +155,16 @@ void HBSteamLobby::_bind_methods() {
 
 	ClassDB::bind_static_method("HBSteamLobby", D_METHOD("create_lobby", "lobby_type", "max_members"), &HBSteamLobby::create_lobby);
 	ClassDB::bind_static_method("HBSteamLobby", D_METHOD("from_id", "lobby_id"), &HBSteamLobby::from_id);
-	ADD_SIGNAL(MethodInfo("lobby_entered", PropertyInfo(Variant::BOOL, "success")));
+	ADD_SIGNAL(MethodInfo("lobby_entered", PropertyInfo(Variant::INT, "result")));
 	ADD_SIGNAL(MethodInfo("lobby_created", PropertyInfo(Variant::INT, "result")));
 	ADD_SIGNAL(MethodInfo("lobby_data_updated"));
 	ADD_SIGNAL(MethodInfo("lobby_member_data_updated", PropertyInfo(Variant::OBJECT, "member", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend")));
-	ADD_SIGNAL(MethodInfo("chat_message_received", PropertyInfo(Variant::OBJECT, "sender", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend"), PropertyInfo(Variant::PACKED_BYTE_ARRAY, "data")));
+	ADD_SIGNAL(MethodInfo("chat_message_received", PropertyInfo(Variant::OBJECT, "sender", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend"), PropertyInfo(Variant::INT, "type"), PropertyInfo(Variant::PACKED_BYTE_ARRAY, "data")));
+	ADD_SIGNAL(MethodInfo("lobby_chat_updated", PropertyInfo(Variant::OBJECT, "changed", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend"), PropertyInfo(Variant::OBJECT, "making_change", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend"), PropertyInfo(Variant::INT, "change")));
 	ADD_SIGNAL(MethodInfo("member_joined", PropertyInfo(Variant::OBJECT, "new_member", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend")));
 	ADD_SIGNAL(MethodInfo("member_left", PropertyInfo(Variant::OBJECT, "new_member", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend")));
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "owner", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamFriend"), "", "get_owner");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "lobby_id"), "", "get_lobby_id");
 }
 
 void HBSteamLobby::join_lobby() {
@@ -223,6 +228,32 @@ void HBSteamLobby::set_member_data(const String &p_key, const String &p_value) {
 	SteamAPI_ISteamMatchmaking_SetLobbyMemberData(mm, lobby_id, p_key.utf8().get_data(), p_value.utf8().get_data());
 }
 
+Dictionary HBSteamLobby::get_all_lobby_data() const {
+	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
+	int data_count = SteamAPI_ISteamMatchmaking_GetLobbyDataCount(mm, lobby_id);
+
+	Dictionary out;
+
+	Vector<char> key_buffer;
+	key_buffer.resize(k_nMaxLobbyKeyLength);
+	Vector<char> data_buffer;
+	data_buffer.resize(k_cubChatMetadataMax);
+
+	char *key_buffer_w = key_buffer.ptrw();
+	char *data_buffer_w = data_buffer.ptrw();
+
+	for (int i = 0; i < data_count; i++) {
+		bool success = SteamAPI_ISteamMatchmaking_GetLobbyDataByIndex(mm, lobby_id, i, key_buffer_w, key_buffer.size(), data_buffer_w, data_buffer.size());
+		if (!success) {
+			continue;
+		}
+		String key = String::utf8(key_buffer_w);
+		String value = String::utf8(data_buffer_w);
+		out[key] = value;
+	}
+	return out;
+}
+
 String HBSteamLobby::get_data(const String &p_key) const {
 	ISteamMatchmaking *mm = Steamworks::get_singleton()->get_matchmaking()->get_interface();
 	return String::utf8(SteamAPI_ISteamMatchmaking_GetLobbyData(mm, lobby_id, p_key.utf8().get_data()));
@@ -259,6 +290,10 @@ bool HBSteamLobby::set_lobby_joinable(bool p_joinable) {
 	return SteamAPI_ISteamMatchmaking_SetLobbyJoinable(mm, lobby_id, p_joinable);
 }
 
+bool HBSteamLobby::is_owned_by_local_user() const {
+	return Steamworks::get_singleton()->get_user()->get_local_user() == get_owner();
+}
+
 uint64_t HBSteamLobby::get_lobby_id() const {
 	return lobby_id;
 }
@@ -271,7 +306,7 @@ void HBSteamLobby::leave_lobby() {
 
 HBSteamLobby::HBSteamLobby() {
 	// listen to global LobbyEnter_t callbacks since they might be triggered by lobby creation
-	Steamworks::get_singleton()->add_callback(LobbyEnter_t::k_iCallback, callable_mp(this, &HBSteamLobby::_on_lobby_entered).bind(false));
+	Steamworks::get_singleton()->add_callback(LobbyEnter_t::k_iCallback, callable_mp(this, &HBSteamLobby::_on_lobby_entered));
 	Steamworks::get_singleton()->add_callback(LobbyDataUpdate_t::k_iCallback, callable_mp(this, &HBSteamLobby::_on_lobby_data_updated));
 	Steamworks::get_singleton()->add_callback(LobbyChatUpdate_t::k_iCallback, callable_mp(this, &HBSteamLobby::_on_lobby_chat_updated));
 }
@@ -288,7 +323,7 @@ void HBLobbyListQuery::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("with_not_equal", "key", "value"), &HBLobbyListQuery::with_not_equal);
 	ClassDB::bind_method(D_METHOD("with_slots_available", "min_slots"), &HBLobbyListQuery::with_slots_available);
 	ClassDB::bind_method(D_METHOD("with_max_results", "max_results"), &HBLobbyListQuery::with_slots_available);
-	ClassDB::bind_method("request_lobby_list", &HBLobbyListQuery::filter_distance_worldwide);
+	ClassDB::bind_method("request_lobby_list", &HBLobbyListQuery::request_lobby_list);
 
 	ADD_SIGNAL(MethodInfo("received_lobby_list", PropertyInfo(Variant::ARRAY, "lobbies", PROPERTY_HINT_ARRAY_TYPE, "HBSteamLobby")));
 }

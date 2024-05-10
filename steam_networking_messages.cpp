@@ -66,7 +66,7 @@ TypedArray<HBSteamNetworkingMessage> HBSteamNetworkingMessages::poll_messages(in
 	for (int i = 0; i < message_count; i++) {
 		Ref<HBSteamNetworkingMessage> message = HBSteamNetworkingMessage::create_from_message(messages[i]);
 		SteamAPI_SteamNetworkingMessage_t_Release(messages[i]);
-		out.push_back(message);
+		out[i] = message;
 	}
 	return out;
 }

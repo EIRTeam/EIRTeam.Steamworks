@@ -45,7 +45,7 @@ private:
 	uint64_t lobby_id;
 	void _join_lobby(uint64_t p_lobby_id);
 	void _create_lobby(SteamworksConstants::LobbyType p_lobby_type, int p_max_members);
-	void _on_lobby_entered(Ref<SteamworksCallbackData> p_callback_data, bool p_io_failure);
+	void _on_lobby_entered(Ref<SteamworksCallbackData> p_callback_data);
 	void _on_lobby_created(Ref<SteamworksCallbackData> p_callback_data, bool p_io_failure);
 	void _on_lobby_chat_msg(Ref<SteamworksCallbackData> p_callback_data);
 	void _on_lobby_data_updated(Ref<SteamworksCallbackData> p_callback_data);
@@ -64,6 +64,7 @@ public:
 	int get_members_count() const;
 	bool set_data(const String &p_key, const String &p_value);
 	void set_member_data(const String &p_key, const String &p_value);
+	Dictionary get_all_lobby_data() const;
 	String get_data(const String &p_key) const;
 	String get_member_data(const Ref<HBSteamFriend> &p_steam_user, const String &p_key) const;
 	int get_max_members() const;
@@ -71,6 +72,7 @@ public:
 	bool send_chat_string(const String &p_chat_string);
 	bool send_chat_binary(const PackedByteArray &p_buffer);
 	bool set_lobby_joinable(bool p_joinable);
+	bool is_owned_by_local_user() const;
 	uint64_t get_lobby_id() const;
 	String get_lobby_name() const;
 	void leave_lobby();
