@@ -64,6 +64,8 @@ class HBSteamFriends : public RefCounted {
 	GDCLASS(HBSteamFriends, RefCounted);
 	ISteamFriends *steam_friends = nullptr;
 
+	void _on_lobby_join_requested(Ref<SteamworksCallbackData> p_callback);
+
 protected:
 	static void _bind_methods();
 

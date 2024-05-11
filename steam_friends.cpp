@@ -35,15 +35,23 @@
 
 HashMap<uint64_t, Ref<WeakRef>> HBSteamFriend::friend_cache = HashMap<uint64_t, Ref<WeakRef>>();
 
+void HBSteamFriends::_on_lobby_join_requested(Ref<SteamworksCallbackData> p_callback) {
+	const GameLobbyJoinRequested_t *req = p_callback->get_data<GameLobbyJoinRequested_t>();
+	// Not sure if ConvertToUint64 is safe when using the flat API...
+	emit_signal("lobby_join_requested", HBSteamLobby::from_id(req->m_steamIDLobby.ConvertToUint64()));
+}
+
 void HBSteamFriends::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("activate_game_overlay_invite_dialog", "lobby"), &HBSteamFriends::activate_game_overlay_invite_dialog);
 	ClassDB::bind_method(D_METHOD("activate_game_overlay_to_web_page", "web_page", "modal"), &HBSteamFriends::activate_game_overlay_to_web_page);
 	ClassDB::bind_method(D_METHOD("set_rich_presence", "key", "value"), &HBSteamFriends::set_rich_presence);
+	ADD_SIGNAL(MethodInfo("lobby_join_requested", PropertyInfo(Variant::OBJECT, "lobby", PROPERTY_HINT_RESOURCE_TYPE, "HBSteamLobby")));
 }
 
 void HBSteamFriends::init_interface() {
 	steam_friends = SteamAPI_SteamFriends();
 	SW_ERR_FAIL_COND_MSG(steam_friends == nullptr, "Steamworks: Failed to initialize Steam Friends, something catastrophic must have happened");
+	Steamworks::get_singleton()->add_callback(GameLobbyJoinRequested_t::k_iCallback, callable_mp(this, &HBSteamFriends::_on_lobby_join_requested));
 }
 
 bool HBSteamFriends::is_valid() const {
