@@ -939,6 +939,7 @@ void HBSteamUGCEditor::_submit_update() {
 	if (consumer_app_id == 0) {
 		consumer_app_id = Steamworks::get_singleton()->get_app_id();
 	}
+	print_line("BEGIN ITEM UPDATE", file_id);
 	update_handle = SteamAPI_ISteamUGC_StartItemUpdate(iugc, consumer_app_id, file_id);
 
 	if (kv_tags_to_add.size() > 0) {
@@ -1121,6 +1122,7 @@ Ref<HBSteamUGCEditor> HBSteamUGCEditor::with_title(const String &p_title) {
 void HBSteamUGCEditor::submit() {
 	if (!creating_new) {
 		_submit_update();
+		return;
 	}
 	ISteamUGC *iugc = Steamworks::get_singleton()->get_ugc()->get_interface();
 	uint64_t consumer_app_id = app_id;
