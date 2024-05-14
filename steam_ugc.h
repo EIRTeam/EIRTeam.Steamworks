@@ -129,6 +129,7 @@ public:
 	void submit();
 	Ref<HBSteamUGCItemUpdateProgress> get_update_progress() const;
 	static Ref<HBSteamUGCEditor> new_community_file();
+	uint64_t get_file_id() const;
 	friend class HBSteamUGCItem;
 };
 

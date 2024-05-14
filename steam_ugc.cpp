@@ -1003,7 +1003,7 @@ void HBSteamUGCEditor::_submit_update() {
 void HBSteamUGCEditor::_on_item_created(Ref<SteamworksCallbackData> p_callback, bool p_io_failure) {
 	const CreateItemResult_t *result = p_callback->get_data<CreateItemResult_t>();
 	if (result->m_eResult != EResult::k_EResultOK) {
-		emit_signal("file_submitted", (SWC::Result)result->m_eResult, false);
+		emit_signal("file_submitted", (SWC::Result)result->m_eResult, result->m_bUserNeedsToAcceptWorkshopLegalAgreement);
 		return;
 	}
 	file_id = result->m_nPublishedFileId;
@@ -1034,10 +1034,13 @@ void HBSteamUGCEditor::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("with_tags", "tags"), &HBSteamUGCEditor::with_tags);
 	ClassDB::bind_method(D_METHOD("with_title", "title"), &HBSteamUGCEditor::with_title);
 	ClassDB::bind_method(D_METHOD("get_update_progress"), &HBSteamUGCEditor::get_update_progress);
+	ClassDB::bind_method(D_METHOD("get_file_id"), &HBSteamUGCEditor::get_file_id);
 
 	ClassDB::bind_method(D_METHOD("submit"), &HBSteamUGCEditor::submit);
 
 	ADD_SIGNAL(MethodInfo("file_submitted", PropertyInfo(Variant::INT, "result"), PropertyInfo(Variant::BOOL, "user_needs_to_accept_workshop_legal_agreement")));
+
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "file_id"), "", "get_file_id");
 }
 
 Ref<HBSteamUGCEditor> HBSteamUGCEditor::add_kv_tag(const String &p_key, const String &p_value) {
@@ -1149,6 +1152,10 @@ Ref<HBSteamUGCEditor> HBSteamUGCEditor::new_community_file() {
 	editor.instantiate();
 	editor->creating_new = true;
 	return editor;
+}
+
+uint64_t HBSteamUGCEditor::get_file_id() const {
+	return file_id;
 }
 
 void HBSteamUGCUserItemVoteResult::_bind_methods() {
