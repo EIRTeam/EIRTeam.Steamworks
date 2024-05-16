@@ -578,7 +578,7 @@ Vector<Ref<HBSteamUGCItem>> HBSteamUGCQueryPageResult::get_results() {
 
 		bool result = SteamAPI_ISteamUGC_GetQueryUGCResult(iugc, page_info.handle, i, (SteamUGCDetails_t *)&details);
 
-		if (!result) {
+		if (!result || details.result != SWC::RESULT_OK) {
 			continue;
 		}
 
@@ -939,7 +939,6 @@ void HBSteamUGCEditor::_submit_update() {
 	if (consumer_app_id == 0) {
 		consumer_app_id = Steamworks::get_singleton()->get_app_id();
 	}
-	print_line("BEGIN ITEM UPDATE", file_id);
 	update_handle = SteamAPI_ISteamUGC_StartItemUpdate(iugc, consumer_app_id, file_id);
 
 	if (kv_tags_to_add.size() > 0) {
