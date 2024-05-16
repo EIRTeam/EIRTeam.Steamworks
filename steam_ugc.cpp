@@ -982,7 +982,7 @@ void HBSteamUGCEditor::_submit_update() {
 			steam_tags.m_ppStrings[i] = cs;
 		}
 		SteamAPI_ISteamUGC_SetItemTags(iugc, update_handle, &steam_tags);
-		memdelete(steam_tags.m_ppStrings);
+		memdelete_arr(steam_tags.m_ppStrings);
 	}
 	if (has_title) {
 		SteamAPI_ISteamUGC_SetItemTitle(iugc, update_handle, title.utf8());
