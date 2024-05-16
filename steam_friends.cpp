@@ -134,7 +134,7 @@ void HBSteamFriend::_bind_methods() {
 }
 
 String HBSteamFriend::get_persona_name() const {
-	return SteamAPI_ISteamFriends_GetFriendPersonaName(Steamworks::get_singleton()->get_friends()->get_interface(), steam_id);
+	return String::utf8(SteamAPI_ISteamFriends_GetFriendPersonaName(Steamworks::get_singleton()->get_friends()->get_interface(), steam_id));
 }
 
 Ref<Texture2D> HBSteamFriend::get_avatar() const {
