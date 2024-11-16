@@ -495,13 +495,7 @@ void HBSteamUGCQuery::request_page(int p_page) {
 
 void HBSteamUGC::_on_item_downloaded(Ref<SteamworksCallbackData> p_callback) {
 	const DownloadItemResult_t *item_downloaded = p_callback->get_data<DownloadItemResult_t>();
-	emit_signal("item_installed", (uint64_t)item_downloaded->m_unAppID, (uint64_t)item_downloaded->m_nPublishedFileId);
-	if (item_downloaded->m_unAppID == (unsigned int)Steamworks::get_singleton()->get_app_id()) {
-		Ref<HBSteamUGCItem> item = HBSteamUGCItem::from_id(item_downloaded->m_nPublishedFileId);
-		if (item.is_valid()) {
-			item->_notify_item_installed(item_downloaded->m_eResult);
-		}
-	}
+	emit_signal("item_downloaded", (uint64_t)item_downloaded->m_unAppID, (uint64_t)item_downloaded->m_nPublishedFileId);
 }
 
 void HBSteamUGC::_on_item_installed(Ref<SteamworksCallbackData> p_callback) {
@@ -519,6 +513,7 @@ void HBSteamUGC::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("is_valid"), &HBSteamUGC::is_valid);
 	ClassDB::bind_method(D_METHOD("get_subscribed_items"), &HBSteamUGC::get_subscribed_items);
 	ADD_SIGNAL(MethodInfo("item_installed", PropertyInfo(Variant::INT, "app_id"), PropertyInfo(Variant::INT, "item_id")));
+	ADD_SIGNAL(MethodInfo("item_downloaded", PropertyInfo(Variant::INT, "app_id"), PropertyInfo(Variant::INT, "item_id")));
 }
 
 TypedArray<HBSteamUGCItem> HBSteamUGC::get_subscribed_items() {
