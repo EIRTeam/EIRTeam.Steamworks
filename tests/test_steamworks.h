@@ -28,8 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef TESTS_STEAMWORKS_H
-#define TESTS_STEAMWORKS_H
+#ifndef TEST_STEAMWORKS_H
+#define TEST_STEAMWORKS_H
 
 #include "../steamworks.h"
 #include "tests/test_macros.h"
@@ -98,4 +98,4 @@ TEST_CASE("[Steamworks] Check basic steamworks interactions") {
 }
 } //namespace TestSteamworks
 
-#endif // TESTS_STEAMWORKS_H
+#endif // TEST_STEAMWORKS_H

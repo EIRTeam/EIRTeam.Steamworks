@@ -1,7 +1,7 @@
 import json
-from re import sub
 from io import StringIO
-from typing import List, Dict, Tuple
+from re import sub
+from typing import Dict, List, Tuple
 
 whitelisted_enum_names = [
     "EResult",
@@ -75,7 +75,7 @@ def process_enum_data(enums_data) -> List[EnumInfo]:
     enum_infos: List[EnumInfo] = []
     for enum in enums_data:
         enum_name = enum["enumname"]
-        if not enum_name in whitelisted_enum_names:
+        if enum_name not in whitelisted_enum_names:
             continue
         if enum_name.startswith("E"):
             enum_name = enum_name[1:]
@@ -131,9 +131,9 @@ def generate_structs(structs: List[Dict]) -> StringIO:
     f.write("\t#endif\n\n")
 
     for struct in structs:
-        if not struct["struct"] in whitelisted_structs:
+        if struct["struct"] not in whitelisted_structs:
             continue
-        f.write(f'\tstruct {struct["struct"]} ' + "{\n")
+        f.write(f"\tstruct {struct['struct']} " + "{\n")
         for field in struct["fields"]:
             field_type = field["fieldtype"]
 

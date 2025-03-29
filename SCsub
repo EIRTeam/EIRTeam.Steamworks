@@ -1,6 +1,6 @@
 #!/usr/bin/env python
+from misc.utility.scons_hints import *
 
-import os
 import steamworks_builders
 
 Import("env")
@@ -41,7 +41,7 @@ lib = ""
 if env["platform"] == "linuxbsd":
     lib_path += "linux64"
     lib = "steam_api"
-    if not "RPATH" in env:
+    if "RPATH" not in env:
         env.Append(RPATH=env.Literal("\\$$ORIGIN"))
 elif env["platform"] == "windows":
     lib_path += "win64"

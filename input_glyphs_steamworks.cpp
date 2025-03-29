@@ -35,8 +35,8 @@
 #include "core/io/json.h"
 #include "scene/resources/image_texture.h"
 #include "scene/resources/placeholder_textures.h"
-#include "steamworks.h"
 #include "steam/isteaminput.h"
+#include "steamworks.h"
 #include <iterator>
 
 #ifdef MODULE_INPUT_GLYPHS_ENABLED
