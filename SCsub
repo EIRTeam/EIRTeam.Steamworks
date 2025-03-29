@@ -77,7 +77,17 @@ else:
     env.Prepend(LIBPATH=[lib_path])
     if env.msvc:
         env.Append(LINKFLAGS=[lib])
+        env.Command(
+            "#bin/steam_api64.dll",
+            module_path + "/thirdparty/steamworks/redistributable_bin/win64/steam_api64.dll",
+            Copy("$TARGET", "$SOURCE"),
+        )
     else:
+        env.Command(
+            "#bin/libsteam_api.so",
+            module_path + "/thirdparty/steamworks/redistributable_bin/linux64/libsteam_api.so",
+            Copy("$TARGET", "$SOURCE"),
+        )
         env.Append(LIBS=[lib])
     env_steamworks.add_source_files(module_obj, sources)
     env.modules_sources += module_obj
