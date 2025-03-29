@@ -32,6 +32,7 @@ if "svg" in env.module_list:
 if not env.msvc:
     env_steamworks.Append(CPPFLAGS=["-isystem", Dir(module_path + "/thirdparty/steamworks/public").path])
 else:
+    env_steamworks.Append(CXXFLAGS=["/std:c++20"])
     env_steamworks.Prepend(CPPPATH=[module_path + "/thirdparty/steamworks/public"])
 
 lib_path = module_path + "/thirdparty/steamworks/redistributable_bin/"
@@ -74,6 +75,9 @@ if ARGUMENTS.get("steamworks_shared", "no") == "yes":
     env.Depends(shared_lib, "steamworks_constants.gen.h")
 else:
     env.Prepend(LIBPATH=[lib_path])
-    env.Append(LIBS=[lib])
+    if env.msvc:
+        env.Append(LINKFLAGS=[lib])
+    else:
+        env.Append(LIBS=[lib])
     env_steamworks.add_source_files(module_obj, sources)
     env.modules_sources += module_obj
