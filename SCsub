@@ -75,7 +75,7 @@ if ARGUMENTS.get("steamworks_shared", "no") == "yes":
     env.Depends(shared_lib, "steamworks_constants.gen.h")
 else:
     env.Prepend(LIBPATH=[lib_path])
-    if env.msvc:
+    if env["platform"] == "windows":
         env.Append(LINKFLAGS=[lib])
         env.Command(
             "#bin/steam_api64.dll",
