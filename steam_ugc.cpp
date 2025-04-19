@@ -656,7 +656,7 @@ HBSteamUGCQueryPageResult::~HBSteamUGCQueryPageResult() {
 	}
 }
 
-HashMap<SWC::PublishedFileId_t, Ref<WeakRef>> HBSteamUGCItem::item_cache = HashMap<SWC::PublishedFileId_t, Ref<WeakRef>>();
+HashMap<SWC::PublishedFileId_t, HBSteamUGCItem*> HBSteamUGCItem::item_cache = HashMap<SWC::PublishedFileId_t, HBSteamUGCItem*>();
 
 void HBSteamUGCItem::_on_get_user_item_vote(Ref<SteamworksCallbackData> p_callback, bool p_io_failure) {
 	const GetUserItemVoteResult_t *result = p_callback->get_data<GetUserItemVoteResult_t>();
@@ -886,22 +886,18 @@ void HBSteamUGCItem::delete_item() {
 
 Ref<HBSteamUGCItem> HBSteamUGCItem::from_id(uint64_t p_item_id) {
 	if (item_cache.has(p_item_id)) {
-		Ref<WeakRef> cached_item_ref = item_cache[p_item_id];
-		Ref<HBSteamUGCItem> cached_item = cached_item_ref->get_ref();
+		Ref<HBSteamUGCItem> cached_item = item_cache[p_item_id];
 		if (cached_item.is_valid()) {
 			return cached_item;
 		}
 	}
 
-	Ref<WeakRef> weak_ref;
-	weak_ref.instantiate();
 	Ref<HBSteamUGCItem> item;
 	item.instantiate();
 	item->ugc_details.creator_app_id = Steamworks::get_singleton()->get_app_id();
 	item->ugc_details.consumer_app_id = item->ugc_details.creator_app_id;
 	item->ugc_details.published_file_id = p_item_id;
-	weak_ref->set_ref(item);
-	item_cache.insert(p_item_id, weak_ref);
+	item_cache.insert(p_item_id, item.ptr());
 	return item;
 }
 
@@ -909,6 +905,10 @@ Ref<HBSteamUGCItem> HBSteamUGCItem::from_details(const SWC::SteamUGCDetails_t &p
 	Ref<HBSteamUGCItem> item = from_id(p_details.published_file_id);
 	item->update_from_details(p_details);
 	return item;
+}
+
+HBSteamUGCItem::~HBSteamUGCItem() {
+	item_cache.erase(ugc_details.published_file_id);
 }
 
 void HBSteamUGCAdditionalPreview::_bind_methods() {

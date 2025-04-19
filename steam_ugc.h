@@ -152,7 +152,7 @@ public:
 
 class HBSteamUGCItem : public RefCounted {
 	GDCLASS(HBSteamUGCItem, RefCounted);
-	static HashMap<SWC::PublishedFileId_t, Ref<WeakRef>> item_cache;
+	static HashMap<SWC::PublishedFileId_t, HBSteamUGCItem*> item_cache;
 	SWC::SteamUGCDetails_t ugc_details;
 	String title;
 	String description;
@@ -211,6 +211,7 @@ public:
 
 	static Ref<HBSteamUGCItem> from_id(uint64_t p_item_id);
 	static Ref<HBSteamUGCItem> from_details(const SWC::SteamUGCDetails_t &p_details);
+	~HBSteamUGCItem();
 	friend class HBSteamUGCQueryPageResult;
 	friend class HBSteamUGC;
 };

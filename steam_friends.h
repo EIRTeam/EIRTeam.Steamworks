@@ -44,7 +44,7 @@ class HBSteamFriend : public RefCounted {
 private:
 	Ref<Texture2D> avatar;
 	uint64_t steam_id;
-	static HashMap<uint64_t, Ref<WeakRef>> friend_cache;
+	static HashMap<uint64_t, HBSteamFriend*> friend_cache;
 	void _on_persona_state_change(Ref<SteamworksCallbackData> p_callback);
 
 protected:
@@ -58,6 +58,7 @@ public:
 	uint32_t get_account_id() const;
 	bool request_user_information(bool p_include_avatars) const;
 	HBSteamFriend();
+	~HBSteamFriend();
 };
 
 class HBSteamFriends : public RefCounted {

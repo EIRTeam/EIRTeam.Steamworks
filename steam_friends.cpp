@@ -33,7 +33,7 @@
 #include "steam/steam_api_flat.h"
 #include "sw_error_macros.h"
 
-HashMap<uint64_t, Ref<WeakRef>> HBSteamFriend::friend_cache = HashMap<uint64_t, Ref<WeakRef>>();
+HashMap<uint64_t, HBSteamFriend*> HBSteamFriend::friend_cache = HashMap<uint64_t, HBSteamFriend*>();
 
 void HBSteamFriends::_on_lobby_join_requested(Ref<SteamworksCallbackData> p_callback) {
 	const GameLobbyJoinRequested_t *req = p_callback->get_data<GameLobbyJoinRequested_t>();
@@ -81,8 +81,7 @@ ISteamFriends *HBSteamFriends::get_interface() const {
 Ref<HBSteamFriend> HBSteamFriend::from_steam_id(uint64_t p_steam_id) {
 	ERR_FAIL_COND_V_MSG(p_steam_id == 0, Ref<HBSteamFriend>(), "An invalid steam user ID was given.");
 	if (friend_cache.has(p_steam_id)) {
-		Ref<WeakRef> cached_friend_ref = friend_cache[p_steam_id];
-		Ref<HBSteamFriend> cached_friend = cached_friend_ref->get_ref();
+		Ref<HBSteamFriend> cached_friend = friend_cache[p_steam_id];
 		if (cached_friend.is_valid()) {
 			return cached_friend;
 		}
@@ -90,10 +89,7 @@ Ref<HBSteamFriend> HBSteamFriend::from_steam_id(uint64_t p_steam_id) {
 	Ref<HBSteamFriend> steam_friend;
 	steam_friend.instantiate();
 	steam_friend->steam_id = p_steam_id;
-	Ref<WeakRef> weak_ref;
-	weak_ref.instantiate();
-	weak_ref->set_ref(steam_friend);
-	friend_cache.insert(p_steam_id, weak_ref);
+	friend_cache.insert(p_steam_id, steam_friend.ptr());
 	return steam_friend;
 }
 
@@ -109,6 +105,10 @@ bool HBSteamFriend::request_user_information(bool p_include_avatars) const {
 
 HBSteamFriend::HBSteamFriend() {
 	Steamworks::get_singleton()->add_callback(PersonaStateChange_t::k_iCallback, callable_mp(this, &HBSteamFriend::_on_persona_state_change));
+}
+
+HBSteamFriend::~HBSteamFriend() {
+	friend_cache.erase(steam_id);
 }
 
 void HBSteamFriend::_on_persona_state_change(Ref<SteamworksCallbackData> p_callback) {
